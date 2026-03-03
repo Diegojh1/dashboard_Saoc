@@ -7,6 +7,7 @@ require('dotenv').config();
 const authRoutes = require('./routes/auth');
 const apiRoutes = require('./routes/api');
 const adminRoutes = require('./routes/admin');
+const landingRoutes = require('./routes/landing');
 
 const app = express();
 
@@ -26,6 +27,15 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.use('/auth', authRoutes);
 app.use('/api', apiRoutes);
 app.use('/admin', adminRoutes);
+app.use('/landing', landingRoutes);
+
+app.get('/diagnostico', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/landing.html'));
+});
+
+app.get('/gracias', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/gracias.html'));
+});
 
 app.get('/', (req, res) => {
   if (req.session.user) {

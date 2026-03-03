@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>¡Pago Exitoso! Agenda tu Mini Reunión | SAOC</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080808;--bg2:#0d0d0d;--surface:#131313;--border:#252525;--p1:#8B5CF6;--pink:#EC4899;--grad:linear-gradient(135deg,#8B5CF6 0%,#EC4899 100%);--white:#FFFFFF;--text:#E8E8E8;--muted:#8A8A8A;--green:#10B981;--gold:#F59E0B;--r:12px;--rs:8px}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
+h1,h2,h3{font-family:'Syne',sans-serif;line-height:1.1}
+a{text-decoration:none;color:inherit}
+
+/* NAVBAR */
+.navbar{padding:20px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:var(--bg2)}
+.nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:16px;letter-spacing:3px;color:var(--white)}
+.nav-logo span{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+/* MAIN */
+main{flex:1;display:flex;flex-direction:column}
+
+/* HERO SUCCESS */
+.success-hero{padding:70px 24px 50px;text-align:center;position:relative;overflow:hidden}
+.success-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 30%,rgba(16,185,129,.07),transparent);pointer-events:none}
+.success-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.25);color:var(--green);font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:7px 18px;border-radius:100px;margin-bottom:24px}
+.success-icon{width:72px;height:72px;background:rgba(16,185,129,.12);border:2px solid rgba(16,185,129,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 24px;animation:scaleIn .5s ease}
+@keyframes scaleIn{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+.success-title{font-size:clamp(28px,6vw,48px);font-weight:800;color:var(--white);margin-bottom:16px}
+.success-title span{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.success-sub{font-size:16px;color:var(--muted);max-width:560px;margin:0 auto 40px;line-height:1.75}
+
+/* STEPS */
+.steps-row{display:flex;justify-content:center;gap:0;max-width:780px;margin:0 auto 60px;padding:0 24px}
+.step-item{flex:1;text-align:center;padding:0 12px;position:relative}
+.step-item:not(:last-child)::after{content:'';position:absolute;top:20px;right:-12px;width:24px;height:1px;background:rgba(139,92,246,.4)}
+.step-circle{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--white);margin:0 auto 10px}
+.step-circle.done{background:var(--green);box-shadow:0 0 20px rgba(16,185,129,.35)}
+.step-circle.active{background:var(--grad);box-shadow:0 0 20px rgba(139,92,246,.4);animation:pulse 2s infinite}
+.step-circle.pending{background:var(--surface);border:1px solid var(--border);color:var(--muted)}
+@keyframes pulse{0%,100%{box-shadow:0 0 20px rgba(139,92,246,.4)}50%{box-shadow:0 0 30px rgba(139,92,246,.7)}}
+.step-label{font-size:11px;color:var(--muted);line-height:1.4}
+.step-label.active{color:var(--white);font-weight:600}
+.step-label.done{color:var(--green)}
+
+/* CALENDLY SECTION */
+.calendly-section{padding:0 24px 80px;max-width:900px;margin:0 auto;width:100%}
+.cal-header{text-align:center;margin-bottom:32px}
+.cal-title{font-size:clamp(22px,4vw,32px);font-weight:800;color:var(--white);margin-bottom:12px}
+.cal-sub{font-size:15px;color:var(--muted);line-height:1.7}
+.cal-wrapper{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;min-height:630px;position:relative}
+.cal-loading{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:var(--muted);font-size:14px}
+.cal-spinner{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--p1);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.calendly-inline-widget{min-height:630px}
+
+/* FALLBACK */
+.cal-fallback{display:none;text-align:center;padding:48px 24px}
+.cal-fallback-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:var(--white);margin-bottom:12px}
+.cal-fallback-desc{font-size:14px;color:var(--muted);margin-bottom:24px;line-height:1.7}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:16px 36px;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;border:none;border-radius:var(--rs);cursor:pointer;transition:all .3s ease}
+.btn-primary{background:var(--grad);color:var(--white);box-shadow:0 4px 24px rgba(139,92,246,.35)}
+.btn-primary:hover{box-shadow:0 8px 32px rgba(139,92,246,.55);transform:translateY(-2px)}
+
+/* WHAT'S NEXT */
+.next-section{padding:0 24px 80px;max-width:760px;margin:0 auto;width:100%}
+.next-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:var(--white);margin-bottom:20px;text-align:center}
+.next-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.next-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px;text-align:center}
+.next-card-ico{font-size:24px;margin-bottom:10px}
+.next-card-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--white);margin-bottom:6px}
+.next-card-desc{font-size:12px;color:var(--muted);line-height:1.6}
+
+/* TX INFO */
+.tx-info{display:inline-flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border);border-radius:var(--rs);padding:10px 18px;font-size:12px;color:var(--muted);margin-bottom:40px}
+.tx-info span{color:var(--white);font-weight:600}
+
+/* FOOTER */
+footer{padding:28px 24px;border-top:1px solid var(--border);text-align:center;background:var(--bg2)}
+.footer-copy{font-size:11px;color:var(--muted)}
+
+/* RESPONSIVE */
+@media(max-width:600px){
+  .steps-row{gap:0;padding:0 8px}
+  .step-item{padding:0 4px}
+  .next-cards{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-logo">SA<span>O</span>C</div>
+</nav>
+
+<main>
+  <!-- SUCCESS HERO -->
+  <div class="success-hero">
+    <div class="success-badge">✓ Pago Confirmado</div>
+    <div class="success-icon">✅</div>
+    <h1 class="success-title">¡Tu Diagnóstico Express<br><span>Está En Camino!</span></h1>
+    <p class="success-sub">
+      Tu pago fue procesado exitosamente. Ahora el siguiente paso es <strong style="color:var(--white)">agendar tu mini reunión de 20 minutos</strong> para arrancar con tu diagnóstico.
+    </p>
+    <div class="tx-info" id="txInfo" style="display:none">
+      Referencia de pago: <span id="txRef">—</span>
+    </div>
+    <!-- STEPS PROGRESS -->
+    <div class="steps-row">
+      <div class="step-item">
+        <div class="step-circle done">✓</div>
+        <div class="step-label done">Pago Completado</div>
+      </div>
+      <div class="step-item">
+        <div class="step-circle active">2</div>
+        <div class="step-label active">Agenda tu Reunión</div>
+      </div>
+      <div class="step-item">
+        <div class="step-circle pending">3</div>
+        <div class="step-label">Recibe tu Diagnóstico</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CALENDLY -->
+  <div class="calendly-section">
+    <div class="cal-header">
+      <h2 class="cal-title">Agenda Tu Mini Reunión de 20 Minutos</h2>
+      <p class="cal-sub">Elige la fecha y hora que mejor te convenga. En esta sesión revisaremos tu perfil y arrancaremos con el análisis estratégico.</p>
+    </div>
+    <div class="cal-wrapper" id="calWrapper">
+      <div class="cal-loading" id="calLoading">
+        <div class="cal-spinner"></div>
+        <span>Cargando calendario...</span>
+      </div>
+      <!-- Calendly widget injected here -->
+      <div id="calendlyContainer"></div>
+      <!-- Fallback -->
+      <div class="cal-fallback" id="calFallback">
+        <div class="cal-fallback-title">Agenda Tu Sesión</div>
+        <div class="cal-fallback-desc">Haz clic en el botón para abrir el calendario de agendamiento en una nueva pestaña.</div>
+        <button class="btn btn-primary" id="calFallbackBtn" onclick="openCalendlyTab()">
+          📅 Abrir Calendario &rarr;
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHAT'S NEXT -->
+  <div class="next-section">
+    <div class="next-title">¿Qué Pasa Después de Agendar?</div>
+    <div class="next-cards">
+      <div class="next-card">
+        <div class="next-card-ico">📅</div>
+        <div class="next-card-title">Reunión de 20 Min</div>
+        <div class="next-card-desc">Conversamos sobre tu negocio, público objetivo y metas para que el diagnóstico sea 100% personalizado.</div>
+      </div>
+      <div class="next-card">
+        <div class="next-card-ico">⚡</div>
+        <div class="next-card-title">Análisis en 48h</div>
+        <div class="next-card-desc">Después de la reunión comenzamos el análisis estratégico completo de tu perfil.</div>
+      </div>
+      <div class="next-card">
+        <div class="next-card-ico">📬</div>
+        <div class="next-card-title">7 Entregables</div>
+        <div class="next-card-desc">Recibes todo en tu correo: diagnóstico PDF, portadas, mockup del feed y plan de acción.</div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-copy">&copy; 2025 SAOC. Diagnóstico Express de Posicionamiento en Instagram.</div>
+</footer>
+
+<script>
+let pageConfig = {};
+
+async function initGracias() {
+  // Read transaction ref from URL
+  const params = new URLSearchParams(window.location.search);
+  const ref = params.get('ref');
+  const status = params.get('status');
+
+  if (ref) {
+    const txInfo = document.getElementById('txInfo');
+    const txRef = document.getElementById('txRef');
+    if (txInfo && txRef) {
+      txRef.textContent = ref;
+      txInfo.style.display = 'inline-flex';
+    }
+  }
+
+  try {
+    const res = await fetch('/landing/config');
+    if (!res.ok) throw new Error('Config error');
+    pageConfig = await res.json();
+
+    // Init Meta Pixel and track Purchase/CompleteRegistration
+    if (pageConfig.pixelId) {
+      initPixelGracias(pageConfig.pixelId, ref);
+    }
+
+    // Load Calendly
+    if (pageConfig.calendlyUrl) {
+      loadCalendly(pageConfig.calendlyUrl, ref);
+    } else {
+      showCalendlyFallback(null);
+    }
+  } catch (e) {
+    console.warn('Config load error:', e.message);
+    showCalendlyFallback(null);
+  }
+}
+
+function initPixelGracias(pixelId, txRef) {
+  !function(f,b,e,v,n,t,s){
+    if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)
+  }(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', pixelId);
+  fbq('track', 'PageView');
+  // Track purchase (covers redirect flow, in case JS callback didn't fire)
+  fbq('track', 'Purchase', {
+    value: 250000,
+    currency: 'COP',
+    transaction_id: txRef || ''
+  });
+  fbq('track', 'CompleteRegistration', { currency: 'COP', value: 250000 });
+}
+
+function loadCalendly(url, ref) {
+  // Append prefill params if ref available
+  let calUrl = url;
+  if (ref) {
+    const sep = url.includes('?') ? '&' : '?';
+    calUrl = `${url}${sep}utm_source=diagnostico&utm_campaign=${encodeURIComponent(ref)}`;
+  }
+
+  const script = document.createElement('script');
+  script.src = 'https://assets.calendly.com/assets/external/widget.js';
+  script.async = true;
+  script.onload = () => {
+    document.getElementById('calLoading').style.display = 'none';
+    const container = document.getElementById('calendlyContainer');
+    container.innerHTML = `<div class="calendly-inline-widget" data-url="${calUrl}" style="min-width:320px;height:630px;"></div>`;
+    // Reinit Calendly
+    if (window.Calendly) {
+      window.Calendly.initInlineWidgets();
+    }
+  };
+  script.onerror = () => {
+    showCalendlyFallback(url);
+  };
+  document.head.appendChild(script);
+
+  // Fallback timeout
+  setTimeout(() => {
+    const loading = document.getElementById('calLoading');
+    if (loading && loading.style.display !== 'none') {
+      showCalendlyFallback(url);
+    }
+  }, 8000);
+}
+
+function showCalendlyFallback(url) {
+  document.getElementById('calLoading').style.display = 'none';
+  const fb = document.getElementById('calFallback');
+  fb.style.display = 'block';
+  if (url) {
+    const btn = document.getElementById('calFallbackBtn');
+    if (btn) {
+      btn.setAttribute('data-url', url);
+    }
+  }
+}
+
+function openCalendlyTab() {
+  const btn = document.getElementById('calFallbackBtn');
+  const url = (btn && btn.getAttribute('data-url')) || pageConfig.calendlyUrl || '#';
+  window.open(url, '_blank');
+}
+
+document.addEventListener('DOMContentLoaded', initGracias);
+</script>
+</body>
+</html>
