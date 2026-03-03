@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAOC Control Center — Acceso</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'DM Sans',sans-serif;background:#080808;color:#e0e0e0;min-height:100vh;display:flex;align-items:center;justify-content:center}
+  .box{width:420px;padding:56px 48px;border:1px solid #2a2a2a;background:#141414;position:relative;animation:fadeUp .6s ease both}
+  .box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#E10600,transparent)}
+  h1{font-family:'Syne',sans-serif;font-weight:800;font-size:22px;letter-spacing:4px;color:#fff;margin-bottom:4px}
+  h1 span{color:#E10600}
+  .sub{font-size:11px;letter-spacing:2px;color:#555;margin-bottom:40px;text-transform:uppercase}
+  label{font-size:11px;letter-spacing:2px;color:#888;text-transform:uppercase;margin-bottom:8px;display:block}
+  input{width:100%;background:#080808;border:1px solid #2a2a2a;color:#fff;padding:14px 16px;font-family:'DM Sans',sans-serif;font-size:14px;margin-bottom:20px;outline:none;transition:border-color .2s}
+  input:focus{border-color:#E10600}
+  button{width:100%;background:#E10600;color:#fff;border:none;padding:16px;font-family:'Syne',sans-serif;font-size:13px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:all .2s}
+  button:hover{background:#ff0a05;box-shadow:0 0 30px rgba(225,6,0,0.4)}
+  .error{font-size:12px;color:#E10600;margin-top:16px;text-align:center;display:none}
+  .hint{font-size:11px;color:#333;margin-top:20px;text-align:center}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<div class="box">
+  <h1>SAOC<span>.</span></h1>
+  <div class="sub">Control Center · Acceso Cliente</div>
+  <label>Email</label>
+  <input type="email" id="email" placeholder="tu@email.com">
+  <label>Contraseña</label>
+  <input type="password" id="password" placeholder="••••••••">
+  <button onclick="login()">Ingresar al Panel</button>
+  <div class="error" id="error">Credenciales incorrectas. Intenta de nuevo.</div>
+  <div class="hint">Admin: admin@saocdigital.com / admin2024<br>Cliente: cliente@cafebuena.com / cliente2024</div>
+</div>
+<script>
+async function login() {
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+  const errorEl = document.getElementById('error');
+  errorEl.style.display = 'none';
+
+  try {
+    const res = await fetch('/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+    const data = await res.json();
+    if (data.success) {
+      window.location.href = '/dashboard';
+    } else {
+      errorEl.style.display = 'block';
+    }
+  } catch (err) {
+    errorEl.style.display = 'block';
+  }
+}
+document.addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
+</script>
+</body>
+</html>

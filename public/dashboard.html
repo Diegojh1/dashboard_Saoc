@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAOC Control Center</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+  :root{--black:#080808;--deep:#0f0f0f;--surface:#141414;--surface2:#1a1a1a;--border:#222;--border2:#2a2a2a;--red:#E10600;--red-dim:rgba(225,6,0,0.12);--white:#ffffff;--gray:#888;--gray2:#555;--text:#e0e0e0;--success:#00c896;--warning:#f5a623}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--text);min-height:100vh;display:flex}
+  h1,h2,h3,h4{font-family:'Syne',sans-serif}
+
+  /* SIDEBAR */
+  .sidebar{width:240px;min-height:100vh;background:var(--deep);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;left:0;top:0;bottom:0;z-index:100}
+  .sidebar-logo{padding:32px 24px 24px;border-bottom:1px solid var(--border)}
+  .logo-mark{font-family:'Syne',sans-serif;font-weight:800;font-size:18px;letter-spacing:3px;color:var(--white)}
+  .logo-mark span{color:var(--red)}
+  .logo-sub{font-size:10px;letter-spacing:2px;color:var(--gray2);margin-top:3px;text-transform:uppercase}
+  .nav{padding:16px 0;flex:1}
+  .nav-section-label{font-size:10px;letter-spacing:2px;color:var(--gray2);padding:16px 24px 8px;text-transform:uppercase}
+  .nav-item{display:flex;align-items:center;gap:12px;padding:12px 24px;cursor:pointer;font-size:13px;color:var(--gray);transition:all .2s;position:relative;user-select:none}
+  .nav-item:hover{color:var(--white);background:var(--surface)}
+  .nav-item.active{color:var(--white);background:var(--surface)}
+  .nav-item.active::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--red)}
+  .nav-icon{font-size:16px;width:20px;text-align:center}
+  .sidebar-footer{padding:20px 24px;border-top:1px solid var(--border)}
+  .client-chip{background:var(--surface2);padding:12px 14px;border:1px solid var(--border2);display:flex;align-items:center;gap:10px}
+  .client-avatar{width:32px;height:32px;background:var(--red);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:12px;color:var(--white)}
+  .client-name{font-size:12px;color:var(--white);font-weight:500}
+  .client-plan{font-size:10px;color:var(--gray);letter-spacing:1px}
+
+  /* MAIN */
+  .main{margin-left:240px;flex:1;min-height:100vh}
+  .topbar{padding:20px 40px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--black);position:sticky;top:0;z-index:50}
+  .topbar-title{font-family:'Syne',sans-serif;font-size:13px;color:var(--gray);letter-spacing:2px;text-transform:uppercase}
+  .topbar-right{display:flex;align-items:center;gap:16px}
+  .status-dot{width:7px;height:7px;border-radius:50%;background:var(--success);animation:pulse 2s infinite;display:inline-block;margin-right:6px}
+  .live-badge{font-size:11px;color:var(--gray);background:var(--surface);border:1px solid var(--border2);padding:6px 14px}
+  .logout-btn{background:transparent;border:1px solid var(--border2);color:var(--gray);padding:8px 14px;font-size:11px;letter-spacing:1px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
+  .logout-btn:hover{border-color:var(--red);color:var(--red)}
+
+  /* PAGES */
+  .page{display:none;padding:40px;animation:fadeIn .4s ease}
+  .page.active{display:block}
+  .page-header{margin-bottom:36px}
+  .page-title{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:var(--white);margin-bottom:6px}
+  .page-desc{font-size:13px;color:var(--gray)}
+  .red-line{width:40px;height:2px;background:var(--red);margin-top:12px}
+
+  /* KPI CARDS */
+  .kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
+  .kpi-card{background:var(--surface);border:1px solid var(--border);padding:28px 24px;position:relative;overflow:hidden;transition:border-color .25s,transform .25s;cursor:default}
+  .kpi-card:hover{border-color:var(--border2);transform:translateY(-2px)}
+  .kpi-label{font-size:11px;letter-spacing:2px;color:var(--gray);text-transform:uppercase;margin-bottom:14px}
+  .kpi-value{font-family:'Syne',sans-serif;font-size:36px;font-weight:800;color:var(--white);line-height:1;margin-bottom:12px}
+  .kpi-delta{font-size:12px;display:flex;align-items:center;gap:6px}
+  .delta-up{color:var(--success)}
+  .delta-down{color:var(--red)}
+  .kpi-icon{position:absolute;top:24px;right:24px;font-size:22px;opacity:.15}
+
+  /* COMPLIANCE */
+  .compliance-card{background:var(--surface);border:1px solid var(--border);padding:28px 24px;margin-bottom:24px}
+  .compliance-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+  .compliance-pct{font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:var(--white)}
+  .compliance-bar-wrap{background:var(--black);height:8px;overflow:hidden;margin-bottom:12px}
+  .compliance-bar{height:100%;background:linear-gradient(90deg,var(--red),#ff4444);transition:width 1.5s cubic-bezier(.23,1,.32,1)}
+  .compliance-tags{display:flex;gap:16px;flex-wrap:wrap}
+  .compliance-tag{font-size:11px;color:var(--gray);background:var(--black);padding:4px 12px;border:1px solid var(--border)}
+
+  /* CHARTS */
+  .charts-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px}
+  .chart-card{background:var(--surface);border:1px solid var(--border);padding:28px}
+  .chart-card.full{grid-column:1/-1}
+  .chart-label{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--white);letter-spacing:1px;text-transform:uppercase;margin-bottom:20px}
+
+  /* METRICS ROW */
+  .metrics-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+  .metric-box{background:var(--surface);border:1px solid var(--border);padding:20px;text-align:center}
+  .metric-box-val{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:var(--white);margin-bottom:4px}
+  .metric-box-label{font-size:11px;color:var(--gray);letter-spacing:1px;text-transform:uppercase}
+
+  /* ADMIN PANEL */
+  .admin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:24px}
+  .admin-client-card{background:var(--surface);border:1px solid var(--border);padding:24px;transition:border-color .2s;cursor:pointer}
+  .admin-client-card:hover{border-color:var(--red)}
+  .admin-client-name{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:var(--white);margin-bottom:8px}
+  .admin-client-plan{font-size:11px;color:var(--gray);letter-spacing:1px;text-transform:uppercase;margin-bottom:16px}
+  .live-indicator{display:inline-flex;align-items:center;gap:6px;font-size:11px;padding:4px 10px;border:1px solid}
+  .live-on{color:var(--success);border-color:rgba(0,200,150,.3);background:rgba(0,200,150,.05)}
+  .live-off{color:var(--gray2);border-color:var(--border);background:transparent}
+
+  /* SECTION DIVIDER */
+  .section-divider{display:flex;align-items:center;gap:16px;margin:36px 0 24px}
+  .section-divider-title{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gray2);white-space:nowrap}
+  .section-divider-line{flex:1;height:1px;background:var(--border)}
+
+  /* DEMO BADGE */
+  .demo-notice{background:rgba(245,166,35,.08);border:1px solid rgba(245,166,35,.2);padding:12px 20px;font-size:12px;color:var(--warning);margin-bottom:24px;display:flex;align-items:center;gap:10px}
+
+  /* HAMBURGER */
+  .hamburger{display:none;background:none;border:none;cursor:pointer;padding:4px}
+  .hamburger span{display:block;width:22px;height:2px;background:var(--white);margin:5px 0}
+  .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:99}
+
+  /* ANIMATIONS */
+  @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar{width:4px}
+  ::-webkit-scrollbar-track{background:var(--black)}
+  ::-webkit-scrollbar-thumb{background:var(--border2)}
+
+  /* RESPONSIVE */
+  @media(max-width:768px){
+    .sidebar{transform:translateX(-100%);transition:transform .3s}
+    .sidebar.open{transform:translateX(0)}
+    .main{margin-left:0}
+    .hamburger{display:block}
+    .page{padding:24px 16px}
+    .topbar{padding:16px 20px}
+    .kpi-grid{grid-template-columns:1fr 1fr}
+    .charts-row{grid-template-columns:1fr}
+    .metrics-row{grid-template-columns:repeat(2,1fr)}
+    .sidebar-overlay.visible{display:block}
+  }
+</style>
+</head>
+<body>
+
+<div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-mark">SAOC<span>.</span></div>
+    <div class="logo-sub">Control Center</div>
+  </div>
+  <nav class="nav">
+    <div class="nav-section-label">Principal</div>
+    <div class="nav-item active" onclick="showPage('home',this)"><span class="nav-icon">◈</span> Resumen Ejecutivo</div>
+    <div class="nav-section-label">Analítica</div>
+    <div class="nav-item" onclick="showPage('instagram',this)"><span class="nav-icon">◉</span> Instagram</div>
+    <div class="nav-item" onclick="showPage('ads',this)"><span class="nav-icon">◎</span> Meta Ads</div>
+    <div class="nav-item" onclick="showPage('crecimiento',this)"><span class="nav-icon">△</span> Crecimiento</div>
+    <div id="nav-admin" style="display:none">
+      <div class="nav-section-label">Admin</div>
+      <div class="nav-item" onclick="showPage('admin',this)"><span class="nav-icon">⊞</span> Clientes</div>
+    </div>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="client-chip">
+      <div class="client-avatar" id="client-avatar">--</div>
+      <div>
+        <div class="client-name" id="client-name">Cargando...</div>
+        <div class="client-plan" id="client-plan">--</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<main class="main">
+  <div class="topbar">
+    <div style="display:flex;align-items:center;gap:16px">
+      <button class="hamburger" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
+      <div class="topbar-title" id="topbar-title">Resumen Ejecutivo</div>
+    </div>
+    <div class="topbar-right">
+      <div class="live-badge"><span class="status-dot"></span><span id="data-source-label">Cargando...</span></div>
+      <button class="logout-btn" onclick="logout()">Salir</button>
+    </div>
+  </div>
+
+  <!-- HOME -->
+  <div class="page active" id="page-home">
+    <div class="page-header">
+      <div style="font-size:11px;color:var(--gray);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px" id="current-month">--</div>
+      <div class="page-title">Panel de Control</div>
+      <div class="page-desc">Visión ejecutiva del rendimiento mensual de tu estrategia digital.</div>
+      <div class="red-line"></div>
+    </div>
+    <div id="demo-notice" class="demo-notice" style="display:none">⚡ Mostrando datos demo. Conecta tu cuenta de Meta para ver datos reales.</div>
+    <div class="kpi-grid">
+      <div class="kpi-card"><div class="kpi-icon">👥</div><div class="kpi-label">Seguidores totales</div><div class="kpi-value" id="kpi-followers">--</div><div class="kpi-delta delta-up" id="kpi-followers-delta"></div></div>
+      <div class="kpi-card"><div class="kpi-icon">👁️</div><div class="kpi-label">Alcance del mes</div><div class="kpi-value" id="kpi-reach">--</div><div class="kpi-delta delta-up">↑ vs mes anterior</div></div>
+      <div class="kpi-card"><div class="kpi-icon">❤️</div><div class="kpi-label">Engagement Rate</div><div class="kpi-value" id="kpi-engagement">--</div><div class="kpi-delta" id="kpi-engagement-delta"></div></div>
+      <div class="kpi-card"><div class="kpi-icon">📸</div><div class="kpi-label">Publicaciones</div><div class="kpi-value" id="kpi-media">--</div><div class="kpi-delta delta-up">Este mes</div></div>
+      <div class="kpi-card"><div class="kpi-icon">👤</div><div class="kpi-label">Nuevos seguidores</div><div class="kpi-value" id="kpi-new-followers">--</div><div class="kpi-delta delta-up">Este mes</div></div>
+      <div class="kpi-card"><div class="kpi-icon">🔍</div><div class="kpi-label">Visitas al perfil</div><div class="kpi-value" id="kpi-profile-views">--</div><div class="kpi-delta delta-up">Este mes</div></div>
+    </div>
+    <div class="charts-row">
+      <div class="chart-card full">
+        <div class="chart-label">Alcance diario del mes</div>
+        <canvas id="chart-reach" height="120"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- INSTAGRAM -->
+  <div class="page" id="page-instagram">
+    <div class="page-header">
+      <div class="page-title">Instagram</div>
+      <div class="page-desc">Métricas detalladas de tu cuenta de Instagram.</div>
+      <div class="red-line"></div>
+    </div>
+    <div class="metrics-row">
+      <div class="metric-box"><div class="metric-box-val" id="ig-followers">--</div><div class="metric-box-label">Seguidores</div></div>
+      <div class="metric-box"><div class="metric-box-val" id="ig-reach">--</div><div class="metric-box-label">Alcance</div></div>
+      <div class="metric-box"><div class="metric-box-val" id="ig-impressions">--</div><div class="metric-box-label">Impresiones</div></div>
+      <div class="metric-box"><div class="metric-box-val" id="ig-engagement">--</div><div class="metric-box-label">Engagement</div></div>
+    </div>
+    <div class="charts-row">
+      <div class="chart-card">
+        <div class="chart-label">Seguidores vs Alcance</div>
+        <canvas id="chart-ig-compare" height="220"></canvas>
+      </div>
+      <div class="chart-card">
+        <div class="chart-label">Nuevos seguidores diarios</div>
+        <canvas id="chart-ig-followers" height="220"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADS -->
+  <div class="page" id="page-ads">
+    <div class="page-header">
+      <div class="page-title">Meta Ads</div>
+      <div class="page-desc">Rendimiento de tus campañas publicitarias.</div>
+      <div class="red-line"></div>
+    </div>
+    <div class="metrics-row">
+      <div class="metric-box"><div class="metric-box-val" id="ads-spend">--</div><div class="metric-box-label">Inversión</div></div>
+      <div class="metric-box"><div class="metric-box-val" id="ads-reach">--</div><div class="metric-box-label">Alcance</div></div>
+      <div class="metric-box"><div class="metric-box-val" id="ads-clicks">--</div><div class="metric-box-label">Clics</div></div>
+      <div class="metric-box"><div class="metric-box-val" id="ads-ctr">--</div><div class="metric-box-label">CTR</div></div>
+    </div>
+    <div class="chart-card full" style="margin-bottom:24px">
+      <div class="chart-label">Campañas activas</div>
+      <div id="campaigns-list"></div>
+    </div>
+  </div>
+
+  <!-- CRECIMIENTO -->
+  <div class="page" id="page-crecimiento">
+    <div class="page-header">
+      <div class="page-title">Crecimiento de Marca</div>
+      <div class="page-desc">Evolución de tu presencia digital en el tiempo.</div>
+      <div class="red-line"></div>
+    </div>
+    <div class="charts-row">
+      <div class="chart-card full">
+        <div class="chart-label">Evolución de seguidores</div>
+        <canvas id="chart-growth" height="140"></canvas>
+      </div>
+    </div>
+    <div class="charts-row">
+      <div class="chart-card">
+        <div class="chart-label">Alcance mensual</div>
+        <canvas id="chart-monthly-reach" height="200"></canvas>
+      </div>
+      <div class="chart-card">
+        <div class="chart-label">Engagement mensual</div>
+        <canvas id="chart-monthly-engagement" height="200"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN -->
+  <div class="page" id="page-admin">
+    <div class="page-header">
+      <div class="page-title">Panel de Administración</div>
+      <div class="page-desc">Gestión de clientes y conexiones de APIs.</div>
+      <div class="red-line"></div>
+    </div>
+    <div class="admin-grid" id="admin-clients-grid"></div>
+  </div>
+
+</main>
+
+<script>
+// ═══════════════════════════════════════
+// ESTADO GLOBAL
+// ═══════════════════════════════════════
+let currentUser = null;
+let clientInfo = null;
+let instagramData = null;
+let adsData = null;
+let insightsData = null;
+let chartsCreated = {};
+
+const chartDefaults = {
+  plugins:{
+    legend:{display:false},
+    tooltip:{backgroundColor:'#1a1a1a',titleColor:'#fff',bodyColor:'#999',borderColor:'#333',borderWidth:1}
+  },
+  scales:{
+    x:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#555',font:{family:'DM Sans',size:11}}},
+    y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#555',font:{family:'DM Sans',size:11}}}
+  }
+};
+
+// ═══════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════
+async function init() {
+  try {
+    const res = await fetch('/auth/me');
+    const data = await res.json();
+    if (!data.user) { window.location.href = '/'; return; }
+    currentUser = data.user;
+    setupUI();
+    await loadAllData();
+  } catch(e) {
+    window.location.href = '/';
+  }
+}
+
+function setupUI() {
+  const months = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  const now = new Date();
+  const monthLabel = document.getElementById('current-month');
+  if(monthLabel) monthLabel.textContent = `${months[now.getMonth()]} ${now.getFullYear()} · Ciclo activo`;
+
+  if(currentUser.role === 'admin') {
+    document.getElementById('nav-admin').style.display = 'block';
+  }
+}
+
+async function loadAllData() {
+  try {
+    const [clientRes, igRes, adsRes, insightsRes] = await Promise.all([
+      fetch('/api/client-info'),
+      fetch('/api/instagram'),
+      fetch('/api/ads'),
+      fetch('/api/insights')
+    ]);
+
+    clientInfo = await clientRes.json();
+    instagramData = await igRes.json();
+    adsData = await adsRes.json();
+    insightsData = await insightsRes.json();
+
+    updateClientUI();
+    updateHomeKPIs();
+    updateInstagramPage();
+    updateAdsPage();
+    updateDataSourceLabel();
+    buildCharts();
+
+    if(currentUser.role === 'admin') loadAdminPanel();
+
+  } catch(e) {
+    console.error('Error cargando datos:', e);
+  }
+}
+
+// ═══════════════════════════════════════
+// UI UPDATES
+// ═══════════════════════════════════════
+function updateClientUI() {
+  if(!clientInfo) return;
+  document.getElementById('client-name').textContent = clientInfo.name;
+  document.getElementById('client-plan').textContent = clientInfo.plan;
+  const initials = clientInfo.name.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+  document.getElementById('client-avatar').textContent = initials;
+}
+
+function updateDataSourceLabel() {
+  const label = document.getElementById('data-source-label');
+  const isLive = instagramData && instagramData.source === 'live';
+  label.textContent = isLive ? 'Datos en vivo' : 'Datos demo';
+
+  const notice = document.getElementById('demo-notice');
+  if(notice) notice.style.display = isLive ? 'none' : 'flex';
+}
+
+function updateHomeKPIs() {
+  if(!instagramData) return;
+  const d = instagramData;
+  setKPI('kpi-followers', formatNumber(d.followers_count));
+  setKPI('kpi-reach', formatNumber(d.reach));
+  setKPI('kpi-engagement', d.engagement_rate + '%');
+  setKPI('kpi-media', d.media_count);
+  setKPI('kpi-new-followers', '+' + formatNumber(d.new_followers));
+  setKPI('kpi-profile-views', formatNumber(d.profile_views));
+}
+
+function updateInstagramPage() {
+  if(!instagramData) return;
+  const d = instagramData;
+  setText('ig-followers', formatNumber(d.followers_count));
+  setText('ig-reach', formatNumber(d.reach));
+  setText('ig-impressions', formatNumber(d.impressions));
+  setText('ig-engagement', d.engagement_rate + '%');
+}
+
+function updateAdsPage() {
+  if(!adsData) return;
+  const d = adsData;
+  setText('ads-spend', '$' + formatNumber(d.spend));
+  setText('ads-reach', formatNumber(d.reach));
+  setText('ads-clicks', formatNumber(d.clicks));
+  setText('ads-ctr', d.ctr + '%');
+
+  const list = document.getElementById('campaigns-list');
+  if(d.campaigns && list) {
+    list.innerHTML = d.campaigns.map(c => `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid var(--border)">
+        <div>
+          <div style="font-size:14px;color:var(--white);margin-bottom:4px">${c.name}</div>
+          <div style="font-size:11px;color:var(--gray)">${formatNumber(c.reach)} alcance · ${formatNumber(c.clicks)} clics</div>
+        </div>
+        <div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--white)">$${formatNumber(c.spend)}</div>
+      </div>
+    `).join('');
+  }
+}
+
+async function loadAdminPanel() {
+  try {
+    const res = await fetch('/admin/summary');
+    const data = await res.json();
+    const grid = document.getElementById('admin-clients-grid');
+    if(!grid) return;
+    grid.innerHTML = data.clients.map(c => `
+      <div class="admin-client-card">
+        <div class="admin-client-name">${c.name}</div>
+        <div class="admin-client-plan">${c.plan || 'Sin plan'}</div>
+        <span class="live-indicator ${c.hasLiveData ? 'live-on' : 'live-off'}">
+          ${c.hasLiveData ? '● API Conectada' : '○ Datos Demo'}
+        </span>
+      </div>
+    `).join('');
+  } catch(e) { console.error(e); }
+}
+
+// ═══════════════════════════════════════
+// CHARTS
+// ═══════════════════════════════════════
+function buildCharts() {
+  if(!insightsData || !insightsData.data) return;
+  const days = insightsData.data;
+  const labels = days.map(d => d.day + '');
+  const reachData = days.map(d => d.reach);
+  const followersData = days.map(d => d.followers);
+
+  // Home reach chart
+  if(!chartsCreated['reach']) {
+    chartsCreated['reach'] = new Chart(document.getElementById('chart-reach'), {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [{
+          data: reachData,
+          borderColor: '#E10600',
+          backgroundColor: 'rgba(225,6,0,0.06)',
+          tension: .4, fill: true, pointRadius: 0, borderWidth: 2
+        }]
+      },
+      options: chartDefaults
+    });
+  }
+
+  // Instagram charts
+  if(!chartsCreated['ig-compare']) {
+    chartsCreated['ig-compare'] = new Chart(document.getElementById('chart-ig-compare'), {
+      type: 'bar',
+      data: {
+        labels: labels.filter((_,i) => i % 4 === 0),
+        datasets: [
+          {label:'Alcance', data: reachData.filter((_,i) => i % 4 === 0), backgroundColor: 'rgba(225,6,0,0.7)', borderWidth:0},
+          {label:'Seguidores', data: followersData.filter((_,i) => i % 4 === 0).map(v=>v*10), backgroundColor: 'rgba(255,255,255,0.07)', borderWidth:0}
+        ]
+      },
+      options: {...chartDefaults, plugins:{...chartDefaults.plugins, legend:{display:true, labels:{color:'#666', font:{family:'DM Sans',size:11}}}}}
+    });
+  }
+
+  if(!chartsCreated['ig-followers']) {
+    chartsCreated['ig-followers'] = new Chart(document.getElementById('chart-ig-followers'), {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [{data: followersData, backgroundColor: 'rgba(225,6,0,0.6)', borderWidth:0}]
+      },
+      options: chartDefaults
+    });
+  }
+
+  // Growth charts
+  const monthLabels = ['Ago','Sep','Oct','Nov','Dic','Ene','Feb'];
+  if(!chartsCreated['growth']) {
+    chartsCreated['growth'] = new Chart(document.getElementById('chart-growth'), {
+      type: 'line',
+      data: {
+        labels: monthLabels,
+        datasets: [{
+          data: [9200,9800,10400,11000,11600,11800, instagramData.followers_count || 12840],
+          borderColor:'#E10600', backgroundColor:'rgba(225,6,0,0.07)',
+          tension:.4, fill:true, pointRadius:4, pointBackgroundColor:'#E10600', borderWidth:2
+        }]
+      },
+      options: chartDefaults
+    });
+  }
+
+  if(!chartsCreated['monthly-reach']) {
+    chartsCreated['monthly-reach'] = new Chart(document.getElementById('chart-monthly-reach'), {
+      type: 'bar',
+      data: {
+        labels: monthLabels,
+        datasets: [{data:[82000,88000,94000,101000,109000,115000, instagramData.reach || 142600], backgroundColor:'rgba(225,6,0,0.7)', borderWidth:0}]
+      },
+      options: chartDefaults
+    });
+  }
+
+  if(!chartsCreated['monthly-engagement']) {
+    chartsCreated['monthly-engagement'] = new Chart(document.getElementById('chart-monthly-engagement'), {
+      type: 'line',
+      data: {
+        labels: monthLabels,
+        datasets: [{
+          data:[4.8,5.1,5.4,5.8,6.1,6.2, instagramData.engagement_rate || 5.9],
+          borderColor:'#E10600', backgroundColor:'rgba(225,6,0,0.07)',
+          tension:.4, fill:true, pointRadius:4, pointBackgroundColor:'#E10600', borderWidth:2
+        }]
+      },
+      options: chartDefaults
+    });
+  }
+}
+
+// ═══════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════
+const pageTitles = {home:'Resumen Ejecutivo',instagram:'Instagram',ads:'Meta Ads',crecimiento:'Crecimiento',admin:'Administración'};
+
+function showPage(id, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  if(el) el.classList.add('active');
+  document.getElementById('topbar-title').textContent = pageTitles[id] || '';
+  closeSidebar();
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('visible');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('visible');
+}
+
+// ═══════════════════════════════════════
+// AUTH
+// ═══════════════════════════════════════
+async function logout() {
+  await fetch('/auth/logout', { method:'POST' });
+  window.location.href = '/';
+}
+
+// ═══════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════
+function formatNumber(n) {
+  if(!n) return '0';
+  if(n >= 1000000) return (n/1000000).toFixed(1) + 'M';
+  if(n >= 1000) return (n/1000).toFixed(1) + 'K';
+  return n.toLocaleString();
+}
+function setKPI(id, val) {
+  const el = document.getElementById(id);
+  if(el) el.textContent = val;
+}
+function setText(id, val) {
+  const el = document.getElementById(id);
+  if(el) el.textContent = val;
+}
+
+// ═══════════════════════════════════════
+// START
+// ═══════════════════════════════════════
+init();
+</script>
+</body>
+</html>
