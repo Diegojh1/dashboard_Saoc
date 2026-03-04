@@ -16,18 +16,8 @@ jobs:
       - name: Checkout código
         uses: actions/checkout@v4
 
-      - name: Setup Node.js 20
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      # Instalar dependencias de producción aquí en GitHub Actions
-      # y subirlas junto con el código — sin necesidad de SSH
-      - name: npm install (solo producción)
-        run: npm install --omit=dev
-
-      # Subir TODO incluyendo node_modules ya instalados
-      - name: Deploy por FTP (código + node_modules)
+      # Subir SOLO el código (sin node_modules — son cientos de MB)
+      - name: Deploy código por FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: 82.197.80.14
@@ -45,3 +35,17 @@ jobs:
             **/*.log
             **/npm-debug.log*
             **/tmp/**
+            **/node_modules/**
+
+      # Conectar por SSH y correr npm install en el servidor
+      - name: npm install en el servidor (SSH)
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: 82.197.80.14
+          port: 65002
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            cd ~/domains/diagnostico.saocdigital.com/public_html
+            npm install --omit=dev
+            touch tmp/restart.txt
