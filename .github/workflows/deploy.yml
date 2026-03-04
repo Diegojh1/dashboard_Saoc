@@ -42,7 +42,7 @@ jobs:
           username: u917172208.diagnostico.saocdigital.com
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./
-          server-dir: /
+          server-dir: /public_html/
           exclude: |
             **/.git*
             **/.git*/**
