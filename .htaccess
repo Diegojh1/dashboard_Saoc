@@ -1,0 +1,6 @@
+DirectoryIndex disabled
+
+# Proxy everything to Node.js (puerto 3000)
+RewriteEngine On
+RewriteRule ^$ http://localhost:3000/ [P,L]
+RewriteRule ^(.*)$ http://localhost:3000/$1 [P,L]
