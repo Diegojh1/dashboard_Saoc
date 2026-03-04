@@ -1,6 +1,6 @@
-DirectoryIndex disabled
+# Hostinger Node.js — Phusion Passenger
+# Passenger detecta app.js en la raíz y ejecuta la app Node.js automáticamente
 
-# Proxy everything to Node.js (puerto 3000)
-RewriteEngine On
-RewriteRule ^$ http://localhost:3000/ [P,L]
-RewriteRule ^(.*)$ http://localhost:3000/$1 [P,L]
+PassengerNodejs /usr/bin/node
+PassengerAppType node
+PassengerStartupFile app.js
