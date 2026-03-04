@@ -2,6 +2,19 @@ const express = require('express');
 const router = express.Router();
 const { getClientConfig } = require('../data/users');
 
+// Detecta si el error de Meta es por token expirado / inválido (código 190)
+function isTokenExpired(apiError) {
+  return apiError && (apiError.code === 190 || apiError.type === 'OAuthException');
+}
+
+function handleMetaError(apiError, context) {
+  if (isTokenExpired(apiError)) {
+    console.warn(`[SAOC] Token de Meta expirado o inválido (${context}). El usuario debe reconectar su cuenta.`);
+  } else {
+    console.error(`[SAOC] Meta API error (${context}):`, apiError);
+  }
+}
+
 // Middleware que verifica que el usuario esté logueado
 function requireAuth(req, res, next) {
   if (!req.session.user) {
@@ -61,8 +74,8 @@ router.get('/instagram', requireAuth, async (req, res) => {
     const data = await response.json();
 
     if (data.error) {
-      console.error('Meta API error:', data.error);
-      return res.json({ source: 'none', connected: false });
+      handleMetaError(data.error, 'instagram');
+      return res.json({ source: 'none', connected: false, expired: isTokenExpired(data.error) });
     }
 
     // Obtener métricas adicionales de insights
@@ -90,7 +103,7 @@ router.get('/instagram', requireAuth, async (req, res) => {
     });
 
   } catch (error) {
-    console.error('Error Instagram:', error);
+    console.error('[SAOC] Error Instagram:', error.message);
     res.json({ source: 'none', connected: false });
   }
 });
@@ -119,13 +132,14 @@ router.get('/ads', requireAuth, async (req, res) => {
     const data = await response.json();
 
     if (data.error) {
-      return res.json({ source: 'none', connected: false });
+      handleMetaError(data.error, 'ads');
+      return res.json({ source: 'none', connected: false, expired: isTokenExpired(data.error) });
     }
 
     res.json({ source: 'live', connected: true, ...data });
 
   } catch (error) {
-    console.error('Error Ads:', error);
+    console.error('[SAOC] Error Ads:', error.message);
     res.json({ source: 'none', connected: false });
   }
 });
@@ -147,13 +161,14 @@ router.get('/insights', requireAuth, async (req, res) => {
     const data = await response.json();
 
     if (data.error) {
-      return res.json({ source: 'none', connected: false });
+      handleMetaError(data.error, 'insights');
+      return res.json({ source: 'none', connected: false, expired: isTokenExpired(data.error) });
     }
 
     res.json({ source: 'live', connected: true, ...data });
 
   } catch (error) {
-    console.error('Error Insights:', error);
+    console.error('[SAOC] Error Insights:', error.message);
     res.json({ source: 'none', connected: false });
   }
 });

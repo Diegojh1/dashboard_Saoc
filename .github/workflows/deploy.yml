@@ -1,0 +1,44 @@
+name: Deploy via FTP → saocdigital.com
+
+on:
+  push:
+    branches:
+      - master
+      - main
+      - claude/landing-page-copywriting-SSKun
+
+jobs:
+  deploy:
+    name: Upload to hosting
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Instalar dependencias (para verificar que compila)
+        run: npm install --omit=dev
+
+      - name: Deploy por FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: 82.197.80.14
+          port: 21
+          username: u917172208.diagnostico.saocdigital.com
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./
+          server-dir: /public_html/
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            **/.env
+            **/.env.*
+            **/fix-passwords.js
+            **/*.log
+            **/npm-debug.log*
