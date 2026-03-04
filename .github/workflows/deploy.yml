@@ -38,11 +38,14 @@ jobs:
             **/tmp/**
 
       # ── 2. SSH: instalar dependencias y reiniciar Passenger ────
+      # Puerto Hostinger: 65002 (NO es el 22 estándar)
+      # SSH_USERNAME = u917172208  (solo el número, sin el dominio)
+      # SSH_PASSWORD = misma contraseña del hosting / FTP
       - name: npm install + reiniciar app (SSH)
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: 82.197.80.14
-          port: 22
+          port: 65002
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
