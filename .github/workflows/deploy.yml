@@ -9,15 +9,15 @@ on:
 
 jobs:
   deploy:
-    name: Upload y reiniciar en Hostinger
+    name: Build y Upload a Hostinger
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout código
         uses: actions/checkout@v4
 
-      # ── 1. Subir archivos via FTP ──────────────────────────────
-      - name: Deploy archivos por FTP
+      # Subir SOLO el código (sin node_modules — son cientos de MB)
+      - name: Deploy código por FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: 82.197.80.14
@@ -29,19 +29,16 @@ jobs:
           exclude: |
             **/.git*
             **/.git*/**
-            **/node_modules/**
             **/.env
             **/.env.*
             **/fix-passwords.js
             **/*.log
             **/npm-debug.log*
             **/tmp/**
+            **/node_modules/**
 
-      # ── 2. SSH: instalar dependencias y reiniciar Passenger ────
-      # Puerto Hostinger: 65002 (NO es el 22 estándar)
-      # SSH_USERNAME = u917172208  (solo el número, sin el dominio)
-      # SSH_PASSWORD = misma contraseña del hosting / FTP
-      - name: npm install + reiniciar app (SSH)
+      # Conectar por SSH y correr npm install en el servidor
+      - name: npm install en el servidor (SSH)
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: 82.197.80.14
@@ -49,8 +46,6 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
-            cd ~/public_html
-            npm install --omit=dev --silent
-            mkdir -p tmp
+            cd ~/domains/diagnostico.saocdigital.com/public_html
+            npm install --omit=dev
             touch tmp/restart.txt
-            echo "✅ Deploy completado: $(date)"
