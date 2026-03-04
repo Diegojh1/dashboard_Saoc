@@ -9,22 +9,15 @@ on:
 
 jobs:
   deploy:
-    name: Upload to hosting
+    name: Upload y reiniciar en Hostinger
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout código
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Instalar dependencias (para verificar que compila)
-        run: npm install --omit=dev
-
-      - name: Deploy por FTP
+      # ── 1. Subir archivos via FTP ──────────────────────────────
+      - name: Deploy archivos por FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: 82.197.80.14
@@ -42,3 +35,19 @@ jobs:
             **/fix-passwords.js
             **/*.log
             **/npm-debug.log*
+            **/tmp/**
+
+      # ── 2. SSH: instalar dependencias y reiniciar Passenger ────
+      - name: npm install + reiniciar app (SSH)
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: 82.197.80.14
+          port: 22
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            cd ~/public_html
+            npm install --omit=dev --silent
+            mkdir -p tmp
+            touch tmp/restart.txt
+            echo "✅ Deploy completado: $(date)"
