@@ -547,16 +547,15 @@ async function loadData() {
     insightsData = await insRes.json();
 
     isConnected = (igData && igData.source === 'live');
+    const tokenExpired = igData && igData.expired === true;
 
     updateClientChip();
-    updateStatusBadge();
+    updateStatusBadge(tokenExpired);
 
     if(isConnected) {
-      // Show main dashboard
       showDashboard();
     } else {
-      // Show connect screen
-      showConnectInitial();
+      showConnectInitial(tokenExpired);
     }
 
     if(currentUser.role === 'admin') loadAdminPanel();
@@ -591,11 +590,24 @@ function showDashboard() {
   buildCharts();
 }
 
-function showConnectInitial() {
+function showConnectInitial(tokenExpired) {
   // Show the initial connect screen
   const ci = document.getElementById('page-connect-initial');
   ci.style.display = 'flex';
   ci.classList.add('active');
+
+  // Show expired notice if applicable
+  if(tokenExpired) {
+    const box = ci.querySelector('.connect-box');
+    const existing = ci.querySelector('.expired-notice');
+    if(box && !existing) {
+      const notice = document.createElement('div');
+      notice.className = 'expired-notice';
+      notice.style.cssText = 'background:rgba(245,166,35,.1);border:1px solid rgba(245,166,35,.3);color:#f5a623;padding:12px 16px;font-size:13px;margin-bottom:24px;text-align:left;';
+      notice.innerHTML = '⚠️ Tu sesión de Meta expiró. Vuelve a conectar tu cuenta para actualizar los datos.';
+      box.insertBefore(notice, box.querySelector('.connect-title'));
+    }
+  }
 
   // Adjust all other pages to show empty states
   document.getElementById('ig-empty-state').style.display = 'block';
@@ -623,14 +635,17 @@ function updateClientChip() {
   document.getElementById('client-avatar').textContent = initials;
 }
 
-function updateStatusBadge() {
+function updateStatusBadge(tokenExpired) {
   const dot   = document.getElementById('status-dot');
   const label = document.getElementById('data-source-label');
   if(isConnected) {
     dot.className = 'status-dot dot-green';
     label.textContent = 'Datos en vivo';
-  } else {
+  } else if(tokenExpired) {
     dot.className = 'status-dot dot-warn';
+    label.textContent = 'Token expirado — reconectar';
+  } else {
+    dot.className = 'status-dot dot-gray';
     label.textContent = 'Sin cuenta conectada';
   }
 }
