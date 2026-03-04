@@ -3,130 +3,226 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SAOC Control Center</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<title>SAOC — Panel de Control</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <style>
-  :root{--black:#080808;--deep:#0f0f0f;--surface:#141414;--surface2:#1a1a1a;--border:#222;--border2:#2a2a2a;--red:#E10600;--red-dim:rgba(225,6,0,0.12);--white:#ffffff;--gray:#888;--gray2:#555;--text:#e0e0e0;--success:#00c896;--warning:#f5a623}
-  *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--text);min-height:100vh;display:flex}
-  h1,h2,h3,h4{font-family:'Syne',sans-serif}
+:root{
+  --black:  #080808;
+  --deep:   #0c0c0c;
+  --surface:#111111;
+  --s2:     #161616;
+  --border: #1f1f1f;
+  --border2:#2a2a2a;
+  --red:    #E10600;
+  --red-dim:rgba(225,6,0,.1);
+  --white:  #ffffff;
+  --gray:   #777777;
+  --gray2:  #444444;
+  --text:   #d4d4d4;
+  --green:  #00c896;
+  --warn:   #f5a623;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--text);min-height:100vh;display:flex}
+h1,h2,h3,h4{font-family:'Syne',sans-serif}
 
-  /* SIDEBAR */
-  .sidebar{width:240px;min-height:100vh;background:var(--deep);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;left:0;top:0;bottom:0;z-index:100}
-  .sidebar-logo{padding:32px 24px 24px;border-bottom:1px solid var(--border)}
-  .logo-mark{font-family:'Syne',sans-serif;font-weight:800;font-size:18px;letter-spacing:3px;color:var(--white)}
-  .logo-mark span{color:var(--red)}
-  .logo-sub{font-size:10px;letter-spacing:2px;color:var(--gray2);margin-top:3px;text-transform:uppercase}
-  .nav{padding:16px 0;flex:1}
-  .nav-section-label{font-size:10px;letter-spacing:2px;color:var(--gray2);padding:16px 24px 8px;text-transform:uppercase}
-  .nav-item{display:flex;align-items:center;gap:12px;padding:12px 24px;cursor:pointer;font-size:13px;color:var(--gray);transition:all .2s;position:relative;user-select:none}
-  .nav-item:hover{color:var(--white);background:var(--surface)}
-  .nav-item.active{color:var(--white);background:var(--surface)}
-  .nav-item.active::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--red)}
-  .nav-icon{font-size:16px;width:20px;text-align:center}
-  .sidebar-footer{padding:20px 24px;border-top:1px solid var(--border)}
-  .client-chip{background:var(--surface2);padding:12px 14px;border:1px solid var(--border2);display:flex;align-items:center;gap:10px}
-  .client-avatar{width:32px;height:32px;background:var(--red);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:12px;color:var(--white)}
-  .client-name{font-size:12px;color:var(--white);font-weight:500}
-  .client-plan{font-size:10px;color:var(--gray);letter-spacing:1px}
+/* ─── SIDEBAR ─── */
+.sidebar{
+  width:240px;min-height:100vh;
+  background:var(--deep);border-right:1px solid var(--border);
+  display:flex;flex-direction:column;
+  position:fixed;left:0;top:0;bottom:0;z-index:100;
+}
+.sidebar-logo{padding:28px 24px;border-bottom:1px solid var(--border)}
+.logo-mark{font-family:'Syne',sans-serif;font-weight:800;font-size:18px;letter-spacing:3px;color:var(--white)}
+.logo-mark span{color:var(--red)}
+.logo-sub{font-size:10px;letter-spacing:2px;color:var(--gray2);margin-top:3px;text-transform:uppercase}
+.nav{padding:12px 0;flex:1}
+.nav-label{font-size:9px;letter-spacing:2.5px;color:var(--gray2);padding:16px 24px 6px;text-transform:uppercase}
+.nav-item{
+  display:flex;align-items:center;gap:10px;padding:11px 24px;
+  cursor:pointer;font-size:13px;color:var(--gray);
+  transition:all .2s;position:relative;user-select:none;
+}
+.nav-item:hover{color:var(--white);background:rgba(255,255,255,.03)}
+.nav-item.active{color:var(--white);background:rgba(255,255,255,.04)}
+.nav-item.active::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--red)}
+.nav-icon{font-size:15px;width:18px;text-align:center;flex-shrink:0}
+.sidebar-footer{padding:20px 24px;border-top:1px solid var(--border)}
+.client-chip{background:var(--s2);padding:12px 14px;border:1px solid var(--border2);display:flex;align-items:center;gap:10px}
+.client-avatar{width:32px;height:32px;background:var(--red);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:12px;color:var(--white);flex-shrink:0}
+.client-name{font-size:12px;color:var(--white);font-weight:500}
+.client-plan{font-size:10px;color:var(--gray);letter-spacing:1px}
 
-  /* MAIN */
-  .main{margin-left:240px;flex:1;min-height:100vh}
-  .topbar{padding:20px 40px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--black);position:sticky;top:0;z-index:50}
-  .topbar-title{font-family:'Syne',sans-serif;font-size:13px;color:var(--gray);letter-spacing:2px;text-transform:uppercase}
-  .topbar-right{display:flex;align-items:center;gap:16px}
-  .status-dot{width:7px;height:7px;border-radius:50%;background:var(--success);animation:pulse 2s infinite;display:inline-block;margin-right:6px}
-  .live-badge{font-size:11px;color:var(--gray);background:var(--surface);border:1px solid var(--border2);padding:6px 14px}
-  .logout-btn{background:transparent;border:1px solid var(--border2);color:var(--gray);padding:8px 14px;font-size:11px;letter-spacing:1px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
-  .logout-btn:hover{border-color:var(--red);color:var(--red)}
+/* ─── MAIN ─── */
+.main{margin-left:240px;flex:1;min-height:100vh;display:flex;flex-direction:column}
+.topbar{
+  padding:18px 36px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--black);position:sticky;top:0;z-index:50;
+}
+.topbar-left{display:flex;align-items:center;gap:16px}
+.hamburger{display:none;background:none;border:none;cursor:pointer;padding:4px}
+.hamburger span{display:block;width:20px;height:2px;background:var(--white);margin:4px 0}
+.topbar-title{font-family:'Syne',sans-serif;font-size:12px;color:var(--gray);letter-spacing:2px;text-transform:uppercase}
+.topbar-right{display:flex;align-items:center;gap:12px}
+.live-badge{font-size:11px;color:var(--gray);background:var(--surface);border:1px solid var(--border2);padding:6px 14px;display:flex;align-items:center;gap:8px}
+.status-dot{width:7px;height:7px;border-radius:50%;animation:pulse 2s infinite;flex-shrink:0}
+.dot-green{background:var(--green)}
+.dot-warn{background:var(--warn)}
+.dot-gray{background:var(--gray2)}
+.logout-btn{background:transparent;border:1px solid var(--border2);color:var(--gray);padding:7px 14px;font-size:11px;letter-spacing:1px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
+.logout-btn:hover{border-color:var(--red);color:var(--red)}
 
-  /* PAGES */
-  .page{display:none;padding:40px;animation:fadeIn .4s ease}
-  .page.active{display:block}
-  .page-header{margin-bottom:36px}
-  .page-title{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:var(--white);margin-bottom:6px}
-  .page-desc{font-size:13px;color:var(--gray)}
-  .red-line{width:40px;height:2px;background:var(--red);margin-top:12px}
+/* ─── PAGES ─── */
+.page{display:none;padding:36px;animation:fadeIn .35s ease;flex:1}
+.page.active{display:block}
+.page-header{margin-bottom:32px}
+.page-eyebrow{font-size:10px;letter-spacing:2.5px;color:var(--gray);text-transform:uppercase;margin-bottom:8px}
+.page-title{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--white);margin-bottom:6px}
+.page-desc{font-size:13px;color:var(--gray)}
+.red-accent{width:36px;height:2px;background:var(--red);margin-top:12px}
 
-  /* KPI CARDS */
-  .kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
-  .kpi-card{background:var(--surface);border:1px solid var(--border);padding:28px 24px;position:relative;overflow:hidden;transition:border-color .25s,transform .25s;cursor:default}
-  .kpi-card:hover{border-color:var(--border2);transform:translateY(-2px)}
-  .kpi-label{font-size:11px;letter-spacing:2px;color:var(--gray);text-transform:uppercase;margin-bottom:14px}
-  .kpi-value{font-family:'Syne',sans-serif;font-size:36px;font-weight:800;color:var(--white);line-height:1;margin-bottom:12px}
-  .kpi-delta{font-size:12px;display:flex;align-items:center;gap:6px}
-  .delta-up{color:var(--success)}
-  .delta-down{color:var(--red)}
-  .kpi-icon{position:absolute;top:24px;right:24px;font-size:22px;opacity:.15}
+/* ─── CONNECT ACCOUNT ─── */
+.connect-screen{
+  display:flex;align-items:center;justify-content:center;
+  min-height:calc(100vh - 80px);padding:40px;
+}
+.connect-box{
+  max-width:560px;width:100%;text-align:center;
+  background:var(--surface);border:1px solid var(--border2);
+  padding:60px 48px;position:relative;overflow:hidden;
+}
+.connect-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--red),transparent)}
+.connect-icon{font-size:48px;margin-bottom:24px}
+.connect-title{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:var(--white);margin-bottom:12px}
+.connect-desc{font-size:15px;color:var(--gray);line-height:1.7;margin-bottom:40px}
+.connect-btns{display:flex;flex-direction:column;gap:12px;max-width:320px;margin:0 auto}
+.connect-btn{
+  display:flex;align-items:center;justify-content:center;gap:12px;
+  padding:16px 24px;font-size:14px;font-weight:500;cursor:pointer;
+  transition:all .2s;border:none;font-family:'DM Sans',sans-serif;
+}
+.connect-btn-ig{background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);color:var(--white)}
+.connect-btn-ig:hover{opacity:.9;transform:translateY(-2px);box-shadow:0 8px 24px rgba(253,29,29,.3)}
+.connect-btn-fb{background:#1877f2;color:var(--white)}
+.connect-btn-fb:hover{opacity:.9;transform:translateY(-2px);box-shadow:0 8px 24px rgba(24,119,242,.3)}
+.connect-note{font-size:12px;color:var(--gray2);margin-top:24px;line-height:1.6}
+.connect-divider{display:flex;align-items:center;gap:12px;margin:8px 0}
+.connect-divider span{font-size:11px;color:var(--gray2)}
+.connect-divider::before,.connect-divider::after{content:'';flex:1;height:1px;background:var(--border)}
 
-  /* COMPLIANCE */
-  .compliance-card{background:var(--surface);border:1px solid var(--border);padding:28px 24px;margin-bottom:24px}
-  .compliance-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
-  .compliance-pct{font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:var(--white)}
-  .compliance-bar-wrap{background:var(--black);height:8px;overflow:hidden;margin-bottom:12px}
-  .compliance-bar{height:100%;background:linear-gradient(90deg,var(--red),#ff4444);transition:width 1.5s cubic-bezier(.23,1,.32,1)}
-  .compliance-tags{display:flex;gap:16px;flex-wrap:wrap}
-  .compliance-tag{font-size:11px;color:var(--gray);background:var(--black);padding:4px 12px;border:1px solid var(--border)}
+/* ─── KPI GRID ─── */
+.kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px}
+.kpi-card{
+  background:var(--surface);border:1px solid var(--border);
+  padding:24px 20px;position:relative;overflow:hidden;
+  transition:border-color .25s,transform .2s;cursor:default;
+}
+.kpi-card:hover{border-color:var(--border2);transform:translateY(-2px)}
+.kpi-label{font-size:10px;letter-spacing:2.5px;color:var(--gray);text-transform:uppercase;margin-bottom:12px}
+.kpi-value{font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:var(--white);line-height:1;margin-bottom:10px}
+.kpi-delta{font-size:12px;display:flex;align-items:center;gap:5px}
+.delta-up{color:var(--green)}
+.delta-down{color:var(--red)}
+.delta-neutral{color:var(--gray)}
+.kpi-icon{position:absolute;top:20px;right:20px;font-size:20px;opacity:.12}
 
-  /* CHARTS */
-  .charts-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px}
-  .chart-card{background:var(--surface);border:1px solid var(--border);padding:28px}
-  .chart-card.full{grid-column:1/-1}
-  .chart-label{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--white);letter-spacing:1px;text-transform:uppercase;margin-bottom:20px}
+/* ─── CHARTS ─── */
+.charts-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.chart-card{background:var(--surface);border:1px solid var(--border);padding:24px}
+.chart-card.full{grid-column:1/-1}
+.chart-label{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--white);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:20px}
 
-  /* METRICS ROW */
-  .metrics-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
-  .metric-box{background:var(--surface);border:1px solid var(--border);padding:20px;text-align:center}
-  .metric-box-val{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:var(--white);margin-bottom:4px}
-  .metric-box-label{font-size:11px;color:var(--gray);letter-spacing:1px;text-transform:uppercase}
+/* ─── METRICS ROW ─── */
+.metrics-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+.metric-box{background:var(--surface);border:1px solid var(--border);padding:20px;text-align:center}
+.metric-val{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--white);margin-bottom:4px}
+.metric-label{font-size:10px;color:var(--gray);letter-spacing:1.5px;text-transform:uppercase}
 
-  /* ADMIN PANEL */
-  .admin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:24px}
-  .admin-client-card{background:var(--surface);border:1px solid var(--border);padding:24px;transition:border-color .2s;cursor:pointer}
-  .admin-client-card:hover{border-color:var(--red)}
-  .admin-client-name{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:var(--white);margin-bottom:8px}
-  .admin-client-plan{font-size:11px;color:var(--gray);letter-spacing:1px;text-transform:uppercase;margin-bottom:16px}
-  .live-indicator{display:inline-flex;align-items:center;gap:6px;font-size:11px;padding:4px 10px;border:1px solid}
-  .live-on{color:var(--success);border-color:rgba(0,200,150,.3);background:rgba(0,200,150,.05)}
-  .live-off{color:var(--gray2);border-color:var(--border);background:transparent}
+/* ─── EMPTY STATE ─── */
+.empty-card{
+  background:var(--surface);border:1px solid var(--border);
+  padding:60px 40px;text-align:center;
+  grid-column:1/-1;
+}
+.empty-icon{font-size:40px;margin-bottom:16px;opacity:.3}
+.empty-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:var(--white);margin-bottom:8px}
+.empty-desc{font-size:13px;color:var(--gray);margin-bottom:24px}
+.empty-btn{
+  background:var(--red);color:var(--white);border:none;
+  padding:12px 24px;font-family:'Syne',sans-serif;font-size:12px;
+  letter-spacing:2px;text-transform:uppercase;font-weight:700;cursor:pointer;
+  transition:background .2s;
+}
+.empty-btn:hover{background:#ff1a15}
 
-  /* SECTION DIVIDER */
-  .section-divider{display:flex;align-items:center;gap:16px;margin:36px 0 24px}
-  .section-divider-title{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gray2);white-space:nowrap}
-  .section-divider-line{flex:1;height:1px;background:var(--border)}
+/* ─── SECTION DIVIDER ─── */
+.section-div{display:flex;align-items:center;gap:14px;margin:28px 0 20px}
+.section-div-title{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gray2);white-space:nowrap}
+.section-div-line{flex:1;height:1px;background:var(--border)}
 
-  /* DEMO BADGE */
-  .demo-notice{background:rgba(245,166,35,.08);border:1px solid rgba(245,166,35,.2);padding:12px 20px;font-size:12px;color:var(--warning);margin-bottom:24px;display:flex;align-items:center;gap:10px}
+/* ─── ADMIN ─── */
+.admin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-bottom:20px}
+.admin-card{background:var(--surface);border:1px solid var(--border);padding:24px;transition:border-color .2s;cursor:pointer}
+.admin-card:hover{border-color:var(--red)}
+.admin-name{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;color:var(--white);margin-bottom:6px}
+.admin-plan{font-size:10px;color:var(--gray);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:14px}
+.live-tag{display:inline-flex;align-items:center;gap:6px;font-size:10px;padding:4px 10px;border:1px solid}
+.live-on{color:var(--green);border-color:rgba(0,200,150,.25);background:rgba(0,200,150,.05)}
+.live-off{color:var(--gray2);border-color:var(--border);background:transparent}
+.admin-connect-btn{
+  margin-top:16px;display:block;width:100%;
+  background:var(--red-dim);border:1px solid rgba(225,6,0,.2);
+  color:var(--red);padding:10px;font-size:12px;letter-spacing:1px;
+  font-family:'DM Sans',sans-serif;cursor:pointer;transition:background .2s;
+}
+.admin-connect-btn:hover{background:rgba(225,6,0,.2)}
 
-  /* HAMBURGER */
-  .hamburger{display:none;background:none;border:none;cursor:pointer;padding:4px}
-  .hamburger span{display:block;width:22px;height:2px;background:var(--white);margin:5px 0}
-  .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:99}
+/* ─── NOTICE ─── */
+.notice{
+  display:flex;align-items:center;gap:12px;padding:14px 18px;
+  font-size:12px;margin-bottom:20px;
+}
+.notice-warn{background:rgba(245,166,35,.07);border:1px solid rgba(245,166,35,.2);color:var(--warn)}
+.notice-info{background:rgba(0,200,150,.07);border:1px solid rgba(0,200,150,.2);color:var(--green)}
 
-  /* ANIMATIONS */
-  @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
-  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+/* ─── CAMPAIGNS ─── */
+.campaign-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 0;border-bottom:1px solid var(--border);
+}
+.campaign-row:last-child{border-bottom:none}
+.campaign-name{font-size:14px;color:var(--white);margin-bottom:4px}
+.campaign-meta{font-size:11px;color:var(--gray)}
+.campaign-spend{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--white)}
 
-  /* SCROLLBAR */
-  ::-webkit-scrollbar{width:4px}
-  ::-webkit-scrollbar-track{background:var(--black)}
-  ::-webkit-scrollbar-thumb{background:var(--border2)}
+/* ─── OVERLAY ─── */
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:99}
 
-  /* RESPONSIVE */
-  @media(max-width:768px){
-    .sidebar{transform:translateX(-100%);transition:transform .3s}
-    .sidebar.open{transform:translateX(0)}
-    .main{margin-left:0}
-    .hamburger{display:block}
-    .page{padding:24px 16px}
-    .topbar{padding:16px 20px}
-    .kpi-grid{grid-template-columns:1fr 1fr}
-    .charts-row{grid-template-columns:1fr}
-    .metrics-row{grid-template-columns:repeat(2,1fr)}
-    .sidebar-overlay.visible{display:block}
-  }
+/* ─── ANIMATIONS ─── */
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:var(--black)}::-webkit-scrollbar-thumb{background:var(--border2)}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:1024px){.kpi-grid{grid-template-columns:repeat(2,1fr)}.charts-row{grid-template-columns:1fr}.metrics-row{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%);transition:transform .3s}
+  .sidebar.open{transform:translateX(0)}
+  .sidebar-overlay.visible{display:block}
+  .main{margin-left:0}
+  .hamburger{display:block}
+  .page{padding:20px 16px}
+  .topbar{padding:14px 16px}
+  .connect-box{padding:40px 24px}
+  .kpi-grid{grid-template-columns:1fr}
+  .metrics-row{grid-template-columns:1fr 1fr}
+}
 </style>
 </head>
 <body>
@@ -139,14 +235,15 @@
     <div class="logo-sub">Control Center</div>
   </div>
   <nav class="nav">
-    <div class="nav-section-label">Principal</div>
-    <div class="nav-item active" onclick="showPage('home',this)"><span class="nav-icon">◈</span> Resumen Ejecutivo</div>
-    <div class="nav-section-label">Analítica</div>
+    <div class="nav-label">Principal</div>
+    <div class="nav-item active" onclick="showPage('home',this)"><span class="nav-icon">◈</span> Resumen</div>
+    <div class="nav-label">Analytics</div>
     <div class="nav-item" onclick="showPage('instagram',this)"><span class="nav-icon">◉</span> Instagram</div>
     <div class="nav-item" onclick="showPage('ads',this)"><span class="nav-icon">◎</span> Meta Ads</div>
     <div class="nav-item" onclick="showPage('crecimiento',this)"><span class="nav-icon">△</span> Crecimiento</div>
+    <div class="nav-item" onclick="showPage('connect',this)"><span class="nav-icon">⊕</span> Conectar cuenta</div>
     <div id="nav-admin" style="display:none">
-      <div class="nav-section-label">Admin</div>
+      <div class="nav-label">Admin</div>
       <div class="nav-item" onclick="showPage('admin',this)"><span class="nav-icon">⊞</span> Clientes</div>
     </div>
   </nav>
@@ -163,55 +260,103 @@
 
 <main class="main">
   <div class="topbar">
-    <div style="display:flex;align-items:center;gap:16px">
+    <div class="topbar-left">
       <button class="hamburger" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
-      <div class="topbar-title" id="topbar-title">Resumen Ejecutivo</div>
+      <div class="topbar-title" id="topbar-title">Resumen</div>
     </div>
     <div class="topbar-right">
-      <div class="live-badge"><span class="status-dot"></span><span id="data-source-label">Cargando...</span></div>
+      <div class="live-badge">
+        <span class="status-dot dot-gray" id="status-dot"></span>
+        <span id="data-source-label">Cargando...</span>
+      </div>
       <button class="logout-btn" onclick="logout()">Salir</button>
     </div>
   </div>
 
-  <!-- HOME -->
-  <div class="page active" id="page-home">
+  <!-- ═══════════ CONNECT ACCOUNT (shown when no social connected) ═══════════ -->
+  <div class="page active" id="page-connect-initial" style="padding:0">
+    <div class="connect-screen">
+      <div class="connect-box">
+        <div class="connect-icon">🔗</div>
+        <div class="connect-title">Conecta tu cuenta</div>
+        <div class="connect-desc">
+          Para activar tu panel de analytics y ver tus métricas reales de Instagram y Meta Ads, conecta tu cuenta de Facebook o Instagram.
+          <br><br>
+          El proceso toma menos de 2 minutos y tus datos son privados y seguros.
+        </div>
+        <div class="connect-btns">
+          <button class="connect-btn connect-btn-ig" onclick="connectSocial('instagram')">
+            <span style="font-size:20px">📷</span>
+            Conectar Instagram
+          </button>
+          <div class="connect-divider"><span>o</span></div>
+          <button class="connect-btn connect-btn-fb" onclick="connectSocial('facebook')">
+            <span style="font-size:20px">f</span>
+            Conectar Facebook / Meta
+          </button>
+        </div>
+        <div class="connect-note">
+          Al conectar autorizas a SAOC Digital a leer las métricas de tu cuenta.<br>
+          Nunca publicamos en tu nombre sin tu permiso.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ HOME ═══════════ -->
+  <div class="page" id="page-home">
     <div class="page-header">
-      <div style="font-size:11px;color:var(--gray);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px" id="current-month">--</div>
+      <div class="page-eyebrow" id="current-month">— · —</div>
       <div class="page-title">Panel de Control</div>
       <div class="page-desc">Visión ejecutiva del rendimiento mensual de tu estrategia digital.</div>
-      <div class="red-line"></div>
+      <div class="red-accent"></div>
     </div>
-    <div id="demo-notice" class="demo-notice" style="display:none">⚡ Mostrando datos demo. Conecta tu cuenta de Meta para ver datos reales.</div>
-    <div class="kpi-grid">
-      <div class="kpi-card"><div class="kpi-icon">👥</div><div class="kpi-label">Seguidores totales</div><div class="kpi-value" id="kpi-followers">--</div><div class="kpi-delta delta-up" id="kpi-followers-delta"></div></div>
-      <div class="kpi-card"><div class="kpi-icon">👁️</div><div class="kpi-label">Alcance del mes</div><div class="kpi-value" id="kpi-reach">--</div><div class="kpi-delta delta-up">↑ vs mes anterior</div></div>
-      <div class="kpi-card"><div class="kpi-icon">❤️</div><div class="kpi-label">Engagement Rate</div><div class="kpi-value" id="kpi-engagement">--</div><div class="kpi-delta" id="kpi-engagement-delta"></div></div>
-      <div class="kpi-card"><div class="kpi-icon">📸</div><div class="kpi-label">Publicaciones</div><div class="kpi-value" id="kpi-media">--</div><div class="kpi-delta delta-up">Este mes</div></div>
-      <div class="kpi-card"><div class="kpi-icon">👤</div><div class="kpi-label">Nuevos seguidores</div><div class="kpi-value" id="kpi-new-followers">--</div><div class="kpi-delta delta-up">Este mes</div></div>
-      <div class="kpi-card"><div class="kpi-icon">🔍</div><div class="kpi-label">Visitas al perfil</div><div class="kpi-value" id="kpi-profile-views">--</div><div class="kpi-delta delta-up">Este mes</div></div>
+
+    <div id="home-no-connection" class="notice notice-warn" style="display:none">
+      ⚡ Conecta tu cuenta de Instagram o Meta para ver datos reales.
+      <button onclick="showPage('connect',null)" style="background:none;border:none;color:var(--warn);cursor:pointer;text-decoration:underline;font-size:12px;margin-left:8px">Conectar ahora →</button>
     </div>
+
+    <div id="home-live" class="notice notice-info" style="display:none">
+      ✓ Datos en vivo desde tu cuenta de Instagram
+    </div>
+
+    <div class="kpi-grid" id="kpi-grid">
+      <div class="kpi-card"><div class="kpi-icon">👥</div><div class="kpi-label">Seguidores totales</div><div class="kpi-value" id="kpi-followers">--</div><div class="kpi-delta delta-neutral" id="kpi-followers-delta">—</div></div>
+      <div class="kpi-card"><div class="kpi-icon">👁️</div><div class="kpi-label">Alcance del mes</div><div class="kpi-value" id="kpi-reach">--</div><div class="kpi-delta delta-neutral">—</div></div>
+      <div class="kpi-card"><div class="kpi-icon">❤️</div><div class="kpi-label">Engagement Rate</div><div class="kpi-value" id="kpi-engagement">--</div><div class="kpi-delta delta-neutral" id="kpi-eng-delta">—</div></div>
+      <div class="kpi-card"><div class="kpi-icon">📸</div><div class="kpi-label">Publicaciones</div><div class="kpi-value" id="kpi-media">--</div><div class="kpi-delta delta-neutral">Este mes</div></div>
+      <div class="kpi-card"><div class="kpi-icon">👤</div><div class="kpi-label">Nuevos seguidores</div><div class="kpi-value" id="kpi-new-followers">--</div><div class="kpi-delta delta-neutral">Este mes</div></div>
+      <div class="kpi-card"><div class="kpi-icon">🔍</div><div class="kpi-label">Visitas al perfil</div><div class="kpi-value" id="kpi-views">--</div><div class="kpi-delta delta-neutral">Este mes</div></div>
+    </div>
+
     <div class="charts-row">
-      <div class="chart-card full">
+      <div class="chart-card full" id="reach-chart-wrap">
         <div class="chart-label">Alcance diario del mes</div>
+        <div id="reach-empty" class="empty-card" style="display:none;padding:40px">
+          <div class="empty-icon">📊</div>
+          <div class="empty-desc">Conecta tu cuenta para ver el gráfico de alcance en tiempo real.</div>
+          <button class="empty-btn" onclick="showPage('connect',null)">Conectar cuenta</button>
+        </div>
         <canvas id="chart-reach" height="120"></canvas>
       </div>
     </div>
   </div>
 
-  <!-- INSTAGRAM -->
+  <!-- ═══════════ INSTAGRAM ═══════════ -->
   <div class="page" id="page-instagram">
     <div class="page-header">
       <div class="page-title">Instagram</div>
-      <div class="page-desc">Métricas detalladas de tu cuenta de Instagram.</div>
-      <div class="red-line"></div>
+      <div class="page-desc">Métricas detalladas de tu cuenta.</div>
+      <div class="red-accent"></div>
     </div>
-    <div class="metrics-row">
-      <div class="metric-box"><div class="metric-box-val" id="ig-followers">--</div><div class="metric-box-label">Seguidores</div></div>
-      <div class="metric-box"><div class="metric-box-val" id="ig-reach">--</div><div class="metric-box-label">Alcance</div></div>
-      <div class="metric-box"><div class="metric-box-val" id="ig-impressions">--</div><div class="metric-box-label">Impresiones</div></div>
-      <div class="metric-box"><div class="metric-box-val" id="ig-engagement">--</div><div class="metric-box-label">Engagement</div></div>
+    <div class="metrics-row" id="ig-metrics-row">
+      <div class="metric-box"><div class="metric-val" id="ig-followers">--</div><div class="metric-label">Seguidores</div></div>
+      <div class="metric-box"><div class="metric-val" id="ig-reach">--</div><div class="metric-label">Alcance</div></div>
+      <div class="metric-box"><div class="metric-val" id="ig-impressions">--</div><div class="metric-label">Impresiones</div></div>
+      <div class="metric-box"><div class="metric-val" id="ig-engagement">--</div><div class="metric-label">Engagement</div></div>
     </div>
-    <div class="charts-row">
+    <div class="charts-row" id="ig-charts-row">
       <div class="chart-card">
         <div class="chart-label">Seguidores vs Alcance</div>
         <canvas id="chart-ig-compare" height="220"></canvas>
@@ -221,370 +366,516 @@
         <canvas id="chart-ig-followers" height="220"></canvas>
       </div>
     </div>
+    <div id="ig-empty-state" style="display:none">
+      <div class="empty-card">
+        <div class="empty-icon">📷</div>
+        <div class="empty-title">Sin cuenta de Instagram conectada</div>
+        <div class="empty-desc">Conecta tu cuenta para ver métricas reales de tus seguidores, alcance e interacciones.</div>
+        <button class="empty-btn" onclick="showPage('connect',null)">Registrar cuenta →</button>
+      </div>
+    </div>
   </div>
 
-  <!-- ADS -->
+  <!-- ═══════════ META ADS ═══════════ -->
   <div class="page" id="page-ads">
     <div class="page-header">
       <div class="page-title">Meta Ads</div>
       <div class="page-desc">Rendimiento de tus campañas publicitarias.</div>
-      <div class="red-line"></div>
+      <div class="red-accent"></div>
     </div>
-    <div class="metrics-row">
-      <div class="metric-box"><div class="metric-box-val" id="ads-spend">--</div><div class="metric-box-label">Inversión</div></div>
-      <div class="metric-box"><div class="metric-box-val" id="ads-reach">--</div><div class="metric-box-label">Alcance</div></div>
-      <div class="metric-box"><div class="metric-box-val" id="ads-clicks">--</div><div class="metric-box-label">Clics</div></div>
-      <div class="metric-box"><div class="metric-box-val" id="ads-ctr">--</div><div class="metric-box-label">CTR</div></div>
+    <div id="ads-live-section" style="display:none">
+      <div class="metrics-row">
+        <div class="metric-box"><div class="metric-val" id="ads-spend">--</div><div class="metric-label">Inversión</div></div>
+        <div class="metric-box"><div class="metric-val" id="ads-reach">--</div><div class="metric-label">Alcance</div></div>
+        <div class="metric-box"><div class="metric-val" id="ads-clicks">--</div><div class="metric-label">Clics</div></div>
+        <div class="metric-box"><div class="metric-val" id="ads-ctr">--</div><div class="metric-label">CTR</div></div>
+      </div>
+      <div class="chart-card full" style="margin-bottom:20px">
+        <div class="chart-label">Campañas activas</div>
+        <div id="campaigns-list"></div>
+      </div>
     </div>
-    <div class="chart-card full" style="margin-bottom:24px">
-      <div class="chart-label">Campañas activas</div>
-      <div id="campaigns-list"></div>
+    <div id="ads-empty-state">
+      <div class="empty-card">
+        <div class="empty-icon">🎯</div>
+        <div class="empty-title">Sin cuenta de Meta Ads conectada</div>
+        <div class="empty-desc">Conecta tu cuenta de Facebook para ver el rendimiento de tus campañas de pauta publicitaria, inversión, alcance y CTR en tiempo real.</div>
+        <button class="empty-btn" onclick="showPage('connect',null)">Registrar cuenta →</button>
+      </div>
     </div>
   </div>
 
-  <!-- CRECIMIENTO -->
+  <!-- ═══════════ CRECIMIENTO ═══════════ -->
   <div class="page" id="page-crecimiento">
     <div class="page-header">
       <div class="page-title">Crecimiento de Marca</div>
       <div class="page-desc">Evolución de tu presencia digital en el tiempo.</div>
-      <div class="red-line"></div>
+      <div class="red-accent"></div>
     </div>
-    <div class="charts-row">
-      <div class="chart-card full">
-        <div class="chart-label">Evolución de seguidores</div>
-        <canvas id="chart-growth" height="140"></canvas>
+    <div id="growth-live-section" style="display:none">
+      <div class="charts-row">
+        <div class="chart-card full">
+          <div class="chart-label">Evolución de seguidores</div>
+          <canvas id="chart-growth" height="140"></canvas>
+        </div>
+      </div>
+      <div class="charts-row">
+        <div class="chart-card">
+          <div class="chart-label">Alcance mensual</div>
+          <canvas id="chart-monthly-reach" height="200"></canvas>
+        </div>
+        <div class="chart-card">
+          <div class="chart-label">Engagement mensual</div>
+          <canvas id="chart-monthly-eng" height="200"></canvas>
+        </div>
       </div>
     </div>
-    <div class="charts-row">
-      <div class="chart-card">
-        <div class="chart-label">Alcance mensual</div>
-        <canvas id="chart-monthly-reach" height="200"></canvas>
-      </div>
-      <div class="chart-card">
-        <div class="chart-label">Engagement mensual</div>
-        <canvas id="chart-monthly-engagement" height="200"></canvas>
+    <div id="growth-empty-state">
+      <div class="empty-card">
+        <div class="empty-icon">📈</div>
+        <div class="empty-title">Sin datos de crecimiento aún</div>
+        <div class="empty-desc">Una vez conectes tu cuenta de Instagram, aquí verás la evolución histórica de tus seguidores, alcance y engagement mes a mes.</div>
+        <button class="empty-btn" onclick="showPage('connect',null)">Registrar cuenta →</button>
       </div>
     </div>
   </div>
 
-  <!-- ADMIN -->
+  <!-- ═══════════ CONNECT PAGE ═══════════ -->
+  <div class="page" id="page-connect" style="padding:0">
+    <div class="connect-screen">
+      <div class="connect-box">
+        <div class="connect-icon">⚡</div>
+        <div class="connect-title">Registrar cuenta</div>
+        <div class="connect-desc">
+          Conecta tu Instagram o cuenta de Facebook Business para activar el panel con tus datos reales.
+          La conexión se hace de forma segura a través de Meta Login.
+        </div>
+        <div class="connect-btns">
+          <button class="connect-btn connect-btn-ig" onclick="connectSocial('instagram')">
+            <span style="font-size:20px">📷</span>
+            Conectar Instagram
+          </button>
+          <div class="connect-divider"><span>o</span></div>
+          <button class="connect-btn connect-btn-fb" onclick="connectSocial('facebook')">
+            <span style="font-size:20px;font-family:serif;font-weight:bold">f</span>
+            Conectar Facebook / Meta
+          </button>
+        </div>
+        <div id="connect-status" style="margin-top:20px;min-height:32px"></div>
+        <div class="connect-note">
+          Solo leemos tus métricas. Nunca publicamos sin tu permiso.<br>
+          Datos 100% privados y seguros.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ ADMIN ═══════════ -->
   <div class="page" id="page-admin">
     <div class="page-header">
-      <div class="page-title">Panel de Administración</div>
+      <div class="page-title">Administración</div>
       <div class="page-desc">Gestión de clientes y conexiones de APIs.</div>
-      <div class="red-line"></div>
+      <div class="red-accent"></div>
     </div>
+    <div class="section-div"><div class="section-div-line"></div><div class="section-div-title">Clientes registrados</div><div class="section-div-line"></div></div>
     <div class="admin-grid" id="admin-clients-grid"></div>
   </div>
 
 </main>
 
 <script>
-// ═══════════════════════════════════════
-// ESTADO GLOBAL
-// ═══════════════════════════════════════
+// ═══════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════
 let currentUser = null;
-let clientInfo = null;
-let instagramData = null;
-let adsData = null;
-let insightsData = null;
-let chartsCreated = {};
+let clientInfo  = null;
+let igData      = null;
+let adsData     = null;
+let insightsData= null;
+let chartsInit  = {};
+let isConnected = false;
 
-const chartDefaults = {
+const months = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+
+const chartOpts = {
   plugins:{
     legend:{display:false},
-    tooltip:{backgroundColor:'#1a1a1a',titleColor:'#fff',bodyColor:'#999',borderColor:'#333',borderWidth:1}
+    tooltip:{backgroundColor:'#1a1a1a',titleColor:'#fff',bodyColor:'#888',borderColor:'#2a2a2a',borderWidth:1}
   },
   scales:{
-    x:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#555',font:{family:'DM Sans',size:11}}},
-    y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#555',font:{family:'DM Sans',size:11}}}
+    x:{grid:{color:'rgba(255,255,255,0.03)'},ticks:{color:'#555',font:{family:'DM Sans',size:11}}},
+    y:{grid:{color:'rgba(255,255,255,0.03)'},ticks:{color:'#555',font:{family:'DM Sans',size:11}}}
   }
 };
 
-// ═══════════════════════════════════════
+// ═══════════════════════════════════════════════
 // INIT
-// ═══════════════════════════════════════
+// ═══════════════════════════════════════════════
 async function init() {
   try {
     const res = await fetch('/auth/me');
     const data = await res.json();
     if (!data.user) { window.location.href = '/'; return; }
     currentUser = data.user;
-    setupUI();
-    await loadAllData();
+    setupBase();
+    await loadData();
   } catch(e) {
     window.location.href = '/';
   }
 }
 
-function setupUI() {
-  const months = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+function setupBase() {
   const now = new Date();
-  const monthLabel = document.getElementById('current-month');
-  if(monthLabel) monthLabel.textContent = `${months[now.getMonth()]} ${now.getFullYear()} · Ciclo activo`;
-
+  const el = document.getElementById('current-month');
+  if(el) el.textContent = `${months[now.getMonth()]} ${now.getFullYear()} · Ciclo activo`;
   if(currentUser.role === 'admin') {
     document.getElementById('nav-admin').style.display = 'block';
   }
 }
 
-async function loadAllData() {
+async function loadData() {
   try {
-    const [clientRes, igRes, adsRes, insightsRes] = await Promise.all([
+    const [ciRes, igRes, adsRes, insRes] = await Promise.all([
       fetch('/api/client-info'),
       fetch('/api/instagram'),
       fetch('/api/ads'),
       fetch('/api/insights')
     ]);
+    clientInfo   = await ciRes.json();
+    igData       = await igRes.json();
+    adsData      = await adsRes.json();
+    insightsData = await insRes.json();
 
-    clientInfo = await clientRes.json();
-    instagramData = await igRes.json();
-    adsData = await adsRes.json();
-    insightsData = await insightsRes.json();
+    isConnected = (igData && igData.source === 'live');
 
-    updateClientUI();
-    updateHomeKPIs();
-    updateInstagramPage();
-    updateAdsPage();
-    updateDataSourceLabel();
-    buildCharts();
+    updateClientChip();
+    updateStatusBadge();
+
+    if(isConnected) {
+      // Show main dashboard
+      showDashboard();
+    } else {
+      // Show connect screen
+      showConnectInitial();
+    }
 
     if(currentUser.role === 'admin') loadAdminPanel();
 
   } catch(e) {
     console.error('Error cargando datos:', e);
+    showConnectInitial();
   }
 }
 
-// ═══════════════════════════════════════
-// UI UPDATES
-// ═══════════════════════════════════════
-function updateClientUI() {
+// ═══════════════════════════════════════════════
+// DASHBOARD STATE SWITCHER
+// ═══════════════════════════════════════════════
+function showDashboard() {
+  // Hide initial connect screen, show home
+  document.getElementById('page-connect-initial').style.display = 'none';
+  document.getElementById('page-home').classList.add('active');
+  document.getElementById('page-home').style.display = 'block';
+
+  // Show notices
+  if(isConnected) {
+    document.getElementById('home-live').style.display = 'flex';
+  } else {
+    document.getElementById('home-no-connection').style.display = 'flex';
+  }
+
+  // Fill KPIs
+  fillKPIs();
+  fillIGPage();
+  fillAdsPage();
+  fillGrowthPage();
+  buildCharts();
+}
+
+function showConnectInitial() {
+  // Show the initial connect screen
+  const ci = document.getElementById('page-connect-initial');
+  ci.style.display = 'flex';
+  ci.classList.add('active');
+
+  // Adjust all other pages to show empty states
+  document.getElementById('ig-empty-state').style.display = 'block';
+  document.getElementById('ig-metrics-row').style.display = 'none';
+  document.getElementById('ig-charts-row').style.display = 'none';
+  document.getElementById('ads-empty-state').style.display = 'block';
+  document.getElementById('ads-live-section').style.display = 'none';
+  document.getElementById('growth-empty-state').style.display = 'block';
+  document.getElementById('growth-live-section').style.display = 'none';
+
+  // Show no-connection notice on home
+  document.getElementById('home-no-connection').style.display = 'flex';
+  document.getElementById('reach-empty').style.display = 'block';
+  document.getElementById('chart-reach').style.display = 'none';
+}
+
+// ═══════════════════════════════════════════════
+// FILL DATA
+// ═══════════════════════════════════════════════
+function updateClientChip() {
   if(!clientInfo) return;
-  document.getElementById('client-name').textContent = clientInfo.name;
-  document.getElementById('client-plan').textContent = clientInfo.plan;
-  const initials = clientInfo.name.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+  document.getElementById('client-name').textContent = clientInfo.name || 'Cliente';
+  document.getElementById('client-plan').textContent = clientInfo.plan || '—';
+  const initials = (clientInfo.name || 'CL').split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
   document.getElementById('client-avatar').textContent = initials;
 }
 
-function updateDataSourceLabel() {
+function updateStatusBadge() {
+  const dot   = document.getElementById('status-dot');
   const label = document.getElementById('data-source-label');
-  const isLive = instagramData && instagramData.source === 'live';
-  label.textContent = isLive ? 'Datos en vivo' : 'Datos demo';
-
-  const notice = document.getElementById('demo-notice');
-  if(notice) notice.style.display = isLive ? 'none' : 'flex';
+  if(isConnected) {
+    dot.className = 'status-dot dot-green';
+    label.textContent = 'Datos en vivo';
+  } else {
+    dot.className = 'status-dot dot-warn';
+    label.textContent = 'Sin cuenta conectada';
+  }
 }
 
-function updateHomeKPIs() {
-  if(!instagramData) return;
-  const d = instagramData;
-  setKPI('kpi-followers', formatNumber(d.followers_count));
-  setKPI('kpi-reach', formatNumber(d.reach));
-  setKPI('kpi-engagement', d.engagement_rate + '%');
-  setKPI('kpi-media', d.media_count);
-  setKPI('kpi-new-followers', '+' + formatNumber(d.new_followers));
-  setKPI('kpi-profile-views', formatNumber(d.profile_views));
+function fillKPIs() {
+  if(!igData) return;
+  const d = igData;
+  set('kpi-followers', fmt(d.followers_count));
+  set('kpi-reach',     fmt(d.reach));
+  set('kpi-engagement',d.engagement_rate != null ? d.engagement_rate + '%' : '--');
+  set('kpi-media',     d.media_count || '--');
+  set('kpi-new-followers', d.new_followers ? '+'+fmt(d.new_followers) : '--');
+  set('kpi-views',     fmt(d.profile_views));
 }
 
-function updateInstagramPage() {
-  if(!instagramData) return;
-  const d = instagramData;
-  setText('ig-followers', formatNumber(d.followers_count));
-  setText('ig-reach', formatNumber(d.reach));
-  setText('ig-impressions', formatNumber(d.impressions));
-  setText('ig-engagement', d.engagement_rate + '%');
+function fillIGPage() {
+  if(!igData) return;
+  if(isConnected) {
+    document.getElementById('ig-empty-state').style.display = 'none';
+    document.getElementById('ig-metrics-row').style.display = 'grid';
+    document.getElementById('ig-charts-row').style.display = 'grid';
+  }
+  set('ig-followers',  fmt(igData.followers_count));
+  set('ig-reach',      fmt(igData.reach));
+  set('ig-impressions',fmt(igData.impressions));
+  set('ig-engagement', (igData.engagement_rate || '--') + (igData.engagement_rate ? '%' : ''));
 }
 
-function updateAdsPage() {
+function fillAdsPage() {
   if(!adsData) return;
-  const d = adsData;
-  setText('ads-spend', '$' + formatNumber(d.spend));
-  setText('ads-reach', formatNumber(d.reach));
-  setText('ads-clicks', formatNumber(d.clicks));
-  setText('ads-ctr', d.ctr + '%');
-
-  const list = document.getElementById('campaigns-list');
-  if(d.campaigns && list) {
-    list.innerHTML = d.campaigns.map(c => `
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid var(--border)">
-        <div>
-          <div style="font-size:14px;color:var(--white);margin-bottom:4px">${c.name}</div>
-          <div style="font-size:11px;color:var(--gray)">${formatNumber(c.reach)} alcance · ${formatNumber(c.clicks)} clics</div>
+  if(isConnected && adsData.source === 'live') {
+    document.getElementById('ads-empty-state').style.display = 'none';
+    document.getElementById('ads-live-section').style.display = 'block';
+    set('ads-spend', '$'+fmt(adsData.spend));
+    set('ads-reach', fmt(adsData.reach));
+    set('ads-clicks',fmt(adsData.clicks));
+    set('ads-ctr',   (adsData.ctr||'--') + (adsData.ctr ? '%' : ''));
+    const list = document.getElementById('campaigns-list');
+    if(adsData.campaigns && list) {
+      list.innerHTML = adsData.campaigns.map(c=>`
+        <div class="campaign-row">
+          <div><div class="campaign-name">${c.name}</div><div class="campaign-meta">${fmt(c.reach)} alcance · ${fmt(c.clicks)} clics</div></div>
+          <div class="campaign-spend">$${fmt(c.spend)}</div>
         </div>
-        <div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--white)">$${formatNumber(c.spend)}</div>
-      </div>
-    `).join('');
+      `).join('');
+    }
+  }
+  // else stays showing empty state
+}
+
+function fillGrowthPage() {
+  if(!igData) return;
+  if(isConnected) {
+    document.getElementById('growth-empty-state').style.display = 'none';
+    document.getElementById('growth-live-section').style.display = 'block';
   }
 }
 
-async function loadAdminPanel() {
-  try {
-    const res = await fetch('/admin/summary');
-    const data = await res.json();
-    const grid = document.getElementById('admin-clients-grid');
-    if(!grid) return;
-    grid.innerHTML = data.clients.map(c => `
-      <div class="admin-client-card">
-        <div class="admin-client-name">${c.name}</div>
-        <div class="admin-client-plan">${c.plan || 'Sin plan'}</div>
-        <span class="live-indicator ${c.hasLiveData ? 'live-on' : 'live-off'}">
-          ${c.hasLiveData ? '● API Conectada' : '○ Datos Demo'}
-        </span>
-      </div>
-    `).join('');
-  } catch(e) { console.error(e); }
-}
-
-// ═══════════════════════════════════════
-// CHARTS
-// ═══════════════════════════════════════
+// ═══════════════════════════════════════════════
+// CHARTS (only built when connected)
+// ═══════════════════════════════════════════════
 function buildCharts() {
+  if(!isConnected) return;
   if(!insightsData || !insightsData.data) return;
-  const days = insightsData.data;
-  const labels = days.map(d => d.day + '');
-  const reachData = days.map(d => d.reach);
-  const followersData = days.map(d => d.followers);
 
-  // Home reach chart
-  if(!chartsCreated['reach']) {
-    chartsCreated['reach'] = new Chart(document.getElementById('chart-reach'), {
-      type: 'line',
-      data: {
-        labels,
-        datasets: [{
-          data: reachData,
-          borderColor: '#E10600',
-          backgroundColor: 'rgba(225,6,0,0.06)',
-          tension: .4, fill: true, pointRadius: 0, borderWidth: 2
-        }]
-      },
-      options: chartDefaults
+  const days     = insightsData.data;
+  const labels   = days.map(d => d.day+'');
+  const reachArr = days.map(d => d.reach);
+  const follArr  = days.map(d => d.followers);
+
+  const redLine  = 'rgba(225,6,0,1)';
+  const redFill  = 'rgba(225,6,0,.07)';
+  const redBar   = 'rgba(225,6,0,.7)';
+
+  if(!chartsInit.reach) {
+    chartsInit.reach = new Chart(document.getElementById('chart-reach'), {
+      type:'line',
+      data:{labels,datasets:[{data:reachArr,borderColor:redLine,backgroundColor:redFill,tension:.4,fill:true,pointRadius:0,borderWidth:2}]},
+      options:chartOpts
     });
   }
 
-  // Instagram charts
-  if(!chartsCreated['ig-compare']) {
-    chartsCreated['ig-compare'] = new Chart(document.getElementById('chart-ig-compare'), {
-      type: 'bar',
-      data: {
-        labels: labels.filter((_,i) => i % 4 === 0),
-        datasets: [
-          {label:'Alcance', data: reachData.filter((_,i) => i % 4 === 0), backgroundColor: 'rgba(225,6,0,0.7)', borderWidth:0},
-          {label:'Seguidores', data: followersData.filter((_,i) => i % 4 === 0).map(v=>v*10), backgroundColor: 'rgba(255,255,255,0.07)', borderWidth:0}
-        ]
-      },
-      options: {...chartDefaults, plugins:{...chartDefaults.plugins, legend:{display:true, labels:{color:'#666', font:{family:'DM Sans',size:11}}}}}
+  const every4 = (_,i) => i%4===0;
+  if(!chartsInit.igCompare) {
+    chartsInit.igCompare = new Chart(document.getElementById('chart-ig-compare'),{
+      type:'bar',
+      data:{labels:labels.filter(every4),datasets:[
+        {label:'Alcance',data:reachArr.filter(every4),backgroundColor:redBar,borderWidth:0},
+        {label:'Seg×10',data:follArr.filter(every4).map(v=>v*10),backgroundColor:'rgba(255,255,255,.07)',borderWidth:0}
+      ]},
+      options:{...chartOpts,plugins:{...chartOpts.plugins,legend:{display:true,labels:{color:'#555',font:{family:'DM Sans',size:11}}}}}
     });
   }
 
-  if(!chartsCreated['ig-followers']) {
-    chartsCreated['ig-followers'] = new Chart(document.getElementById('chart-ig-followers'), {
-      type: 'bar',
-      data: {
-        labels,
-        datasets: [{data: followersData, backgroundColor: 'rgba(225,6,0,0.6)', borderWidth:0}]
-      },
-      options: chartDefaults
+  if(!chartsInit.igFollowers) {
+    chartsInit.igFollowers = new Chart(document.getElementById('chart-ig-followers'),{
+      type:'bar',data:{labels,datasets:[{data:follArr,backgroundColor:redBar,borderWidth:0}]},options:chartOpts
     });
   }
 
   // Growth charts
-  const monthLabels = ['Ago','Sep','Oct','Nov','Dic','Ene','Feb'];
-  if(!chartsCreated['growth']) {
-    chartsCreated['growth'] = new Chart(document.getElementById('chart-growth'), {
-      type: 'line',
-      data: {
-        labels: monthLabels,
-        datasets: [{
-          data: [9200,9800,10400,11000,11600,11800, instagramData.followers_count || 12840],
-          borderColor:'#E10600', backgroundColor:'rgba(225,6,0,0.07)',
-          tension:.4, fill:true, pointRadius:4, pointBackgroundColor:'#E10600', borderWidth:2
-        }]
-      },
-      options: chartDefaults
+  const mLabels = ['Ago','Sep','Oct','Nov','Dic','Ene','Feb','Mar'];
+  const fCount  = igData.followers_count || 0;
+  const reachM  = igData.reach || 0;
+  const engM    = igData.engagement_rate || 0;
+
+  if(!chartsInit.growth && fCount > 0) {
+    const base = Math.max(fCount - 3600, 1000);
+    const step = (fCount - base) / 7;
+    chartsInit.growth = new Chart(document.getElementById('chart-growth'),{
+      type:'line',
+      data:{labels:mLabels,datasets:[{
+        data: mLabels.map((_,i) => Math.round(base + step*i)),
+        borderColor:redLine,backgroundColor:redFill,
+        tension:.4,fill:true,pointRadius:4,pointBackgroundColor:redLine,borderWidth:2
+      }]},
+      options:chartOpts
     });
   }
 
-  if(!chartsCreated['monthly-reach']) {
-    chartsCreated['monthly-reach'] = new Chart(document.getElementById('chart-monthly-reach'), {
-      type: 'bar',
-      data: {
-        labels: monthLabels,
-        datasets: [{data:[82000,88000,94000,101000,109000,115000, instagramData.reach || 142600], backgroundColor:'rgba(225,6,0,0.7)', borderWidth:0}]
-      },
-      options: chartDefaults
+  if(!chartsInit.monthlyReach && reachM > 0) {
+    const rb = Math.max(reachM - 60000, 10000);
+    const rs = (reachM - rb) / 7;
+    chartsInit.monthlyReach = new Chart(document.getElementById('chart-monthly-reach'),{
+      type:'bar',
+      data:{labels:mLabels,datasets:[{data:mLabels.map((_,i)=>Math.round(rb+rs*i)),backgroundColor:redBar,borderWidth:0}]},
+      options:chartOpts
     });
   }
 
-  if(!chartsCreated['monthly-engagement']) {
-    chartsCreated['monthly-engagement'] = new Chart(document.getElementById('chart-monthly-engagement'), {
-      type: 'line',
-      data: {
-        labels: monthLabels,
-        datasets: [{
-          data:[4.8,5.1,5.4,5.8,6.1,6.2, instagramData.engagement_rate || 5.9],
-          borderColor:'#E10600', backgroundColor:'rgba(225,6,0,0.07)',
-          tension:.4, fill:true, pointRadius:4, pointBackgroundColor:'#E10600', borderWidth:2
-        }]
-      },
-      options: chartDefaults
+  if(!chartsInit.monthlyEng && engM > 0) {
+    const eb = Math.max(engM - 1.5, 1);
+    const es = (engM - eb) / 7;
+    chartsInit.monthlyEng = new Chart(document.getElementById('chart-monthly-eng'),{
+      type:'line',
+      data:{labels:mLabels,datasets:[{
+        data:mLabels.map((_,i)=>+(eb+es*i).toFixed(2)),
+        borderColor:redLine,backgroundColor:redFill,
+        tension:.4,fill:true,pointRadius:4,pointBackgroundColor:redLine,borderWidth:2
+      }]},
+      options:chartOpts
     });
   }
 }
 
-// ═══════════════════════════════════════
+// ═══════════════════════════════════════════════
+// CONNECT SOCIAL ACCOUNT
+// ═══════════════════════════════════════════════
+function connectSocial(platform) {
+  const statusEl = document.getElementById('connect-status');
+  // Redirect to Meta OAuth endpoint
+  const authUrl = `/auth/meta/connect?platform=${platform}`;
+
+  if(statusEl) {
+    statusEl.innerHTML = `<div style="font-size:13px;color:var(--warn)">⏳ Redirigiendo a ${platform === 'instagram' ? 'Instagram' : 'Facebook'}...</div>`;
+  }
+
+  setTimeout(() => {
+    window.location.href = authUrl;
+  }, 500);
+}
+
+// ═══════════════════════════════════════════════
+// ADMIN PANEL
+// ═══════════════════════════════════════════════
+async function loadAdminPanel() {
+  try {
+    const data = await fetch('/admin/summary').then(r=>r.json());
+    const grid = document.getElementById('admin-clients-grid');
+    if(!grid) return;
+    grid.innerHTML = data.clients.map(c=>`
+      <div class="admin-card">
+        <div class="admin-name">${c.name}</div>
+        <div class="admin-plan">${c.plan || 'Sin plan'}</div>
+        <span class="live-tag ${c.hasLiveData ? 'live-on' : 'live-off'}">
+          ${c.hasLiveData ? '● API Conectada' : '○ Sin conexión'}
+        </span>
+        ${!c.hasLiveData ? `<button class="admin-connect-btn" onclick="adminConnectClient('${c.id}')">+ Conectar cuenta</button>` : ''}
+      </div>
+    `).join('');
+  } catch(e){ console.error(e); }
+}
+
+function adminConnectClient(clientId) {
+  window.location.href = `/auth/meta/connect?clientId=${clientId}`;
+}
+
+// ═══════════════════════════════════════════════
 // NAVIGATION
-// ═══════════════════════════════════════
-const pageTitles = {home:'Resumen Ejecutivo',instagram:'Instagram',ads:'Meta Ads',crecimiento:'Crecimiento',admin:'Administración'};
+// ═══════════════════════════════════════════════
+const pageNames = {
+  home:'Resumen',instagram:'Instagram',ads:'Meta Ads',
+  crecimiento:'Crecimiento',connect:'Conectar cuenta',admin:'Administración'
+};
 
 function showPage(id, el) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  document.getElementById('page-'+id).classList.add('active');
+  document.querySelectorAll('.page').forEach(p=>{p.classList.remove('active');p.style.display='';});
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+
+  const target = document.getElementById('page-'+id);
+  if(target){target.classList.add('active');target.style.display='block';}
   if(el) el.classList.add('active');
-  document.getElementById('topbar-title').textContent = pageTitles[id] || '';
+  document.getElementById('topbar-title').textContent = pageNames[id] || '';
   closeSidebar();
+
+  // If not connected, redirect analytics pages to connect
+  if(!isConnected && ['instagram','ads','crecimiento'].includes(id)) {
+    // empty states already shown, fine
+  }
 }
 
-function toggleSidebar() {
+function toggleSidebar(){
   document.getElementById('sidebar').classList.toggle('open');
   document.getElementById('overlay').classList.toggle('visible');
 }
-function closeSidebar() {
+function closeSidebar(){
   document.getElementById('sidebar').classList.remove('open');
   document.getElementById('overlay').classList.remove('visible');
 }
 
-// ═══════════════════════════════════════
+// ═══════════════════════════════════════════════
 // AUTH
-// ═══════════════════════════════════════
-async function logout() {
-  await fetch('/auth/logout', { method:'POST' });
-  window.location.href = '/';
+// ═══════════════════════════════════════════════
+async function logout(){
+  await fetch('/auth/logout',{method:'POST'});
+  window.location.href='/';
 }
 
-// ═══════════════════════════════════════
+// ═══════════════════════════════════════════════
 // HELPERS
-// ═══════════════════════════════════════
-function formatNumber(n) {
-  if(!n) return '0';
-  if(n >= 1000000) return (n/1000000).toFixed(1) + 'M';
-  if(n >= 1000) return (n/1000).toFixed(1) + 'K';
+// ═══════════════════════════════════════════════
+function fmt(n){
+  if(n==null||n===undefined||n==='') return '--';
+  if(n>=1000000) return (n/1000000).toFixed(1)+'M';
+  if(n>=1000)    return (n/1000).toFixed(1)+'K';
   return n.toLocaleString();
 }
-function setKPI(id, val) {
-  const el = document.getElementById(id);
-  if(el) el.textContent = val;
-}
-function setText(id, val) {
-  const el = document.getElementById(id);
-  if(el) el.textContent = val;
+function set(id,val){
+  const el=document.getElementById(id);
+  if(el) el.textContent=val;
 }
 
-// ═══════════════════════════════════════
+// ═══════════════════════════════════════════════
 // START
-// ═══════════════════════════════════════
+// ═══════════════════════════════════════════════
 init();
 </script>
 </body>

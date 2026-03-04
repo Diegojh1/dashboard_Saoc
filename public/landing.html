@@ -3,1463 +3,956 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Diagnóstico Express de Posicionamiento en Instagram | SAOC</title>
-  <meta name="description" content="Descubre exactamente qué está fallando en tu perfil de Instagram y cómo convertirlo en tu mejor canal de ventas en menos de 48 horas.">
-  <meta property="og:title" content="Diagnóstico Express de Posicionamiento en Instagram">
-  <meta property="og:description" content="Auditoría estratégica completa + 7 entregables + Mini reunión 1 a 1. Resultados en 48 horas.">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="/og-diagnostico.jpg">
+  <title>SAOC Digital — Agencia de Marketing & Analytics</title>
+  <meta name="description" content="Transformamos tu presencia digital con estrategia, datos reales y resultados medibles. Especialistas en Instagram, Meta Ads y crecimiento de marca.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
 <style>
-/* =====================================================
-   DESIGN SYSTEM — SAOC DIGITAL AESTHETIC
-   Background: ultra-dark #080808
-   Primary: Emerald #3AEE7C  hsl(142 84% 58%)
-   Fonts: Space Grotesk (headings) · Inter (body)
-   Style: Glass morphism · Dot-grid · Neon glow
-   ===================================================== */
+/* ===================================================
+   SAOC DIGITAL — LANDING PAGE
+   Dark: #080808 · Red: #E10600 · Syne + DM Sans
+   =================================================== */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 
-:root {
-  /* Backgrounds */
-  --bg:       #080808;
-  --bg2:      #0d0d0d;
-  --surface:  #111111;
-  --surface2: #181818;
-
-  /* Borders */
-  --border:   #242424;
-  --border2:  #333333;
-
-  /* Primary — emerald green (hsl 142 84% 58%) */
-  --p1:       #3AEE7C;
-  --p2:       #2ACC64;
-  --p-dark:   #1a9449;
-  --p-glow:   rgba(58,238,124,.30);
-  --p-glow2:  rgba(58,238,124,.12);
-  --p-glow3:  rgba(58,238,124,.06);
-
-  /* Gradients */
-  --grad:     linear-gradient(135deg, #3AEE7C 0%, #0d0d0d 100%);
-  --grad-btn: linear-gradient(135deg, #3AEE7C 0%, #1a9449 100%);
-  --grad-text:linear-gradient(135deg, #3AEE7C 0%, #A8F5C8 100%);
-
-  /* Text */
-  --white:    #FAFAFA;
-  --text:     #E2E2E2;
-  --muted:    #A0A0A0;
-  --muted2:   #555555;
-
-  /* Status */
-  --green:    #10B981;
-  --gold:     #F59E0B;
-  --red:      #EF4444;
-
-  /* Glass */
-  --glass-bg:     rgba(255,255,255,.04);
-  --glass-border: rgba(255,255,255,.10);
-  --glass-hover:  rgba(255,255,255,.08);
-
-  /* Misc */
-  --r:  20px;
-  --rs: 12px;
-  --theme-shadow: 0 20px 50px rgba(58,238,124,.25);
+:root{
+  --bg:     #080808;
+  --bg2:    #0c0c0c;
+  --surface:#111111;
+  --s2:     #161616;
+  --border: #1f1f1f;
+  --border2:#2a2a2a;
+  --red:    #E10600;
+  --red2:   #ff1a15;
+  --red-dim:rgba(225,6,0,.12);
+  --white:  #ffffff;
+  --gray:   #888888;
+  --gray2:  #555555;
+  --text:   #d4d4d4;
 }
 
-*,*::before,*::after { margin:0; padding:0; box-sizing:border-box }
-html { scroll-behavior:smooth }
-body {
-  font-family:'Inter',sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  line-height:1.6;
-  overflow-x:hidden;
-}
-h1,h2,h3,h4 { font-family:'Space Grotesk',sans-serif; line-height:1.12 }
-a { text-decoration:none; color:inherit }
-img { max-width:100% }
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+h1,h2,h3,h4,h5{font-family:'Syne',sans-serif;line-height:1.1}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
 
-/* ===== LAYOUT ===== */
-.container { max-width:1120px; margin:0 auto; padding:0 24px }
-.section { padding:100px 0 }
-
-/* ===== DOT GRID (hero background) ===== */
-.dot-grid {
-  background-image: radial-gradient(circle, rgba(58,238,124,.22) 1px, transparent 1px);
-  background-size: 28px 28px;
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:999;
+  padding:0 5%;
+  border-bottom:1px solid transparent;
+  transition:background .3s,border-color .3s;
 }
-
-/* ===== GLOW ORB (atmospheric) ===== */
-.orb {
-  position:absolute;
-  border-radius:50%;
-  pointer-events:none;
-  filter:blur(100px);
-  opacity:.45;
+nav.scrolled{background:rgba(8,8,8,.96);border-color:var(--border)}
+.nav-inner{
+  max-width:1200px;margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;
+  height:72px;
 }
-.orb-green  { background:radial-gradient(circle, rgba(58,238,124,.35) 0%, transparent 70%) }
-.orb-dark   { background:radial-gradient(circle, rgba(16,185,129,.20) 0%, transparent 70%) }
-
-/* ===== GLASS ===== */
-.glass {
-  background: var(--glass-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--glass-border);
-  position:relative;
-  transition: all .3s cubic-bezier(.4,0,.2,1);
-}
-.glass-hover:hover {
-  background: var(--glass-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 30px var(--p-glow2);
-}
-
-/* ===== TAG PILL (section badge) ===== */
-.tag-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: .45rem;
-  padding: .35rem 1rem;
-  border-radius: 9999px;
-  border: 1px solid rgba(58,238,124,.25);
-  background: rgba(58,238,124,.08);
-  font-size: .72rem;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  color: var(--p1);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  margin-bottom: 20px;
-}
-
-/* ===== SECTION TYPOGRAPHY ===== */
-.section-title {
-  font-size: clamp(26px,5vw,42px);
-  font-weight: 700;
-  color: var(--white);
-  margin-bottom: 16px;
-}
-.section-sub {
-  font-size: 16px;
-  color: var(--muted);
-  line-height: 1.75;
-  max-width: 560px;
-}
-.text-center { text-align:center }
-.text-center .section-sub { margin:0 auto }
-
-/* ===== NEON TEXT ===== */
-.neon-text {
-  color: var(--p1);
-  text-shadow:
-    0 0 20px rgba(58,238,124,.80),
-    0 0 40px rgba(58,238,124,.40),
-    0 0 80px rgba(58,238,124,.20);
-}
-.grad-text {
-  background: var(--grad-text);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* ===== GLOW LINE ===== */
-.glow-line {
-  height: 3px;
-  width: 56px;
-  border-radius: 9999px;
-  background: var(--grad-btn);
-  box-shadow: 0 0 12px var(--p-glow), 0 0 24px rgba(58,238,124,.20);
-  margin: 20px auto 0;
-}
-
-/* ===== GLOW DOT ===== */
-.glow-dot {
-  display: inline-block;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--p1);
-  box-shadow: 0 0 8px rgba(58,238,124,.9), 0 0 16px rgba(58,238,124,.5);
-  animation: glow-pulse 2s ease-in-out infinite;
-}
-@keyframes glow-pulse {
-  0%,100% { opacity:1; transform:scale(1) }
-  50%      { opacity:.5; transform:scale(.75) }
-}
-
-/* ===== BUTTONS ===== */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 18px 36px;
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: .3px;
-  border: none;
-  border-radius: 50px;
-  cursor: pointer;
-  transition: all .3s cubic-bezier(.4,0,.2,1);
-  position: relative;
-  overflow: hidden;
-  text-align: center;
-  white-space: nowrap;
-  text-decoration: none;
-}
-.btn-primary {
-  background: var(--grad-btn);
-  color: #08100c;
-  box-shadow: var(--theme-shadow);
-}
-.btn-primary:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 28px 60px rgba(58,238,124,.40);
-  filter: brightness(1.08);
-}
-.btn-primary:active { transform:translateY(-1px) }
-.btn-ghost {
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  color: var(--white);
-  backdrop-filter: blur(8px);
-}
-.btn-ghost:hover {
-  background: var(--glass-hover);
-  border-color: rgba(58,238,124,.35);
-  color: var(--p1);
-}
-.btn-lg  { padding: 22px 52px; font-size: 17px }
-.btn-full { width:100% }
-/* shimmer */
-.btn-shimmer::after {
-  content:'';
-  position:absolute;
-  top:-50%; left:-75%;
-  width:50%; height:200%;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent);
-  transform:skewX(-20deg);
-  animation:shimmer 3s infinite;
-}
-@keyframes shimmer { 0%{left:-75%} 100%{left:150%} }
-.btn-loading { opacity:.65; pointer-events:none }
-
-/* ===== NAVBAR ===== */
-.navbar {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 100;
-  padding: 20px 0;
-  transition: all .3s ease;
-}
-.navbar.scrolled {
-  background: rgba(8,8,8,.92);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border-bottom: 1px solid var(--border);
-  padding: 14px 0;
-}
-.navbar-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.nav-logo {
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 700;
-  font-size: 18px;
-  letter-spacing: 3px;
-  color: var(--white);
-}
-.nav-logo span { color: var(--p1) }
-.nav-cta { display:none }
-@media(min-width:768px) { .nav-cta { display:flex } }
-
-/* ===== HERO ===== */
-.hero {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  padding: 120px 0 80px;
-  position: relative;
-  overflow: hidden;
-}
-.hero-bg {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-.hero-content {
-  max-width: 820px;
-  position: relative;
-  z-index: 1;
-}
-.hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(239,68,68,.08);
-  border: 1px solid rgba(239,68,68,.25);
-  color: #FCA5A5;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  padding: 7px 18px;
-  border-radius: 9999px;
-  margin-bottom: 32px;
-}
-.hero-title {
-  font-size: clamp(40px, 7vw, 76px);
-  font-weight: 700;
-  color: var(--white);
-  margin-bottom: 28px;
-  line-height: 1.05;
-}
-.hero-sub {
-  font-size: clamp(16px, 2vw, 19px);
-  color: var(--muted);
-  line-height: 1.8;
-  margin-bottom: 44px;
-  max-width: 640px;
-}
-.hero-cta-group {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  align-items: flex-start;
-}
-.hero-price-note {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  font-size: 13px;
-  color: var(--muted);
-}
-.hero-price-note span {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.hero-price-note span::before {
-  content: '✓';
-  color: var(--p1);
-  font-weight: 700;
-}
-
-/* ===== TRUST BAR ===== */
-.trust-bar {
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  background: var(--bg2);
-  position: relative;
-  overflow: hidden;
-}
-.trust-bar::before {
-  content:'';
-  position:absolute;
-  top:50%; left:50%;
-  transform:translate(-50%,-50%);
-  width:600px; height:1px;
-  background: linear-gradient(90deg,transparent,rgba(58,238,124,.3),transparent);
-}
-.trust-grid {
-  display: grid;
-  grid-template-columns: repeat(4,1fr);
-}
-.trust-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  padding: 32px 20px;
-  border-right: 1px solid var(--border);
-  text-align: center;
-}
-.trust-item:last-child { border-right:none }
-.trust-num {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 34px;
-  font-weight: 700;
-  color: var(--p1);
-  text-shadow: 0 0 24px rgba(58,238,124,.40);
-}
-.trust-label { font-size: 12px; color: var(--muted); letter-spacing: .5px }
-
-/* ===== PROBLEMA ===== */
-.problema { background: var(--bg2); position:relative; overflow:hidden }
-.problema-grid {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: 16px;
-  margin-top: 52px;
-}
-.problema-card {
-  background: var(--glass-bg);
-  border: 1px solid var(--border);
-  border-radius: var(--r);
-  padding: 28px;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  transition: all .35s cubic-bezier(.4,0,.2,1);
-  position: relative;
-  overflow: hidden;
-}
-.problema-card::before {
-  content:'';
-  position:absolute;
-  top:0; left:0; right:0;
-  height:2px;
-  background:linear-gradient(90deg,var(--red),transparent);
-  opacity:0;
-  transition:opacity .3s;
-}
-.problema-card:hover::before { opacity:1 }
-.problema-card:hover {
-  border-color: rgba(239,68,68,.25);
-  transform: translateY(-3px);
-  box-shadow: 0 12px 32px rgba(239,68,68,.08);
-}
-.problema-icon {
-  width:42px; height:42px;
-  background:rgba(239,68,68,.08);
-  border: 1px solid rgba(239,68,68,.15);
-  border-radius: var(--rs);
-  display:flex; align-items:center; justify-content:center;
-  font-size:18px;
-  margin-bottom:16px;
-}
-.problema-title {
-  font-family:'Space Grotesk',sans-serif;
-  font-size:15px; font-weight:600;
-  color:var(--white); margin-bottom:8px;
-}
-.problema-desc { font-size:13px; color:var(--muted); line-height:1.7 }
-
-/* ===== SOLUCION ===== */
-.solucion-inner {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:80px;
-  align-items:center;
-}
-.sol-tag {
-  font-family:'Space Grotesk',sans-serif;
-  font-size:11px; font-weight:700;
-  letter-spacing:3px;
+.nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;letter-spacing:3px;color:var(--white)}
+.nav-logo span{color:var(--red)}
+.nav-links{display:flex;align-items:center;gap:36px}
+.nav-link{font-size:13px;letter-spacing:.5px;color:var(--gray);transition:color .2s}
+.nav-link:hover{color:var(--white)}
+.nav-cta{
+  background:var(--red);color:var(--white);
+  padding:11px 24px;
+  font-family:'Syne',sans-serif;font-size:12px;letter-spacing:2px;font-weight:700;
   text-transform:uppercase;
-  color:var(--p1);
-  display:block; margin-bottom:16px;
+  transition:background .2s,box-shadow .2s;
 }
-.sol-title {
-  font-size:clamp(26px,4vw,38px);
-  font-weight:700;
-  color:var(--white);
+.nav-cta:hover{background:var(--red2);box-shadow:0 0 24px rgba(225,6,0,.5)}
+.hamburger{display:none;background:none;border:none;cursor:pointer;padding:4px}
+.hamburger span{display:block;width:22px;height:2px;background:var(--white);margin:5px 0;transition:.3s}
+.mobile-menu{display:none;position:fixed;inset:0;background:var(--bg);z-index:998;padding:80px 32px 32px;flex-direction:column;gap:32px}
+.mobile-menu.open{display:flex}
+.mobile-link{font-family:'Syne',sans-serif;font-size:24px;font-weight:700;color:var(--white);padding:8px 0;border-bottom:1px solid var(--border)}
+
+/* HERO */
+.hero{
+  min-height:100vh;display:flex;align-items:center;
+  padding:120px 5% 80px;
+  position:relative;overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 60% 40%, rgba(225,6,0,.07) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 20% 80%, rgba(225,6,0,.04) 0%, transparent 50%);
+}
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+  background-size:60px 60px;
+  mask-image:radial-gradient(ellipse 80% 70% at 50% 50%, black 0%, transparent 80%);
+}
+.hero-content{
+  max-width:1200px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;
+  position:relative;z-index:1;width:100%;
+}
+.hero-label{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:11px;letter-spacing:3px;color:var(--red);text-transform:uppercase;
+  background:var(--red-dim);border:1px solid rgba(225,6,0,.2);
+  padding:8px 16px;margin-bottom:28px;
+}
+.hero-label-dot{width:6px;height:6px;border-radius:50%;background:var(--red);animation:pulse 2s infinite}
+.hero-h1{
+  font-size:clamp(44px,5.5vw,80px);font-weight:800;
+  color:var(--white);margin-bottom:24px;
+  letter-spacing:-2px;
+}
+.hero-h1 em{font-style:normal;color:var(--red)}
+.hero-sub{
+  font-size:17px;color:var(--gray);line-height:1.7;
+  max-width:520px;margin-bottom:44px;font-weight:300;
+}
+.hero-actions{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.btn-primary{
+  background:var(--red);color:var(--white);
+  padding:18px 36px;
+  font-family:'Syne',sans-serif;font-size:13px;letter-spacing:2px;font-weight:700;text-transform:uppercase;
+  transition:all .25s;display:inline-block;
+}
+.btn-primary:hover{background:var(--red2);box-shadow:0 0 40px rgba(225,6,0,.5);transform:translateY(-2px)}
+.btn-secondary{
+  border:1px solid var(--border2);color:var(--white);
+  padding:18px 36px;
+  font-size:13px;letter-spacing:1px;
+  transition:border-color .2s;
+}
+.btn-secondary:hover{border-color:var(--gray2)}
+.hero-stats{display:flex;gap:40px;margin-top:52px}
+.hero-stat-val{font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:var(--white)}
+.hero-stat-label{font-size:12px;color:var(--gray);letter-spacing:1px;text-transform:uppercase;margin-top:2px}
+
+/* HERO VISUAL */
+.hero-visual{position:relative}
+.dashboard-preview{
+  background:var(--surface);border:1px solid var(--border2);
+  padding:24px;position:relative;
+  box-shadow:0 40px 80px rgba(0,0,0,.6);
+}
+.dashboard-preview::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--red),transparent);
+}
+.dp-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.dp-logo{font-family:'Syne',sans-serif;font-size:13px;font-weight:800;letter-spacing:2px;color:var(--white)}
+.dp-logo span{color:var(--red)}
+.dp-status{display:flex;align-items:center;gap:6px;font-size:11px;color:#00c896}
+.dp-status-dot{width:6px;height:6px;border-radius:50%;background:#00c896;animation:pulse 2s infinite}
+.dp-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.dp-kpi{background:var(--s2);border:1px solid var(--border);padding:12px}
+.dp-kpi-val{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--white)}
+.dp-kpi-label{font-size:10px;color:var(--gray);letter-spacing:1px;text-transform:uppercase;margin-top:4px}
+.dp-chart{background:var(--s2);border:1px solid var(--border);padding:16px;height:90px;display:flex;align-items:flex-end;gap:4px}
+.dp-bar{flex:1;background:var(--red);opacity:.7;border-radius:2px 2px 0 0;transition:opacity .2s}
+.dp-bar:nth-child(even){opacity:.4}
+.dp-bar:last-child{opacity:1}
+.floating-badge{
+  position:absolute;bottom:-24px;right:-24px;
+  background:var(--s2);border:1px solid var(--border2);
+  padding:16px 20px;display:flex;align-items:center;gap:12px;
+  box-shadow:0 16px 40px rgba(0,0,0,.5);
+}
+.fb-icon{width:36px;height:36px;background:var(--red-dim);border:1px solid rgba(225,6,0,.2);display:flex;align-items:center;justify-content:center;font-size:16px}
+.fb-text{font-size:12px;color:var(--gray)}
+.fb-val{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--white)}
+
+/* CLIENTES */
+.clients-bar{
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  padding:32px 5%;
+}
+.clients-bar-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:48px}
+.clients-label{font-size:11px;letter-spacing:3px;color:var(--gray2);text-transform:uppercase}
+.client-name-pill{
+  font-family:'Syne',sans-serif;font-size:13px;font-weight:700;
+  color:var(--gray2);letter-spacing:2px;text-transform:uppercase;
+  transition:color .2s;
+}
+.client-name-pill:hover{color:var(--white)}
+
+/* SECTION */
+section{padding:100px 5%}
+.section-inner{max-width:1200px;margin:0 auto}
+.section-tag{
+  font-size:11px;letter-spacing:3px;color:var(--red);text-transform:uppercase;
+  display:flex;align-items:center;gap:10px;margin-bottom:20px;
+}
+.section-tag::before{content:'';width:24px;height:1px;background:var(--red)}
+.section-h2{font-size:clamp(32px,4vw,56px);font-weight:800;color:var(--white);letter-spacing:-1.5px;margin-bottom:16px}
+.section-sub{font-size:16px;color:var(--gray);line-height:1.7;max-width:600px;font-weight:300}
+
+/* STATS */
+.stats-section{background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:80px 5%}
+.stats-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border)}
+.stat-item{background:var(--surface);padding:40px 32px;text-align:center}
+.stat-num{font-family:'Syne',sans-serif;font-size:clamp(36px,4vw,60px);font-weight:800;color:var(--white);line-height:1}
+.stat-num span{color:var(--red)}
+.stat-desc{font-size:13px;color:var(--gray);margin-top:10px;letter-spacing:.5px}
+
+/* SERVICES */
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-top:64px}
+.service-card{
+  background:var(--surface);padding:44px 36px;
+  position:relative;overflow:hidden;
+  transition:background .3s;
+}
+.service-card::before{
+  content:'';position:absolute;top:0;left:0;width:100%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--red),transparent);
+  opacity:0;transition:opacity .3s;
+}
+.service-card:hover{background:var(--s2)}
+.service-card:hover::before{opacity:1}
+.service-icon{
+  width:48px;height:48px;background:var(--red-dim);border:1px solid rgba(225,6,0,.2);
+  display:flex;align-items:center;justify-content:center;font-size:22px;
+  margin-bottom:28px;
+}
+.service-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:var(--white);margin-bottom:14px}
+.service-desc{font-size:14px;color:var(--gray);line-height:1.7}
+.service-tag{
+  display:inline-block;margin-top:24px;
+  font-size:11px;letter-spacing:2px;color:var(--red);
+  text-transform:uppercase;border-bottom:1px solid rgba(225,6,0,.3);padding-bottom:2px;
+}
+
+/* HOW IT WORKS */
+.how-section{background:var(--bg2)}
+.steps-row{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;margin-top:64px}
+.step{position:relative;padding-top:16px}
+.step-num{
+  font-family:'Syne',sans-serif;font-size:64px;font-weight:800;
+  color:var(--border);line-height:1;margin-bottom:16px;
+  transition:color .3s;
+}
+.step:hover .step-num{color:var(--red)}
+.step-line{width:40px;height:2px;background:var(--red);margin-bottom:20px}
+.step-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:var(--white);margin-bottom:10px}
+.step-desc{font-size:14px;color:var(--gray);line-height:1.7}
+
+/* DASHBOARD FEATURE */
+.dashboard-feature{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;margin-top:80px}
+.feature-list{display:flex;flex-direction:column;gap:24px;margin-top:40px}
+.feature-item{display:flex;gap:16px;padding:20px 0;border-bottom:1px solid var(--border)}
+.feature-dot{width:8px;height:8px;border-radius:50%;background:var(--red);margin-top:6px;flex-shrink:0}
+.feature-item-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--white);margin-bottom:4px}
+.feature-item-desc{font-size:14px;color:var(--gray)}
+.dashboard-mockup{background:var(--surface);border:1px solid var(--border2);position:relative;overflow:hidden}
+.dashboard-mockup::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--red) 30%,transparent)}
+.dm-topbar{background:var(--bg2);border-bottom:1px solid var(--border);padding:14px 20px;display:flex;align-items:center;gap:8px}
+.dm-dot{width:10px;height:10px;border-radius:50%}
+.dm-sidebar{width:160px;border-right:1px solid var(--border);padding:16px 0}
+.dm-nav-item{padding:10px 16px;font-size:11px;color:var(--gray);display:flex;align-items:center;gap:8px}
+.dm-nav-item.active{color:var(--white);background:var(--s2);border-left:2px solid var(--red)}
+.dm-body{flex:1;padding:20px}
+.dm-inner{display:flex;min-height:200px}
+.dm-kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.dm-kpi{background:var(--s2);border:1px solid var(--border);padding:10px}
+.dm-kpi-n{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--white)}
+.dm-kpi-l{font-size:9px;color:var(--gray);letter-spacing:1px;text-transform:uppercase}
+.dm-chartbox{background:var(--s2);border:1px solid var(--border);padding:14px;height:70px;display:flex;align-items:flex-end;gap:3px}
+.dm-chartbar{flex:1;border-radius:2px 2px 0 0}
+
+/* DIAGNOSTICO */
+.diagnostico-section{
+  background:linear-gradient(135deg,var(--surface) 0%,var(--bg2) 100%);
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+}
+.diagnostico-inner{
+  max-width:1200px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;
+}
+.diag-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--red-dim);border:1px solid rgba(225,6,0,.25);
+  padding:8px 18px;font-size:11px;letter-spacing:2px;color:var(--red);text-transform:uppercase;
   margin-bottom:24px;
-  line-height:1.1;
 }
-.sol-body { font-size:15px; color:var(--muted); line-height:1.85; margin-bottom:28px }
-.sol-quote {
-  background:rgba(58,238,124,.04);
-  border:1px solid rgba(58,238,124,.18);
-  border-radius:var(--r);
-  padding:24px 28px 24px 44px;
-  font-size:15px;
-  color:var(--text);
-  line-height:1.75;
-  font-style:italic;
-  position:relative;
+.diag-h2{font-size:clamp(28px,3.5vw,48px);font-weight:800;color:var(--white);letter-spacing:-1px;margin-bottom:16px}
+.diag-desc{font-size:15px;color:var(--gray);line-height:1.7;margin-bottom:32px}
+.deliverables{display:flex;flex-direction:column;gap:12px;margin-bottom:36px}
+.deliverable{
+  display:flex;align-items:center;gap:14px;padding:14px 16px;
+  background:var(--bg);border:1px solid var(--border);font-size:13px;color:var(--text);
 }
-.sol-quote::before {
-  content:'"';
-  font-size:64px; line-height:1;
-  color:rgba(58,238,124,.22);
-  font-family:Georgia,serif;
-  position:absolute;
-  top:4px; left:12px;
+.del-check{
+  width:24px;height:24px;background:var(--red-dim);border:1px solid rgba(225,6,0,.3);
+  display:flex;align-items:center;justify-content:center;color:var(--red);font-size:12px;flex-shrink:0;
 }
-.sol-visual {
-  background:var(--glass-bg);
-  border:1px solid var(--glass-border);
-  border-radius:var(--r);
-  padding:36px;
-  position:relative;
-  backdrop-filter:blur(20px);
-  -webkit-backdrop-filter:blur(20px);
+.price-callout{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px 24px;background:var(--bg);border:1px solid var(--border2);margin-bottom:24px;
 }
-.sol-visual::before {
-  content:'';
-  position:absolute; inset:0;
-  border-radius:var(--r);
-  background:var(--grad-btn);
-  opacity:.025;
-  pointer-events:none;
+.price-amount{font-family:'Syne',sans-serif;font-size:36px;font-weight:800;color:var(--white)}
+.price-period{font-size:12px;color:var(--gray);letter-spacing:1px}
+.diag-form{background:var(--bg);border:1px solid var(--border2);padding:40px}
+.diag-form h3{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--white);margin-bottom:8px}
+.diag-form p{font-size:13px;color:var(--gray);margin-bottom:28px}
+.form-group{margin-bottom:16px}
+.form-label{font-size:11px;letter-spacing:2px;color:var(--gray);text-transform:uppercase;margin-bottom:8px;display:block}
+.form-input{
+  width:100%;background:var(--surface);border:1px solid var(--border2);
+  color:var(--white);padding:14px 16px;
+  font-family:'DM Sans',sans-serif;font-size:14px;outline:none;
+  transition:border-color .2s;
 }
-/* Instagram mockup */
-.ig-top { display:flex; align-items:center; gap:16px; margin-bottom:20px }
-.ig-avatar {
-  width:60px; height:60px; border-radius:50%;
-  background:var(--grad-btn);
-  display:flex; align-items:center; justify-content:center;
-  font-size:22px; flex-shrink:0;
-  box-shadow:0 0 0 3px var(--surface),0 0 0 5px rgba(58,238,124,.28);
+.form-input:focus{border-color:var(--red)}
+.form-select{
+  width:100%;background:var(--surface);border:1px solid var(--border2);
+  color:var(--white);padding:14px 16px;
+  font-family:'DM Sans',sans-serif;font-size:14px;outline:none;
+  transition:border-color .2s;-webkit-appearance:none;cursor:pointer;
 }
-.ig-info .ig-name { font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:14px; color:var(--white) }
-.ig-info .ig-handle { font-size:12px; color:var(--muted); margin-bottom:4px }
-.ig-stats { display:flex; gap:16px; padding:14px 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border); margin-bottom:14px }
-.ig-stat { text-align:center; flex:1 }
-.ig-stat-num { font-family:'Space Grotesk',sans-serif; font-size:15px; font-weight:700; color:var(--white) }
-.ig-stat-lbl { font-size:10px; color:var(--muted) }
-.ig-bio { font-size:12px; color:var(--text); line-height:1.65; margin-bottom:14px; padding:12px; background:rgba(255,255,255,.04); border-radius:var(--rs); border:1px solid var(--border) }
-.ig-bio-label { font-size:10px; color:var(--p1); font-weight:600; letter-spacing:1px; text-transform:uppercase; margin-bottom:6px }
-.ig-highlights { display:flex; gap:10px; margin-bottom:14px }
-.ig-hl { display:flex; flex-direction:column; align-items:center; gap:5px }
-.ig-hl-circle { width:48px; height:48px; border-radius:50%; background:var(--grad-btn); display:flex; align-items:center; justify-content:center; font-size:18px }
-.ig-hl-lbl { font-size:9px; color:var(--muted); text-align:center }
-.ig-badge { display:inline-flex; align-items:center; gap:6px; background:rgba(58,238,124,.08); border:1px solid rgba(58,238,124,.22); border-radius:9999px; padding:5px 14px; font-size:11px; color:var(--p1); font-weight:600 }
+.form-select:focus{border-color:var(--red)}
+.form-btn{
+  width:100%;background:var(--red);color:var(--white);border:none;
+  padding:18px;font-family:'Syne',sans-serif;font-size:13px;letter-spacing:3px;
+  text-transform:uppercase;font-weight:700;cursor:pointer;margin-top:8px;
+  transition:background .2s,box-shadow .2s;
+}
+.form-btn:hover{background:var(--red2);box-shadow:0 0 30px rgba(225,6,0,.5)}
+.form-disclaimer{font-size:11px;color:var(--gray2);text-align:center;margin-top:12px}
 
-/* ===== QUÉ INCLUYE ===== */
-.incluye { background:var(--bg2) }
-.incluye-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-top:52px }
-.incluye-card {
-  background:var(--glass-bg);
-  border:1px solid var(--border);
-  border-radius:var(--r);
-  padding:28px;
-  display:flex; gap:20px; align-items:flex-start;
-  backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
-  transition:all .35s cubic-bezier(.4,0,.2,1);
+/* PRICING */
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-top:64px}
+.pricing-card{background:var(--surface);padding:44px 36px;position:relative;overflow:hidden}
+.pricing-card.featured{background:var(--s2)}
+.pricing-card.featured::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--red)}
+.pricing-featured-badge{
+  position:absolute;top:24px;right:24px;
+  background:var(--red);color:var(--white);
+  font-size:10px;letter-spacing:2px;text-transform:uppercase;
+  padding:4px 10px;font-family:'Syne',sans-serif;font-weight:700;
 }
-.incluye-card:hover {
-  border-color:rgba(58,238,124,.25);
-  background:rgba(58,238,124,.03);
-  transform:translateY(-2px);
-  box-shadow:0 12px 32px var(--p-glow2);
+.pricing-plan{font-size:11px;letter-spacing:3px;color:var(--red);text-transform:uppercase;margin-bottom:20px}
+.pricing-price{font-family:'Syne',sans-serif;font-size:clamp(32px,3vw,48px);font-weight:800;color:var(--white);line-height:1;margin-bottom:4px}
+.pricing-price sup{font-size:20px;font-weight:400}
+.pricing-period{font-size:12px;color:var(--gray);letter-spacing:1px;margin-bottom:32px}
+.pricing-features{display:flex;flex-direction:column;gap:14px;margin-bottom:40px;border-top:1px solid var(--border);padding-top:24px}
+.pricing-feature{display:flex;gap:12px;font-size:14px;color:var(--text)}
+.pf-check{color:var(--red);font-size:14px;flex-shrink:0}
+.pricing-btn{
+  display:block;text-align:center;
+  background:transparent;border:1px solid var(--border2);
+  color:var(--white);padding:16px;
+  font-family:'Syne',sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;
+  transition:all .2s;
 }
-.incluye-card.highlight {
-  grid-column:1/-1;
-  background:rgba(58,238,124,.05);
-  border-color:rgba(58,238,124,.20);
-}
-.incluye-icon {
-  width:50px; height:50px;
-  background:rgba(58,238,124,.08);
-  border:1px solid rgba(58,238,124,.18);
-  border-radius:var(--rs);
-  display:flex; align-items:center; justify-content:center;
-  font-size:22px; flex-shrink:0;
-}
-.incluye-title { font-family:'Space Grotesk',sans-serif; font-size:15px; font-weight:600; color:var(--white); margin-bottom:6px }
-.incluye-desc { font-size:13px; color:var(--muted); line-height:1.7 }
+.pricing-btn:hover{border-color:var(--red);color:var(--red)}
+.pricing-card.featured .pricing-btn{background:var(--red);border-color:var(--red)}
+.pricing-card.featured .pricing-btn:hover{background:var(--red2)}
 
-/* ===== PROCESO ===== */
-.proceso-steps { display:grid; grid-template-columns:repeat(3,1fr); gap:0; margin-top:64px; position:relative }
-.proceso-steps::before {
-  content:'';
-  position:absolute;
-  top:28px;
-  left:calc(16.666% + 28px);
-  right:calc(16.666% + 28px);
-  height:1px;
-  background:linear-gradient(90deg,rgba(58,238,124,.5),rgba(58,238,124,.2),rgba(58,238,124,.5));
-  box-shadow:0 0 10px rgba(58,238,124,.25);
+/* CTA */
+.cta-section{
+  position:relative;overflow:hidden;
+  background:linear-gradient(135deg,#0d0000 0%,var(--bg) 60%);
+  border-top:1px solid rgba(225,6,0,.15);
 }
-.proceso-step { text-align:center; padding:0 28px }
-.paso-num {
-  width:56px; height:56px; border-radius:50%;
-  background:var(--grad-btn);
-  display:flex; align-items:center; justify-content:center;
-  font-family:'Space Grotesk',sans-serif;
-  font-size:22px; font-weight:700; color:#08100c;
-  margin:0 auto 24px;
-  position:relative; z-index:1;
-  box-shadow:var(--theme-shadow);
+.cta-bg{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 80% at 50% 50%, rgba(225,6,0,.08) 0%, transparent 70%);
 }
-.paso-title { font-family:'Space Grotesk',sans-serif; font-size:18px; font-weight:600; color:var(--white); margin-bottom:10px }
-.paso-desc { font-size:14px; color:var(--muted); line-height:1.75 }
-.paso-tag {
-  display:inline-block; margin-top:14px;
-  padding:5px 14px;
-  background:rgba(255,255,255,.04);
-  border:1px solid var(--border);
-  border-radius:9999px;
-  font-size:11px; color:var(--muted);
-}
+.cta-inner{max-width:800px;margin:0 auto;text-align:center;position:relative;z-index:1}
+.cta-h2{font-size:clamp(36px,5vw,72px);font-weight:800;color:var(--white);letter-spacing:-2px;margin-bottom:20px}
+.cta-h2 span{color:var(--red)}
+.cta-sub{font-size:18px;color:var(--gray);margin-bottom:48px;font-weight:300}
+.cta-actions{display:flex;justify-content:center;gap:20px;flex-wrap:wrap}
+.cta-note{font-size:12px;color:var(--gray2);margin-top:24px;letter-spacing:1px}
 
-/* ===== CTA MID ===== */
-.cta-mid {
-  padding:80px 0;
-  text-align:center;
-  border-top:1px solid var(--border);
-  border-bottom:1px solid var(--border);
-  background:var(--bg2);
-  position:relative; overflow:hidden;
+/* FOOTER */
+footer{
+  background:var(--bg2);border-top:1px solid var(--border);
+  padding:64px 5% 40px;
 }
-.cta-mid::before {
-  content:'';
-  position:absolute; inset:0;
-  background:radial-gradient(ellipse 60% 100% at 50% 50%,rgba(58,238,124,.05),transparent);
-  pointer-events:none;
+.footer-inner{max-width:1200px;margin:0 auto}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;margin-bottom:60px}
+.footer-brand{}
+.footer-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:22px;letter-spacing:3px;color:var(--white);margin-bottom:16px}
+.footer-logo span{color:var(--red)}
+.footer-brand-desc{font-size:14px;color:var(--gray);line-height:1.7;max-width:280px}
+.footer-col-title{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--white);margin-bottom:20px}
+.footer-links{display:flex;flex-direction:column;gap:12px}
+.footer-link{font-size:13px;color:var(--gray);transition:color .2s}
+.footer-link:hover{color:var(--white)}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;padding-top:32px;border-top:1px solid var(--border)}
+.footer-copy{font-size:12px;color:var(--gray2)}
+.footer-socials{display:flex;gap:16px}
+.social-btn{
+  width:36px;height:36px;border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;color:var(--gray);transition:all .2s;
 }
+.social-btn:hover{border-color:var(--red);color:var(--red)}
 
-/* ===== PRECIO ===== */
-.precio-card {
-  max-width:680px;
-  margin:52px auto 0;
-  background:var(--glass-bg);
-  border:1px solid var(--glass-border);
-  border-radius:24px;
-  overflow:hidden;
-  backdrop-filter:blur(20px);
-  -webkit-backdrop-filter:blur(20px);
-}
-.precio-header {
-  background:var(--grad-btn);
-  padding:28px 40px;
-  text-align:center;
-}
-.precio-header-title {
-  font-family:'Space Grotesk',sans-serif;
-  font-size:17px; font-weight:700;
-  color:#06100b;
-}
-.precio-body { padding:40px }
-.precio-comp { display:flex; flex-direction:column; align-items:center; gap:6px; margin-bottom:28px; text-align:center }
-.precio-orig { font-size:18px; color:var(--muted); text-decoration:line-through; text-decoration-color:var(--red) }
-.precio-actual {
-  font-family:'Space Grotesk',sans-serif;
-  font-size:54px; font-weight:700;
-  color:var(--p1);
-  text-shadow:0 0 32px rgba(58,238,124,.35);
-  line-height:1;
-}
-.precio-badge {
-  background:rgba(58,238,124,.08);
-  border:1px solid rgba(58,238,124,.22);
-  border-radius:9999px;
-  padding:5px 16px;
-  font-size:12px; color:var(--p1); font-weight:600;
-}
-.precio-list { list-style:none; margin-bottom:28px; display:flex; flex-direction:column; gap:12px }
-.precio-list li { display:flex; align-items:center; gap:12px; font-size:14px; color:var(--text) }
-.precio-list li::before {
-  content:'✓';
-  width:22px; height:22px;
-  background:rgba(58,238,124,.10);
-  border:1px solid rgba(58,238,124,.20);
-  border-radius:50%;
-  display:flex; align-items:center; justify-content:center;
-  color:var(--p1); font-size:11px; font-weight:800; flex-shrink:0;
-}
-.precio-reason {
-  background:rgba(245,158,11,.05);
-  border:1px solid rgba(245,158,11,.18);
-  border-radius:var(--rs);
-  padding:16px 20px;
-  font-size:13px; color:var(--text); line-height:1.7;
-  margin-bottom:28px;
-}
-.precio-reason strong { color:var(--gold) }
-.garantia {
-  display:flex; align-items:center; gap:16px;
-  padding:18px;
-  background:rgba(58,238,124,.04);
-  border:1px solid rgba(58,238,124,.15);
-  border-radius:var(--rs);
-  margin-bottom:28px;
-}
-.garantia-ico { font-size:28px; flex-shrink:0 }
-.garantia-txt { font-size:13px; color:var(--text); line-height:1.6 }
-.garantia-txt strong { color:var(--p1) }
+/* ANIMATIONS */
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.animate-in{animation:fadeUp .7s ease both}
+.animate-delay-1{animation-delay:.1s}
+.animate-delay-2{animation-delay:.2s}
+.animate-delay-3{animation-delay:.3s}
 
-/* ===== AUTORIDAD ===== */
-.autoridad-inner { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:start }
-.aut-title { font-size:clamp(26px,4vw,38px); font-weight:700; color:var(--white); margin-bottom:18px; line-height:1.1 }
-.aut-body { font-size:15px; color:var(--muted); line-height:1.85; margin-bottom:28px }
-.aut-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:28px }
-.aut-stat {
-  background:var(--glass-bg);
-  border:1px solid var(--border);
-  border-radius:var(--r);
-  padding:20px;
-  text-align:center;
-  backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
-}
-.aut-num {
-  font-family:'Space Grotesk',sans-serif;
-  font-size:28px; font-weight:700;
-  color:var(--p1);
-  text-shadow:0 0 20px rgba(58,238,124,.35);
-  margin-bottom:4px;
-}
-.aut-lbl { font-size:11px; color:var(--muted) }
-.aut-cards { display:flex; flex-direction:column; gap:14px }
-.aut-card {
-  background:var(--glass-bg);
-  border:1px solid var(--border);
-  border-radius:var(--r);
-  padding:22px;
-  display:flex; gap:16px; align-items:flex-start;
-  backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
-  transition:all .3s cubic-bezier(.4,0,.2,1);
-}
-.aut-card:hover {
-  border-color:rgba(58,238,124,.25);
-  transform:translateY(-2px);
-  box-shadow:0 8px 24px var(--p-glow2);
-}
-.aut-card-ico {
-  width:46px; height:46px;
-  background:rgba(58,238,124,.08);
-  border:1px solid rgba(58,238,124,.18);
-  border-radius:var(--rs);
-  display:flex; align-items:center; justify-content:center;
-  font-size:20px; flex-shrink:0;
-}
-.aut-card-title { font-family:'Space Grotesk',sans-serif; font-size:14px; font-weight:600; color:var(--white); margin-bottom:4px }
-.aut-card-desc { font-size:12px; color:var(--muted); line-height:1.65 }
+/* DIVIDER */
+.divider{max-width:1200px;margin:0 auto;height:1px;background:var(--border)}
 
-/* ===== FAQ ===== */
-.faq { background:var(--bg2) }
-.faq-list { max-width:720px; margin:52px auto 0; display:flex; flex-direction:column; gap:10px }
-.faq-item {
-  background:var(--glass-bg);
-  border:1px solid var(--border);
-  border-radius:var(--r);
-  overflow:hidden;
-  backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
-  transition:border-color .25s;
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .hero-content{grid-template-columns:1fr;gap:60px}
+  .hero-visual{display:none}
+  .services-grid{grid-template-columns:1fr 1fr}
+  .footer-top{grid-template-columns:1fr 1fr}
+  .dashboard-feature{grid-template-columns:1fr}
+  .diagnostico-inner{grid-template-columns:1fr}
+  .pricing-grid{grid-template-columns:1fr}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .steps-row{grid-template-columns:repeat(2,1fr)}
 }
-.faq-item.open { border-color:rgba(58,238,124,.25) }
-.faq-q {
-  display:flex; justify-content:space-between; align-items:center;
-  gap:16px; padding:20px 24px;
-  cursor:pointer;
-  font-family:'Space Grotesk',sans-serif;
-  font-size:15px; font-weight:600; color:var(--white);
-  transition:color .2s; user-select:none;
-}
-.faq-q:hover { color:var(--p1) }
-.faq-toggle { font-size:20px; color:var(--muted); transition:transform .3s; flex-shrink:0 }
-.faq-item.open .faq-toggle { transform:rotate(45deg); color:var(--p1) }
-.faq-item.open .faq-q { color:var(--p1) }
-.faq-a { max-height:0; overflow:hidden; transition:max-height .4s ease }
-.faq-item.open .faq-a { max-height:300px }
-.faq-a-inner { padding:0 24px 22px; font-size:14px; color:var(--muted); line-height:1.8 }
-
-/* ===== CTA FINAL ===== */
-.cta-final { text-align:center; padding:120px 0; position:relative; overflow:hidden }
-.cta-final::before {
-  content:'';
-  position:absolute; inset:0;
-  background:radial-gradient(ellipse 80% 60% at 50% 50%,rgba(58,238,124,.06),transparent);
-  pointer-events:none;
-}
-.cta-urgency {
-  display:inline-flex; align-items:center; gap:8px;
-  background:rgba(245,158,11,.08);
-  border:1px solid rgba(245,158,11,.22);
-  color:var(--gold);
-  font-size:12px; font-weight:600; letter-spacing:1px;
-  padding:7px 20px; border-radius:9999px; margin-bottom:28px;
-}
-.cta-final-title {
-  font-size:clamp(28px,5vw,54px);
-  font-weight:700;
-  color:var(--white);
-  margin-bottom:18px;
-  max-width:700px;
-  margin-left:auto; margin-right:auto;
-  line-height:1.05;
-}
-.cta-final-sub {
-  font-size:17px; color:var(--muted);
-  max-width:520px; margin:0 auto 44px;
-  line-height:1.8;
-}
-.cta-benefits { display:flex; flex-wrap:wrap; justify-content:center; gap:18px; margin-top:32px }
-.cta-benefit { display:flex; align-items:center; gap:7px; font-size:13px; color:var(--muted) }
-.cta-benefit::before { content:'✓'; color:var(--p1); font-weight:700 }
-
-/* ===== FOOTER ===== */
-footer { padding:40px 0; border-top:1px solid var(--border); background:var(--bg2) }
-.footer-inner { display:flex; flex-direction:column; align-items:center; gap:16px; text-align:center }
-.footer-logo { font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:15px; letter-spacing:3px; color:var(--muted2) }
-.footer-links { display:flex; gap:24px }
-.footer-links a { font-size:12px; color:var(--muted2); transition:color .2s }
-.footer-links a:hover { color:var(--muted) }
-.footer-copy { font-size:11px; color:var(--muted2) }
-
-/* ===== FLOAT CTA (mobile) ===== */
-.float-cta {
-  display:none;
-  position:fixed; bottom:20px; left:50%;
-  transform:translateX(-50%);
-  z-index:50;
-  width:calc(100% - 40px);
-  max-width:380px;
-}
-
-/* ===== FADE IN ===== */
-.fade-up { opacity:0; transform:translateY(30px); transition:opacity .65s ease,transform .65s ease }
-.fade-up.visible { opacity:1; transform:translateY(0) }
-
-/* ===== RESPONSIVE ===== */
-@media(max-width:1024px) {
-  .solucion-inner,.autoridad-inner { grid-template-columns:1fr; gap:52px }
-}
-@media(max-width:768px) {
-  .section { padding:72px 0 }
-  .trust-grid { grid-template-columns:repeat(2,1fr) }
-  .trust-item:nth-child(2) { border-right:none }
-  .trust-item:nth-child(1),.trust-item:nth-child(2) { border-bottom:1px solid var(--border) }
-  .problema-grid { grid-template-columns:1fr }
-  .incluye-grid { grid-template-columns:1fr }
-  .incluye-card.highlight { grid-column:1 }
-  .proceso-steps { grid-template-columns:1fr; gap:32px }
-  .proceso-steps::before { display:none }
-  .proceso-step { text-align:left; display:flex; gap:18px; align-items:flex-start; padding:0 }
-  .paso-num { margin:0; flex-shrink:0; width:46px; height:46px; font-size:18px }
-  .float-cta { display:block }
-  .nav-cta { display:none }
-  .hero-title { font-size:clamp(36px,9vw,54px) }
-  .aut-stats { grid-template-columns:repeat(3,1fr) }
-}
-@media(max-width:480px) {
-  .btn { width:100% }
-  .hero-cta-group { width:100% }
-  .hero-price-note { gap:12px }
-  .precio-actual { font-size:42px }
-  .cta-benefits { flex-direction:column; align-items:center }
-  .trust-grid { grid-template-columns:repeat(2,1fr) }
+@media(max-width:640px){
+  .nav-links{display:none}
+  .hamburger{display:block}
+  section{padding:72px 5%}
+  .hero{padding:100px 5% 60px}
+  .hero-stats{flex-direction:column;gap:24px}
+  .services-grid{grid-template-columns:1fr}
+  .stats-grid{grid-template-columns:1fr}
+  .steps-row{grid-template-columns:1fr}
+  .footer-top{grid-template-columns:1fr}
+  .footer-bottom{flex-direction:column;gap:16px;text-align:center}
 }
 </style>
 </head>
 <body>
 
-<!-- ===== NAVBAR ===== -->
-<nav class="navbar" id="navbar">
-  <div class="container">
-    <div class="navbar-inner">
-      <div class="nav-logo">SA<span>O</span>C</div>
-      <button class="btn btn-primary nav-cta" onclick="handleCTA(this)" style="padding:11px 24px;font-size:13px">
-        Diagnóstico Express &rarr; $250.000 COP
-      </button>
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a class="nav-logo" href="#">SAOC<span>.</span></a>
+    <div class="nav-links">
+      <a class="nav-link" href="#servicios">Servicios</a>
+      <a class="nav-link" href="#como-funciona">Cómo funciona</a>
+      <a class="nav-link" href="#precios">Planes</a>
+      <a class="nav-link" href="#diagnostico">Diagnóstico</a>
     </div>
+    <a class="nav-cta" href="#diagnostico">Solicitar diagnóstico</a>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
 
-<!-- ===== HERO ===== -->
+<div class="mobile-menu" id="mobileMenu">
+  <a class="mobile-link" href="#servicios" onclick="toggleMenu()">Servicios</a>
+  <a class="mobile-link" href="#como-funciona" onclick="toggleMenu()">Cómo funciona</a>
+  <a class="mobile-link" href="#precios" onclick="toggleMenu()">Planes</a>
+  <a class="mobile-link" href="#diagnostico" onclick="toggleMenu()">Diagnóstico</a>
+  <a class="btn-primary" href="#diagnostico" onclick="toggleMenu()" style="text-align:center">Solicitar diagnóstico</a>
+</div>
+
+<!-- HERO -->
 <section class="hero">
-  <!-- Background dot grid + orbs -->
-  <div class="hero-bg dot-grid" style="opacity:.4"></div>
-  <div class="orb orb-green" style="width:700px;height:700px;top:-200px;right:-180px;opacity:.30"></div>
-  <div class="orb orb-dark"  style="width:500px;height:500px;bottom:-120px;left:-120px;opacity:.25"></div>
-
-  <div class="container">
-    <div class="hero-content fade-up">
-      <!-- Live badge -->
-      <div class="hero-badge">
-        <span class="glow-dot"></span>&nbsp;Cupos Limitados Este Mes
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div>
+      <div class="hero-label animate-in">
+        <span class="hero-label-dot"></span>
+        Agencia de Marketing Digital
       </div>
-
-      <h1 class="hero-title">
-        Tu Instagram No<br>
-        Te Está Generando<br>
-        <span class="neon-text">Ventas.</span>
+      <h1 class="hero-h1 animate-in animate-delay-1">
+        Tu marca,<br>
+        datos reales,<br>
+        <em>resultados.</em>
       </h1>
-
-      <p class="hero-sub">
-        Obtén una <strong style="color:var(--white)">auditoría estratégica completa</strong> de tu perfil en 48 horas.
-        Diagnóstico claro, entregables concretos y una sesión 1 a 1 para que sepas exactamente qué cambiar y por qué.
+      <p class="hero-sub animate-in animate-delay-2">
+        Gestionamos tu presencia en Instagram y Meta Ads con estrategia basada en datos. Panel de control en tiempo real, reportes automáticos, cero suposiciones.
       </p>
-
-      <div class="hero-cta-group">
-        <button class="btn btn-primary btn-lg btn-shimmer" onclick="handleCTA(this)">
-          Quiero mi Diagnóstico Express &rarr;
-        </button>
-        <div class="hero-price-note">
-          <span>$250.000 COP</span>
-          <span>Entrega en 48h</span>
-          <span>Mini reunión incluida</span>
+      <div class="hero-actions animate-in animate-delay-3">
+        <a class="btn-primary" href="#diagnostico">Diagnóstico Express — gratis</a>
+        <a class="btn-secondary" href="#como-funciona">Ver cómo funciona</a>
+      </div>
+      <div class="hero-stats animate-in" style="animation-delay:.4s">
+        <div>
+          <div class="hero-stat-val">+120</div>
+          <div class="hero-stat-label">Clientes</div>
+        </div>
+        <div>
+          <div class="hero-stat-val">4.2x</div>
+          <div class="hero-stat-label">ROI Promedio</div>
+        </div>
+        <div>
+          <div class="hero-stat-val">98%</div>
+          <div class="hero-stat-label">Satisfacción</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual animate-in" style="animation-delay:.3s">
+      <div class="dashboard-preview">
+        <div class="dp-header">
+          <div class="dp-logo">SAOC<span>.</span></div>
+          <div class="dp-status"><span class="dp-status-dot"></span> En vivo</div>
+        </div>
+        <div class="dp-kpis">
+          <div class="dp-kpi"><div class="dp-kpi-val">12.8K</div><div class="dp-kpi-label">Seguidores</div></div>
+          <div class="dp-kpi"><div class="dp-kpi-val">142K</div><div class="dp-kpi-label">Alcance</div></div>
+          <div class="dp-kpi"><div class="dp-kpi-val">5.9%</div><div class="dp-kpi-label">Engagement</div></div>
+        </div>
+        <div class="dp-chart">
+          <div class="dp-bar" style="height:40%"></div>
+          <div class="dp-bar" style="height:60%"></div>
+          <div class="dp-bar" style="height:45%"></div>
+          <div class="dp-bar" style="height:80%"></div>
+          <div class="dp-bar" style="height:55%"></div>
+          <div class="dp-bar" style="height:70%"></div>
+          <div class="dp-bar" style="height:90%"></div>
+          <div class="dp-bar" style="height:65%"></div>
+          <div class="dp-bar" style="height:85%"></div>
+          <div class="dp-bar" style="height:100%"></div>
+        </div>
+        <div class="floating-badge">
+          <div class="fb-icon">📈</div>
+          <div>
+            <div class="fb-val">+38%</div>
+            <div class="fb-text">alcance este mes</div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===== TRUST BAR ===== -->
-<div class="trust-bar">
-  <div class="container">
-    <div class="trust-grid">
-      <div class="trust-item"><div class="trust-num">+50</div><div class="trust-label">Perfiles Auditados</div></div>
-      <div class="trust-item"><div class="trust-num">48h</div><div class="trust-label">Tiempo de Entrega</div></div>
-      <div class="trust-item"><div class="trust-num">7</div><div class="trust-label">Entregables Incluidos</div></div>
-      <div class="trust-item"><div class="trust-num">1:1</div><div class="trust-label">Sesión Personalizada</div></div>
+<!-- CLIENTES -->
+<div class="clients-bar">
+  <div class="clients-bar-inner">
+    <span class="clients-label">Confían en nosotros</span>
+    <span class="client-name-pill">Malfi IPS</span>
+    <span class="client-name-pill">Carbros</span>
+    <span class="client-name-pill">Café & Co</span>
+    <span class="client-name-pill">Studio K</span>
+    <span class="client-name-pill">Innova Med</span>
+    <span class="client-name-pill">Verde Fresh</span>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-section">
+  <div class="stats-grid">
+    <div class="stat-item">
+      <div class="stat-num">120<span>+</span></div>
+      <div class="stat-desc">Marcas gestionadas activamente</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">4.2<span>×</span></div>
+      <div class="stat-desc">ROI promedio en Meta Ads</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">$2<span>M+</span></div>
+      <div class="stat-desc">Invertidos en publicidad gestionada</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">48<span>h</span></div>
+      <div class="stat-desc">Entrega del diagnóstico express</div>
     </div>
   </div>
 </div>
 
-<!-- ===== PROBLEMA ===== -->
-<section class="section problema">
-  <!-- Faint orb -->
-  <div class="orb orb-dark" style="width:600px;height:300px;top:50%;left:50%;transform:translate(-50%,-50%);opacity:.18"></div>
-  <div class="container" style="position:relative;z-index:1">
-    <div class="fade-up">
-      <span class="tag-pill"><span class="glow-dot"></span> El Problema</span>
-      <h2 class="section-title">¿Tienes Instagram Pero<br>No Te Está Generando Ventas?</h2>
-      <p class="section-sub">
-        Si tu perfil tiene alguno de estos errores, estás perdiendo clientes todos los días—sin saberlo.
-      </p>
-    </div>
-    <div class="problema-grid">
-      <div class="problema-card fade-up">
-        <div class="problema-icon">🚫</div>
-        <div class="problema-title">Bio que no convierte</div>
-        <div class="problema-desc">Tu bio no explica quién eres, a quién ayudas ni por qué alguien debería contactarte. Los visitantes llegan y no entienden nada.</div>
+<!-- SERVICES -->
+<section id="servicios">
+  <div class="section-inner">
+    <div class="section-tag">Servicios</div>
+    <h2 class="section-h2">Todo lo que tu marca<br>necesita para crecer</h2>
+    <p class="section-sub">Desde estrategia de contenido hasta campañas de pauta, con datos reales y resultados medibles cada mes.</p>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">📊</div>
+        <div class="service-title">Analytics & Reporting</div>
+        <div class="service-desc">Panel de control en tiempo real conectado a tu cuenta de Instagram y Meta Ads. Datos reales, no estimaciones. Reportes automáticos cada mes.</div>
+        <span class="service-tag">Dashboard en vivo</span>
       </div>
-      <div class="problema-card fade-up">
-        <div class="problema-icon">🔍</div>
-        <div class="problema-title">Name sin palabras clave</div>
-        <div class="problema-desc">Instagram no puede mostrarte en búsquedas si tu nombre visible no está optimizado con keywords de tu nicho. Eres invisible.</div>
+      <div class="service-card">
+        <div class="service-icon">🎯</div>
+        <div class="service-title">Meta Ads Management</div>
+        <div class="service-desc">Creación, optimización y seguimiento de campañas publicitarias en Facebook e Instagram. ROAS garantizado o ajustamos la estrategia.</div>
+        <span class="service-tag">Performance marketing</span>
       </div>
-      <div class="problema-card fade-up">
-        <div class="problema-icon">📌</div>
-        <div class="problema-title">Destacadas sin estrategia</div>
-        <div class="problema-desc">Tus historias destacadas no tienen orden ni narrativa. No guían al visitante, no venden, no transmiten autoridad.</div>
+      <div class="service-card">
+        <div class="service-icon">📸</div>
+        <div class="service-title">Gestión de Instagram</div>
+        <div class="service-desc">Estrategia de contenido, calendario editorial, diseño de piezas y publicación. Tu feed siempre activo y alineado con tu marca.</div>
+        <span class="service-tag">Contenido estratégico</span>
       </div>
-      <div class="problema-card fade-up">
-        <div class="problema-icon">📸</div>
-        <div class="problema-title">Feed sin coherencia visual</div>
-        <div class="problema-desc">Tu feed parece un álbum de fotos sin dirección. No proyecta la imagen de un profesional serio. La primera impresión importa.</div>
+      <div class="service-card">
+        <div class="service-icon">🔍</div>
+        <div class="service-title">Diagnóstico Express</div>
+        <div class="service-desc">Auditoría completa de tu perfil de Instagram en 48 horas. Identifica exactamente qué está fallando y el plan para corregirlo.</div>
+        <span class="service-tag">Auditoría estratégica</span>
       </div>
-      <div class="problema-card fade-up">
-        <div class="problema-icon">🎯</div>
-        <div class="problema-title">Sin posicionamiento claro</div>
-        <div class="problema-desc">Los visitantes no entienden en qué te especializas, a quién ayudas ni por qué eres diferente. No hay razón clara para contactarte.</div>
+      <div class="service-card">
+        <div class="service-icon">🚀</div>
+        <div class="service-title">Growth Hacking</div>
+        <div class="service-desc">Estrategias de crecimiento orgánico: colaboraciones, hashtags, optimización de perfil y acciones de engagement para escalar seguidores reales.</div>
+        <span class="service-tag">Crecimiento orgánico</span>
       </div>
-      <div class="problema-card fade-up">
-        <div class="problema-icon">📉</div>
-        <div class="problema-title">Seguidores pero sin ventas</div>
-        <div class="problema-desc">Tienes seguidores pero nadie escribe para comprar. El problema no es el alcance—es la estrategia de posicionamiento.</div>
+      <div class="service-card">
+        <div class="service-icon">💬</div>
+        <div class="service-title">Comunidad & Ventas</div>
+        <div class="service-desc">Gestión de comentarios y mensajes directos, estrategias de conversión y embudo de ventas desde redes sociales hasta cierre.</div>
+        <span class="service-tag">Conversión social</span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===== SOLUCIÓN ===== -->
-<section class="section" style="position:relative;overflow:hidden">
-  <div class="orb orb-green" style="width:500px;height:500px;top:-100px;right:-150px;opacity:.18"></div>
-  <div class="container" style="position:relative;z-index:1">
-    <div class="solucion-inner">
-      <div class="fade-up">
-        <span class="sol-tag">✦ La Solución</span>
-        <h2 class="sol-title">El Diagnóstico Express:<br>La Radiografía Estratégica que Tu Perfil Necesita</h2>
-        <p class="sol-body">
-          No es rediseño genérico. No es solo hacer tu perfil "bonito". Es una <strong style="color:var(--white)">auditoría estratégica completa</strong> que va a fondo en cada elemento de tu perfil para identificar exactamente qué está bloqueando tus ventas—y darte un plan claro y accionable para solucionarlo en menos de 48 horas.
-        </p>
-        <div class="sol-quote">
-          Mientras tu competencia sigue publicando sin estrategia, tú tendrás en manos un plan de posicionamiento concreto que transforma tu perfil en tu mejor canal de ventas.
-        </div>
+<!-- HOW IT WORKS -->
+<section id="como-funciona" class="how-section">
+  <div class="section-inner">
+    <div class="section-tag">Proceso</div>
+    <h2 class="section-h2">Así funciona</h2>
+    <p class="section-sub">Sin contratos trampa, sin promesas vacías. Un proceso claro y transparente desde el primer día.</p>
+    <div class="steps-row">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-line"></div>
+        <div class="step-title">Diagnóstico</div>
+        <div class="step-desc">Auditamos tu perfil actual, tu competencia y tu mercado. Identificamos oportunidades reales en 48 horas.</div>
       </div>
-      <div class="sol-visual fade-up">
-        <div class="ig-top">
-          <div class="ig-avatar">✨</div>
-          <div class="ig-info">
-            <div class="ig-name">Tu Marca Profesional</div>
-            <div class="ig-handle">@tumarca · Consultoría | Ventas</div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-line"></div>
+        <div class="step-title">Estrategia</div>
+        <div class="step-desc">Diseñamos un plan a medida con objetivos claros, presupuesto optimizado y KPIs medibles cada semana.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-line"></div>
+        <div class="step-title">Ejecución</div>
+        <div class="step-desc">Implementamos la estrategia: contenido, campañas, optimizaciones semanales y respuesta en tiempo real.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div class="step-line"></div>
+        <div class="step-title">Dashboard</div>
+        <div class="step-desc">Accedes a tu panel de control en tiempo real. Ves exactamente en qué se invierte tu presupuesto y qué resultados genera.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DASHBOARD FEATURE -->
+<section>
+  <div class="section-inner">
+    <div class="dashboard-feature">
+      <div>
+        <div class="section-tag">Tu panel de control</div>
+        <h2 class="section-h2">Datos reales,<br>decisiones claras</h2>
+        <p class="section-sub" style="margin-top:16px">Conecta tu cuenta de Instagram o Facebook y visualiza todo tu desempeño en un solo lugar. Sin Excel, sin esperar reportes.</p>
+        <div class="feature-list">
+          <div class="feature-item">
+            <div class="feature-dot"></div>
+            <div>
+              <div class="feature-item-title">Conexión directa con Meta API</div>
+              <div class="feature-item-desc">Conectas tu cuenta una sola vez y los datos se actualizan automáticamente cada día.</div>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-dot"></div>
+            <div>
+              <div class="feature-item-title">KPIs que realmente importan</div>
+              <div class="feature-item-desc">Seguidores, alcance, engagement, inversión en ads, CTR — todo en un solo vistazo.</div>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-dot"></div>
+            <div>
+              <div class="feature-item-title">Historial de crecimiento</div>
+              <div class="feature-item-desc">Gráficas de evolución mensual para ver el progreso real de tu marca con el tiempo.</div>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-dot"></div>
+            <div>
+              <div class="feature-item-title">Acceso exclusivo del cliente</div>
+              <div class="feature-item-desc">Login seguro para ti. Tus datos solo los ves tú y tu equipo SAOC.</div>
+            </div>
           </div>
         </div>
-        <div class="ig-stats">
-          <div class="ig-stat"><div class="ig-stat-num">284</div><div class="ig-stat-lbl">Publicaciones</div></div>
-          <div class="ig-stat"><div class="ig-stat-num">3.2K</div><div class="ig-stat-lbl">Seguidores</div></div>
-          <div class="ig-stat"><div class="ig-stat-num">198</div><div class="ig-stat-lbl">Seguidos</div></div>
-        </div>
-        <div class="ig-bio">
-          <div class="ig-bio-label">✦ Bio Optimizada</div>
-          Ayudo a <strong style="color:var(--white)">dueños de negocios</strong> a escalar sus ventas con estrategia digital clara &amp; resultados medibles 📈<br>
-          <span style="color:var(--p1)">👇 Agenda tu sesión gratuita</span>
-        </div>
-        <div class="ig-highlights">
-          <div class="ig-hl"><div class="ig-hl-circle">🏆</div><div class="ig-hl-lbl">Resultados</div></div>
-          <div class="ig-hl"><div class="ig-hl-circle">💼</div><div class="ig-hl-lbl">Servicios</div></div>
-          <div class="ig-hl"><div class="ig-hl-circle">⭐</div><div class="ig-hl-lbl">Clientes</div></div>
-          <div class="ig-hl"><div class="ig-hl-circle">📞</div><div class="ig-hl-lbl">Contacto</div></div>
-        </div>
-        <div style="text-align:center">
-          <span class="ig-badge">✓ Perfil Optimizado para Vender</span>
-        </div>
+        <a class="btn-primary" href="#diagnostico" style="margin-top:16px;display:inline-block">Quiero mi panel →</a>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== QUÉ INCLUYE ===== -->
-<section class="section incluye">
-  <div class="container">
-    <div class="text-center fade-up">
-      <span class="tag-pill">Entregables</span>
-      <h2 class="section-title">Todo Lo Que Recibes<br>Con Tu Diagnóstico Express</h2>
-      <p class="section-sub">7 entregables estratégicos. Todo en tus manos en máximo 48 horas hábiles.</p>
-      <div class="glow-line"></div>
-    </div>
-    <div class="incluye-grid">
-      <div class="incluye-card fade-up">
-        <div class="incluye-icon">🔍</div>
-        <div>
-          <div class="incluye-title">Análisis Estratégico Completo</div>
-          <div class="incluye-desc">Revisión profunda de cada elemento de tu perfil: bio, name, destacadas, feed y coherencia visual. Sabrás exactamente qué está fallando y por qué te está costando clientes.</div>
+      <div class="dashboard-mockup">
+        <div class="dm-topbar">
+          <div class="dm-dot" style="background:#333"></div>
+          <div class="dm-dot" style="background:#333;margin-left:6px"></div>
+          <div class="dm-dot" style="background:#333;margin-left:6px"></div>
+          <span style="font-size:11px;color:var(--gray2);margin-left:12px;letter-spacing:1px">saoc.dashboard</span>
         </div>
-      </div>
-      <div class="incluye-card fade-up">
-        <div class="incluye-icon">✍️</div>
-        <div>
-          <div class="incluye-title">Optimización de Bio y Name</div>
-          <div class="incluye-desc">Bio reescrita con copywriting estratégico + optimización del name visible con palabras clave para que Instagram te posicione en búsquedas de tu nicho.</div>
-        </div>
-      </div>
-      <div class="incluye-card fade-up">
-        <div class="incluye-icon">📌</div>
-        <div>
-          <div class="incluye-title">Estructura de Historias Destacadas</div>
-          <div class="incluye-desc">Definición de las categorías correctas para tus destacadas, ordenadas estratégicamente para guiar al visitante del perfil hacia la decisión de compra.</div>
-        </div>
-      </div>
-      <div class="incluye-card fade-up">
-        <div class="incluye-icon">🎨</div>
-        <div>
-          <div class="incluye-title">Diseño de Portadas de Destacadas</div>
-          <div class="incluye-desc">Portadas personalizadas con tu paleta de colores y marca. Tu perfil proyecta profesionalismo desde el primer vistazo—sin necesidad de ser diseñador.</div>
-        </div>
-      </div>
-      <div class="incluye-card fade-up">
-        <div class="incluye-icon">📱</div>
-        <div>
-          <div class="incluye-title">Mockup Visual del Feed</div>
-          <div class="incluye-desc">Un mockup concreto de cómo debería verse tu feed para crear coherencia visual y transmitir autoridad en tu nicho a primera vista.</div>
-        </div>
-      </div>
-      <div class="incluye-card fade-up">
-        <div class="incluye-icon">📋</div>
-        <div>
-          <div class="incluye-title">PDF con Diagnóstico y Plan de Mejora</div>
-          <div class="incluye-desc">Documento completo con todo el análisis, hallazgos, recomendaciones específicas y un plan de acción priorizado. Sabrás exactamente qué hacer primero.</div>
-        </div>
-      </div>
-      <div class="incluye-card highlight fade-up">
-        <div class="incluye-icon">🎯</div>
-        <div>
-          <div class="incluye-title">Mini Reunión 1 a 1 de 20 Minutos</div>
-          <div class="incluye-desc">Una sesión virtual contigo para presentar los hallazgos, resolver tus dudas y asegurarte de que tienes total claridad para implementar cada cambio. <strong style="color:var(--white)">Agendas inmediatamente después del pago.</strong></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== CÓMO FUNCIONA ===== -->
-<section class="section" style="position:relative;overflow:hidden">
-  <div class="orb orb-green" style="width:400px;height:400px;bottom:-100px;left:50%;transform:translateX(-50%);opacity:.15"></div>
-  <div class="container" style="position:relative;z-index:1">
-    <div class="text-center fade-up">
-      <span class="tag-pill">El Proceso</span>
-      <h2 class="section-title">Simple. Rápido. Sin Complicaciones.</h2>
-      <p class="section-sub">Tres pasos y tu diagnóstico estratégico está en camino.</p>
-    </div>
-    <div class="proceso-steps">
-      <div class="proceso-step fade-up">
-        <div class="paso-num">1</div>
-        <div>
-          <div class="paso-title">Pagas Hoy</div>
-          <div class="paso-desc">Completa tu pago de $250.000 COP de forma segura a través de Wompi (plataforma oficial de Bancolombia). Menos de 2 minutos.</div>
-          <span class="paso-tag">💳 Pago seguro con Wompi</span>
-        </div>
-      </div>
-      <div class="proceso-step fade-up">
-        <div class="paso-num">2</div>
-        <div>
-          <div class="paso-title">Agendas Tu Sesión</div>
-          <div class="paso-desc">Inmediatamente después del pago recibes el enlace para agendar tu mini reunión de 20 minutos en el horario que mejor te convenga.</div>
-          <span class="paso-tag">📅 Agendamiento automático</span>
-        </div>
-      </div>
-      <div class="proceso-step fade-up">
-        <div class="paso-num">3</div>
-        <div>
-          <div class="paso-title">Recibes Tu Diagnóstico</div>
-          <div class="paso-desc">En máximo 48 horas hábiles después de tu sesión, recibes todos los entregables directamente en tu correo electrónico.</div>
-          <span class="paso-tag">⚡ Resultados en 48h hábiles</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== CTA MEDIO ===== -->
-<div class="cta-mid">
-  <div class="container fade-up">
-    <p style="font-size:12px;color:var(--muted);letter-spacing:3px;text-transform:uppercase;margin-bottom:20px">¿Listo para transformar tu perfil?</p>
-    <button class="btn btn-primary btn-lg btn-shimmer" onclick="handleCTA(this)">
-      Quiero mi Diagnóstico Express &rarr;
-    </button>
-    <p style="margin-top:18px;font-size:13px;color:var(--muted)">$250.000 COP · 7 entregables · Mini reunión incluida · 48h de entrega</p>
-  </div>
-</div>
-
-<!-- ===== PRECIO ===== -->
-<section class="section" style="background:var(--bg2);position:relative;overflow:hidden">
-  <div class="orb orb-green" style="width:600px;height:400px;top:50%;left:50%;transform:translate(-50%,-50%);opacity:.10"></div>
-  <div class="container" style="position:relative;z-index:1">
-    <div class="text-center fade-up">
-      <span class="tag-pill">Inversión</span>
-      <h2 class="section-title">Una Inversión que Se Paga Sola</h2>
-      <p class="section-sub">Basta con conseguir un cliente extra gracias a un perfil mejor posicionado para recuperar esta inversión.</p>
-    </div>
-    <div class="precio-card fade-up">
-      <div class="precio-header">
-        <div class="precio-header-title">Diagnóstico Express de Posicionamiento en Instagram</div>
-      </div>
-      <div class="precio-body">
-        <div class="precio-comp">
-          <div class="precio-orig">Valor real estimado: $600.000 COP</div>
-          <div class="precio-actual">$250.000 <span style="font-size:20px;font-weight:400">COP</span></div>
-          <div class="precio-badge">Precio de Lanzamiento</div>
-        </div>
-        <ul class="precio-list">
-          <li>Análisis estratégico completo del perfil</li>
-          <li>Optimización de bio y name con palabras clave</li>
-          <li>Estructura estratégica de historias destacadas</li>
-          <li>Diseño de portadas de destacadas personalizadas</li>
-          <li>Mockup visual del feed</li>
-          <li>PDF con diagnóstico y plan de mejora</li>
-          <li>Mini reunión 1 a 1 de 20 minutos</li>
-        </ul>
-        <div class="precio-reason">
-          <strong>¿Por qué está a este precio?</strong> Estoy en etapa de lanzamiento y trabajo con un número limitado de clientes cada mes para garantizar la calidad de cada diagnóstico. Cuando se llenen los cupos disponibles, el precio regresa a $600.000 COP.
-        </div>
-        <div class="garantia">
-          <div class="garantia-ico">🛡️</div>
-          <div class="garantia-txt"><strong>Garantía de Satisfacción:</strong> Si no quedas 100% satisfecho con la calidad del diagnóstico, te devuelvo tu dinero sin preguntas.</div>
-        </div>
-        <button class="btn btn-primary btn-full btn-shimmer" onclick="handleCTA(this)">
-          Quiero mi Diagnóstico Express &rarr;
-        </button>
-        <p style="text-align:center;margin-top:14px;font-size:12px;color:var(--muted)">Pago seguro con Wompi · Agendamiento inmediato · Entrega en 48h</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== AUTORIDAD ===== -->
-<section class="section" style="position:relative;overflow:hidden">
-  <div class="orb orb-green" style="width:500px;height:500px;top:-50px;left:-100px;opacity:.15"></div>
-  <div class="container" style="position:relative;z-index:1">
-    <div class="autoridad-inner">
-      <div class="fade-up">
-        <span class="tag-pill">Por Qué Confiar</span>
-        <h2 class="aut-title">Estrategia, No<br>Solo Diseño</h2>
-        <p class="aut-body">
-          No soy diseñador genérico que hace perfiles "bonitos". Soy estratega de posicionamiento digital con experiencia en análisis de perfiles, copywriting y comportamiento del usuario en Instagram. Mi enfoque combina datos, estrategia de marca y diseño para que tu perfil no solo se vea bien—sino que <span class="neon-text">venda</span>.
-        </p>
-        <div class="aut-stats">
-          <div class="aut-stat"><div class="aut-num">+50</div><div class="aut-lbl">Perfiles Auditados</div></div>
-          <div class="aut-stat"><div class="aut-num">100%</div><div class="aut-lbl">Enfoque Estratégico</div></div>
-          <div class="aut-stat"><div class="aut-num">48h</div><div class="aut-lbl">Entrega Garantizada</div></div>
-        </div>
-      </div>
-      <div class="aut-cards fade-up">
-        <div class="aut-card">
-          <div class="aut-card-ico">📊</div>
-          <div>
-            <div class="aut-card-title">Análisis Basado en Datos</div>
-            <div class="aut-card-desc">Cada recomendación está respaldada por el comportamiento real de usuarios en Instagram y las mejores prácticas del algoritmo actual.</div>
+        <div class="dm-inner">
+          <div class="dm-sidebar">
+            <div class="dm-nav-item active">◈ Resumen</div>
+            <div class="dm-nav-item">◉ Instagram</div>
+            <div class="dm-nav-item">◎ Meta Ads</div>
+            <div class="dm-nav-item">△ Crecimiento</div>
+          </div>
+          <div class="dm-body">
+            <div class="dm-kpi-row">
+              <div class="dm-kpi"><div class="dm-kpi-n">12.8K</div><div class="dm-kpi-l">Seguidores</div></div>
+              <div class="dm-kpi"><div class="dm-kpi-n">142K</div><div class="dm-kpi-l">Alcance</div></div>
+              <div class="dm-kpi"><div class="dm-kpi-n">5.9%</div><div class="dm-kpi-l">Engagement</div></div>
+            </div>
+            <div class="dm-chartbox">
+              <div class="dm-chartbar" style="height:35%;background:var(--red);opacity:.4"></div>
+              <div class="dm-chartbar" style="height:55%;background:var(--red);opacity:.5"></div>
+              <div class="dm-chartbar" style="height:45%;background:var(--red);opacity:.4"></div>
+              <div class="dm-chartbar" style="height:75%;background:var(--red);opacity:.6"></div>
+              <div class="dm-chartbar" style="height:60%;background:var(--red);opacity:.5"></div>
+              <div class="dm-chartbar" style="height:80%;background:var(--red);opacity:.7"></div>
+              <div class="dm-chartbar" style="height:95%;background:var(--red);opacity:.9"></div>
+              <div class="dm-chartbar" style="height:100%;background:var(--red)"></div>
+            </div>
           </div>
         </div>
-        <div class="aut-card">
-          <div class="aut-card-ico">✍️</div>
-          <div>
-            <div class="aut-card-title">Copywriting Estratégico</div>
-            <div class="aut-card-desc">No solo optimizo la apariencia—mejoro el mensaje. Tu bio y contenido hablarán directamente a tu cliente ideal y lo motivarán a contactarte.</div>
-          </div>
-        </div>
-        <div class="aut-card">
-          <div class="aut-card-ico">🎯</div>
-          <div>
-            <div class="aut-card-title">Foco en Resultados de Negocio</div>
-            <div class="aut-card-desc">El objetivo no es tener más seguidores—es convertir visitantes en clientes. Cada recomendación apunta directamente a ese resultado.</div>
-          </div>
-        </div>
-        <div class="aut-card">
-          <div class="aut-card-ico">⚡</div>
-          <div>
-            <div class="aut-card-title">Entregables Concretos y Accionables</div>
-            <div class="aut-card-desc">Recibes un plan claro con prioridades definidas. No hay análisis vagos ni recomendaciones genéricas—todo es específico para tu perfil.</div>
-          </div>
+        <div style="padding:16px 20px;border-top:1px solid var(--border);display:flex;align-items:center;gap:8px">
+          <div style="width:6px;height:6px;border-radius:50%;background:#00c896;animation:pulse 2s infinite"></div>
+          <span style="font-size:11px;color:var(--gray)">Datos actualizados en tiempo real</span>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===== FAQ ===== -->
-<section class="section faq">
-  <div class="container">
-    <div class="text-center fade-up">
-      <span class="tag-pill">Preguntas Frecuentes</span>
-      <h2 class="section-title">Resolvemos Tus Dudas</h2>
-      <div class="glow-line"></div>
+<!-- DIAGNOSTICO -->
+<section id="diagnostico" class="diagnostico-section">
+  <div class="diagnostico-inner">
+    <div>
+      <div class="diag-badge">⚡ Oferta limitada</div>
+      <h2 class="diag-h2">Diagnóstico Express de Posicionamiento</h2>
+      <p class="diag-desc">Auditamos tu perfil de Instagram en menos de 48 horas. Recibes un reporte completo con exactamente qué está fallando y el plan para solucionarlo.</p>
+      <div class="deliverables">
+        <div class="deliverable"><div class="del-check">✓</div> Auditoría completa de perfil y bio</div>
+        <div class="deliverable"><div class="del-check">✓</div> Análisis de las últimas 12 publicaciones</div>
+        <div class="deliverable"><div class="del-check">✓</div> Benchmark vs. 3 competidores directos</div>
+        <div class="deliverable"><div class="del-check">✓</div> Estrategia de hashtags personalizada</div>
+        <div class="deliverable"><div class="del-check">✓</div> Plan de acción priorizado (30 días)</div>
+        <div class="deliverable"><div class="del-check">✓</div> Mini reunión 1 a 1 de 30 minutos</div>
+        <div class="deliverable"><div class="del-check">✓</div> Reporte PDF ejecutivo entregable</div>
+      </div>
+      <div class="price-callout">
+        <div>
+          <div class="price-amount">$250.000 COP</div>
+          <div class="price-period">Pago único · Resultados en 48h</div>
+        </div>
+        <div style="font-size:13px;color:var(--gray)">Cupos limitados esta semana</div>
+      </div>
     </div>
-    <div class="faq-list">
-      <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">¿Cuánto tiempo tarda el diagnóstico en llegar? <span class="faq-toggle">+</span></div>
-        <div class="faq-a"><div class="faq-a-inner">Máximo 48 horas hábiles después de tu mini reunión de 20 minutos. La reunión la agendas inmediatamente después de completar el pago, en el horario que mejor te convenga.</div></div>
+    <div class="diag-form">
+      <h3>Solicita tu diagnóstico</h3>
+      <p>Completa el formulario y te contactamos en menos de 2 horas.</p>
+      <form id="diagForm" onsubmit="submitDiag(event)">
+        <div class="form-group">
+          <label class="form-label">Nombre completo</label>
+          <input class="form-input" type="text" id="diag-name" placeholder="Tu nombre" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">WhatsApp</label>
+          <input class="form-input" type="tel" id="diag-phone" placeholder="+57 300 000 0000" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input class="form-input" type="email" id="diag-email" placeholder="tu@email.com" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Usuario de Instagram</label>
+          <input class="form-input" type="text" id="diag-instagram" placeholder="@tuusuario" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">¿Qué objetivo tienes?</label>
+          <select class="form-select" id="diag-goal">
+            <option value="">Selecciona un objetivo...</option>
+            <option value="seguidores">Más seguidores reales</option>
+            <option value="ventas">Vender más por redes</option>
+            <option value="marca">Posicionamiento de marca</option>
+            <option value="ads">Mejorar mis campañas</option>
+            <option value="otro">Otro</option>
+          </select>
+        </div>
+        <button class="form-btn" type="submit" id="diagBtn">Solicitar diagnóstico →</button>
+        <div class="form-disclaimer">Sin compromiso. Pago seguro por Wompi o transferencia.</div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="precios">
+  <div class="section-inner">
+    <div class="section-tag">Planes</div>
+    <h2 class="section-h2">Elige el plan para<br>tu marca</h2>
+    <p class="section-sub">Sin permanencias forzadas. Cancela cuando quieras. Todos incluyen acceso al dashboard en tiempo real.</p>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <div class="pricing-plan">Starter</div>
+        <div class="pricing-price"><sup>$</sup>890.000</div>
+        <div class="pricing-period">COP / mes · IVA incluido</div>
+        <div class="pricing-features">
+          <div class="pricing-feature"><span class="pf-check">◆</span> Gestión Instagram (12 post/mes)</div>
+          <div class="pricing-feature"><span class="pf-check">◆</span> Diseño de piezas gráficas</div>
+          <div class="pricing-feature"><span class="pf-check">◆</span> Reporte mensual PDF</div>
+          <div class="pricing-feature"><span class="pf-check">◆</span> Dashboard de analytics</div>
+          <div class="pricing-feature" style="color:var(--gray2)">◇ Meta Ads Management</div>
+          <div class="pricing-feature" style="color:var(--gray2)">◇ Reunión estratégica mensual</div>
+        </div>
+        <a class="pricing-btn" href="#diagnostico">Comenzar →</a>
       </div>
-      <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">¿Necesito tener muchos seguidores para que funcione? <span class="faq-toggle">+</span></div>
-        <div class="faq-a"><div class="faq-a-inner">No. El diagnóstico funciona para perfiles de cualquier tamaño. Lo importante es la estrategia de posicionamiento, no la cantidad de seguidores. De hecho, con menos seguidores es más fácil ver resultados rápidos al optimizar el perfil correctamente.</div></div>
+      <div class="pricing-card featured">
+        <div class="pricing-featured-badge">Más popular</div>
+        <div class="pricing-plan">Estándar</div>
+        <div class="pricing-price"><sup>$</sup>1.590.000</div>
+        <div class="pricing-period">COP / mes · IVA incluido</div>
+        <div class="pricing-features">
+          <div class="pricing-feature"><span class="pf-check">◆</span> Gestión Instagram (20 post/mes)</div>
+          <div class="pricing-feature"><span class="pf-check">◆</span> Diseño + Reels y Stories</div>
+          <div class="pricing-feature"><span class="pf-check">◆</span> Meta Ads (hasta $500K/mes)</div>
+          <div class="pricing-feature"><span class="pf-check">◆</span> Dashboard en tiempo real</div>
+          <div class="pricing-feature"><span class="pf-check">◆</span> Reunión estratégica mensual</div>
+          <div class="pricing-feature"><span class="pf-check">◆</span> Gestión de DMs y comentarios</div>
+        </div>
+        <a class="pricing-btn" href="#diagnostico">Comenzar →</a>
       </div>
-      <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">¿Qué necesito para comenzar? <span class="faq-toggle">+</span></div>
-        <div class="faq-a"><div class="faq-a-inner">Solo completa el pago, agenda tu mini reunión y comparte tu usuario de Instagram. En la reunión conversamos sobre tu negocio, público objetivo y metas para que el diagnóstico sea 100% personalizado.</div></div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">¿El pago es seguro? <span class="faq-toggle">+</span></div>
-        <div class="faq-a"><div class="faq-a-inner">Sí. Procesamos los pagos a través de Wompi, la plataforma de pagos oficial de Bancolombia. Es 100% seguro, acepta todas las tarjetas y PSE. Tus datos financieros están completamente protegidos.</div></div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">¿Cómo recibo los entregables? <span class="faq-toggle">+</span></div>
-        <div class="faq-a"><div class="faq-a-inner">Todo llega directamente a tu correo electrónico: el PDF de diagnóstico, las portadas de destacadas en formato editable, el mockup del feed y el plan de acción. Todo organizado y listo para implementar.</div></div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">¿Aplica para cualquier tipo de negocio? <span class="faq-toggle">+</span></div>
-        <div class="faq-a"><div class="faq-a-inner">Sí. He trabajado con emprendedores, profesionales independientes, tiendas online, coaches, consultores y empresas de servicios. La estrategia de posicionamiento se adapta a tu nicho y público específico.</div></div>
+      <div class="pricing-card">
+        <div class="pricing-plan">Premium</div>
+        <div class="pricing-price"><sup>$</sup>2.890.000</div>
+        <div class="pricing-period">COP / mes · IVA incluido</div>
+        <div class="pricing-features">
+          <div class="pricing-feature"><span class="pf-check">◆</span> Todo lo del Estándar</div>
+          <div class="pricing-feature"><span class="pf-check">◆</span> Meta Ads sin límite de presupuesto</div>
+          <div class="pricing-feature"><span class="pf-check">◆</span> Facebook + Instagram + WhatsApp</div>
+          <div class="pricing-feature"><span class="pf-check">◆</span> Reuniones semanales 1:1</div>
+          <div class="pricing-feature"><span class="pf-check">◆</span> Estrategia de crecimiento avanzada</div>
+          <div class="pricing-feature"><span class="pf-check">◆</span> Acceso API completa + exportaciones</div>
+        </div>
+        <a class="pricing-btn" href="#diagnostico">Comenzar →</a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===== CTA FINAL ===== -->
-<section class="cta-final" style="position:relative;overflow:hidden">
-  <div class="orb orb-green" style="width:800px;height:600px;top:50%;left:50%;transform:translate(-50%,-50%);opacity:.12"></div>
-  <div class="container" style="position:relative;z-index:1">
-    <div class="fade-up">
-      <div class="cta-urgency">⚡ Cupos Limitados Este Mes — Solo Quedan Pocos Disponibles</div>
-      <h2 class="cta-final-title">
-        ¿Listo Para Que Tu Instagram<br>
-        <span class="neon-text">Empiece a Generar Ventas?</span>
-      </h2>
-      <p class="cta-final-sub">Únete a los dueños de negocio y profesionales que ya transformaron su perfil en su mejor canal de ventas.</p>
-      <button class="btn btn-primary btn-lg btn-shimmer" onclick="handleCTA(this)" style="font-size:19px;padding:24px 60px">
-        Quiero mi Diagnóstico Express &rarr;
-      </button>
-      <p style="margin-top:18px;font-size:14px;color:var(--muted)">$250.000 COP · Pago único · Sin suscripción</p>
-      <div class="cta-benefits">
-        <span class="cta-benefit">7 entregables estratégicos</span>
-        <span class="cta-benefit">Diagnóstico en 48 horas</span>
-        <span class="cta-benefit">Mini reunión 1 a 1 incluida</span>
-        <span class="cta-benefit">Pago seguro con Wompi</span>
-        <span class="cta-benefit">Garantía de satisfacción</span>
-      </div>
+<!-- CTA FINAL -->
+<section class="cta-section">
+  <div class="cta-inner">
+    <h2 class="cta-h2">¿Listo para dejar de<br>adivinar y empezar a<br><span>crecer con datos?</span></h2>
+    <p class="cta-sub">Solicita tu diagnóstico express. En 48 horas sabes exactamente qué hacer.</p>
+    <div class="cta-actions">
+      <a class="btn-primary" href="#diagnostico">Diagnóstico Express →</a>
+      <a class="btn-secondary" href="https://wa.me/573000000000" target="_blank">WhatsApp directo</a>
     </div>
+    <div class="cta-note">Sin compromiso · Cupos limitados · Respuesta en &lt;2h</div>
   </div>
 </section>
 
-<!-- ===== FOOTER ===== -->
+<!-- FOOTER -->
 <footer>
-  <div class="container">
-    <div class="footer-inner">
-      <div class="footer-logo">SA<span style="color:var(--p1)">O</span>C</div>
-      <div class="footer-links">
-        <a href="#">Política de Privacidad</a>
-        <a href="#">Términos y Condiciones</a>
-        <a href="#" id="footer-whatsapp">Contacto</a>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo">SAOC<span>.</span></div>
+        <div class="footer-brand-desc">Agencia de marketing digital especializada en crecimiento de marca, Instagram y Meta Ads. Resultados medibles, datos reales.</div>
       </div>
-      <div class="footer-copy">&copy; 2025 SAOC Digital. Todos los derechos reservados.</div>
+      <div>
+        <div class="footer-col-title">Servicios</div>
+        <div class="footer-links">
+          <a class="footer-link" href="#servicios">Analytics</a>
+          <a class="footer-link" href="#servicios">Meta Ads</a>
+          <a class="footer-link" href="#servicios">Instagram</a>
+          <a class="footer-link" href="#diagnostico">Diagnóstico</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Empresa</div>
+        <div class="footer-links">
+          <a class="footer-link" href="#">Nosotros</a>
+          <a class="footer-link" href="#precios">Planes</a>
+          <a class="footer-link" href="#como-funciona">Proceso</a>
+          <a class="footer-link" href="#">Blog</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Contacto</div>
+        <div class="footer-links">
+          <a class="footer-link" href="mailto:hola@saocdigital.com">hola@saocdigital.com</a>
+          <a class="footer-link" href="#">WhatsApp</a>
+          <a class="footer-link" href="/dashboard">Acceso clientes</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2025 SAOC Digital. Todos los derechos reservados.</div>
+      <div class="footer-socials">
+        <a class="social-btn" href="#" aria-label="Instagram">ig</a>
+        <a class="social-btn" href="#" aria-label="Facebook">fb</a>
+        <a class="social-btn" href="#" aria-label="LinkedIn">li</a>
+      </div>
     </div>
   </div>
 </footer>
 
-<!-- FLOAT CTA (mobile) -->
-<div class="float-cta" id="floatCta">
-  <button class="btn btn-primary btn-full btn-shimmer" onclick="handleCTA(this)" style="font-size:15px;padding:16px">
-    Diagnóstico Express &rarr; $250.000 COP
-  </button>
-</div>
-
-<!-- ===== SCRIPTS ===== -->
 <script>
-/* ---- CONFIG & STATE ---- */
-let appConfig = {};
-let wompiReady = false;
-
-/* ---- INIT ---- */
-async function initPage() {
-  try {
-    const res = await fetch('/landing/config');
-    if (!res.ok) throw new Error('Config fetch failed');
-    appConfig = await res.json();
-
-    if (appConfig.pixelId) {
-      initMetaPixel(appConfig.pixelId);
-    }
-    if (appConfig.wompiPublicKey) {
-      loadWompiScript();
-    }
-    if (appConfig.whatsappNumber) {
-      const wa = document.getElementById('footer-whatsapp');
-      if (wa) {
-        const msg = encodeURIComponent('Hola, quiero información sobre el Diagnóstico Express de Posicionamiento en Instagram');
-        wa.href = `https://wa.me/${appConfig.whatsappNumber}?text=${msg}`;
-        wa.target = '_blank';
-      }
-    }
-  } catch (e) {
-    console.warn('Landing config not loaded:', e.message);
-  }
-}
-
-/* ---- META PIXEL ---- */
-function initMetaPixel(pixelId) {
-  !function(f,b,e,v,n,t,s){
-    if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)
-  }(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', pixelId);
-  fbq('track', 'PageView');
-  fbq('track', 'ViewContent', {
-    content_name: 'Diagnóstico Express de Posicionamiento en Instagram',
-    content_category: 'Servicio Digital',
-    value: 250000,
-    currency: 'COP'
-  });
-  const ns = document.createElement('noscript');
-  ns.innerHTML = `<img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=${pixelId}&ev=PageView&noscript=1"/>`;
-  document.body.appendChild(ns);
-}
-
-/* ---- WOMPI ---- */
-function loadWompiScript() {
-  const s = document.createElement('script');
-  s.src = 'https://checkout.wompi.co/widget.js';
-  s.onload = () => { wompiReady = true; };
-  s.onerror = () => { console.warn('Wompi script failed to load'); };
-  document.head.appendChild(s);
-}
-
-/* ---- CHECKOUT HANDLER ---- */
-async function handleCTA(btn) {
-  if (!appConfig.wompiPublicKey) {
-    openWhatsApp();
-    return;
-  }
-  if (!wompiReady) {
-    let tries = 0;
-    while (!wompiReady && tries < 10) {
-      await new Promise(r => setTimeout(r, 300));
-      tries++;
-    }
-    if (!wompiReady) { openWhatsApp(); return; }
-  }
-  if (window.fbq) {
-    fbq('track', 'InitiateCheckout', { value: 250000, currency: 'COP', num_items: 1 });
-  }
-  const origText = btn.innerHTML;
-  btn.classList.add('btn-loading');
-  btn.innerHTML = 'Cargando pago...';
-  const ts = Date.now();
-  const rand = Math.random().toString(36).slice(2, 7).toUpperCase();
-  const reference = `DIAG-${ts}-${rand}`;
-  try {
-    const res = await fetch('/landing/checkout-config', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ reference })
-    });
-    const data = await res.json();
-    btn.classList.remove('btn-loading');
-    btn.innerHTML = origText;
-    if (!data.signature) { openWhatsApp(); return; }
-    const checkout = new WidgetCheckout({
-      currency: data.currency,
-      amountInCents: parseInt(data.amountInCents),
-      reference: data.reference,
-      publicKey: appConfig.wompiPublicKey,
-      redirectUrl: `${window.location.origin}/gracias`,
-      signature: { integrity: data.signature }
-    });
-    checkout.open(function(result) {
-      const tx = result.transaction;
-      if (tx && tx.status === 'APPROVED') {
-        if (window.fbq) {
-          fbq('track', 'Purchase', { value: 250000, currency: 'COP', transaction_id: tx.id });
-        }
-        window.location.href = `/gracias?ref=${tx.reference}&status=APPROVED`;
-      }
-    });
-  } catch (err) {
-    btn.classList.remove('btn-loading');
-    btn.innerHTML = origText;
-    console.error('Checkout error:', err);
-    openWhatsApp();
-  }
-}
-
-/* ---- WHATSAPP FALLBACK ---- */
-function openWhatsApp() {
-  const phone = appConfig.whatsappNumber || '';
-  const msg = encodeURIComponent('Hola 👋, quiero el Diagnóstico Express de Posicionamiento en Instagram por $250.000 COP. ¿Me puedes dar más información?');
-  const url = phone ? `https://wa.me/${phone}?text=${msg}` : `https://wa.me/?text=${msg}`;
-  window.open(url, '_blank');
-}
-
-/* ---- NAVBAR SCROLL ---- */
+// NAV scroll
 window.addEventListener('scroll', () => {
-  const nav = document.getElementById('navbar');
-  if (window.scrollY > 60) nav.classList.add('scrolled');
-  else nav.classList.remove('scrolled');
-  const floatCta = document.getElementById('floatCta');
-  if (floatCta) {
-    floatCta.style.display = window.scrollY > window.innerHeight * 0.7 ? 'block' : 'none';
-  }
-}, { passive: true });
-
-/* ---- FADE-UP ANIMATIONS ---- */
-function initFadeUp() {
-  const els = document.querySelectorAll('.fade-up');
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        obs.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
-  els.forEach(el => obs.observe(el));
-}
-
-/* ---- FAQ ACCORDION ---- */
-function toggleFaq(el) {
-  const item = el.closest('.faq-item');
-  const isOpen = item.classList.contains('open');
-  document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
-  if (!isOpen) item.classList.add('open');
-}
-
-/* ---- BOOT ---- */
-document.addEventListener('DOMContentLoaded', () => {
-  initPage();
-  initFadeUp();
-  const heroFade = document.querySelector('.hero .fade-up');
-  if (heroFade) setTimeout(() => heroFade.classList.add('visible'), 100);
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
 });
+
+// Mobile menu
+function toggleMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+
+// Intersection observer for animations
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) { e.target.style.opacity='1'; e.target.style.transform='translateY(0)'; } });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.service-card,.step,.stat-item,.pricing-card,.feature-item').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(20px)';
+  el.style.transition = 'opacity .6s ease, transform .6s ease';
+  observer.observe(el);
+});
+
+// Form submission
+async function submitDiag(e) {
+  e.preventDefault();
+  const btn = document.getElementById('diagBtn');
+  btn.textContent = 'Enviando...';
+  btn.disabled = true;
+
+  const payload = {
+    name: document.getElementById('diag-name').value,
+    phone: document.getElementById('diag-phone').value,
+    email: document.getElementById('diag-email').value,
+    instagram: document.getElementById('diag-instagram').value,
+    goal: document.getElementById('diag-goal').value
+  };
+
+  try {
+    // Try to send to WhatsApp if configured
+    const cfg = await fetch('/landing/config').then(r=>r.json()).catch(()=>({}));
+    const msg = `Hola SAOC! Solicito mi Diagnóstico Express:\n- Nombre: ${payload.name}\n- Instagram: ${payload.instagram}\n- Email: ${payload.email}\n- WhatsApp: ${payload.phone}\n- Objetivo: ${payload.goal}`;
+    const wa = cfg.whatsappNumber || '573000000000';
+    window.open(`https://wa.me/${wa}?text=${encodeURIComponent(msg)}`, '_blank');
+    btn.textContent = '¡Solicitud enviada! ✓';
+    btn.style.background = '#00c896';
+  } catch(err) {
+    btn.textContent = 'Error. Intenta por WhatsApp.';
+    btn.style.background = '#555';
+  }
+}
 </script>
 </body>
 </html>
