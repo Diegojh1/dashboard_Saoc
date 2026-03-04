@@ -9,15 +9,25 @@ on:
 
 jobs:
   deploy:
-    name: Upload y reiniciar en Hostinger
+    name: Build y Upload a Hostinger
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout código
         uses: actions/checkout@v4
 
-      # ── 1. Subir archivos via FTP ──────────────────────────────
-      - name: Deploy archivos por FTP
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Instalar dependencias de producción aquí en GitHub Actions
+      # y subirlas junto con el código — sin necesidad de SSH
+      - name: npm install (solo producción)
+        run: npm install --omit=dev
+
+      # Subir TODO incluyendo node_modules ya instalados
+      - name: Deploy por FTP (código + node_modules)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: 82.197.80.14
@@ -29,28 +39,9 @@ jobs:
           exclude: |
             **/.git*
             **/.git*/**
-            **/node_modules/**
             **/.env
             **/.env.*
             **/fix-passwords.js
             **/*.log
             **/npm-debug.log*
             **/tmp/**
-
-      # ── 2. SSH: instalar dependencias y reiniciar Passenger ────
-      # Puerto Hostinger: 65002 (NO es el 22 estándar)
-      # SSH_USERNAME = u917172208  (solo el número, sin el dominio)
-      # SSH_PASSWORD = misma contraseña del hosting / FTP
-      - name: npm install + reiniciar app (SSH)
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: 82.197.80.14
-          port: 65002
-          username: ${{ secrets.SSH_USERNAME }}
-          password: ${{ secrets.SSH_PASSWORD }}
-          script: |
-            cd ~/public_html
-            npm install --omit=dev --silent
-            mkdir -p tmp
-            touch tmp/restart.txt
-            echo "✅ Deploy completado: $(date)"
