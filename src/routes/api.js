@@ -18,35 +18,80 @@ function getClientId(req) {
   return req.session.user.clientId;
 }
 
+// Obtener token Meta: prioriza el token conectado via OAuth en sesión,
+// luego cae al token configurado en .env
+function getMetaToken(req, client) {
+  if (req.session.user && req.session.user.metaToken) {
+    return req.session.user.metaToken;
+  }
+  if (client && client.metaToken && client.metaToken !== 'AQUI_VA_EL_TOKEN') {
+    return client.metaToken;
+  }
+  return null;
+}
+
+function getInstagramId(req, client) {
+  return (req.session.user && req.session.user.instagramId)
+    || (client && client.instagramId)
+    || null;
+}
+
 // ─── INSTAGRAM DATA ───────────────────────────────────
 router.get('/instagram', requireAuth, async (req, res) => {
   try {
     const clientId = getClientId(req);
-    const client = getClientConfig(clientId);
+    const client   = getClientConfig(clientId);
+    const token    = getMetaToken(req, client);
+    const igId     = getInstagramId(req, client);
 
-    // Si no hay token real, devuelve datos demo
-    if (!client.metaToken || client.metaToken === 'AQUI_VA_EL_TOKEN') {
-      return res.json(getDemoInstagramData(client.name));
+    // Si no hay token real, indicar que no hay conexión
+    if (!token) {
+      return res.json({ source: 'none', connected: false });
     }
 
-    const url = `https://graph.facebook.com/v18.0/${client.instagramId}?fields=followers_count,media_count,profile_picture_url,username,biography&access_token=${client.metaToken}`;
+    // Usar instagramId de sesión o config
+    const effectiveIgId = igId || (client && client.instagramId);
+    if (!effectiveIgId) {
+      return res.json({ source: 'none', connected: false, error: 'No Instagram ID' });
+    }
+    const metaToken = token; // alias para compatibilidad con bloque original
+
+    const url = `https://graph.facebook.com/v18.0/${effectiveIgId}?fields=followers_count,media_count,profile_picture_url,username,biography&access_token=${metaToken}`;
     const response = await fetch(url);
     const data = await response.json();
 
     if (data.error) {
       console.error('Meta API error:', data.error);
-      return res.json(getDemoInstagramData(client.name));
+      return res.json({ source: 'none', connected: false });
     }
 
+    // Obtener métricas adicionales de insights
+    let extra = {};
+    try {
+      const insUrl = `https://graph.facebook.com/v18.0/${effectiveIgId}/insights?metric=reach,impressions,profile_views&period=month&access_token=${metaToken}`;
+      const insRes  = await fetch(insUrl);
+      const insData = await insRes.json();
+      if (insData.data) {
+        insData.data.forEach(m => {
+          const v = m.values[m.values.length - 1]?.value || 0;
+          if (m.name === 'reach')          extra.reach         = v;
+          if (m.name === 'impressions')    extra.impressions    = v;
+          if (m.name === 'profile_views')  extra.profile_views  = v;
+        });
+      }
+    } catch(e) { /* insights opcionales */ }
+
     res.json({
-      source: 'live',
-      clientName: client.name,
-      ...data
+      source:    'live',
+      connected: true,
+      clientName: (client && client.name) || 'Tu cuenta',
+      ...data,
+      ...extra
     });
 
   } catch (error) {
     console.error('Error Instagram:', error);
-    res.json(getDemoInstagramData('Cliente'));
+    res.json({ source: 'none', connected: false });
   }
 });
 
@@ -54,28 +99,34 @@ router.get('/instagram', requireAuth, async (req, res) => {
 router.get('/ads', requireAuth, async (req, res) => {
   try {
     const clientId = getClientId(req);
-    const client = getClientConfig(clientId);
+    const client   = getClientConfig(clientId);
+    const token    = getMetaToken(req, client);
 
-    if (!client.metaToken || client.metaToken === 'AQUI_VA_EL_TOKEN') {
-      return res.json(getDemoAdsData());
+    if (!token) {
+      return res.json({ source: 'none', connected: false });
+    }
+
+    const adAccountId = (client && client.adAccountId) || null;
+    if (!adAccountId) {
+      return res.json({ source: 'none', connected: false, error: 'No ad account' });
     }
 
     const since = req.query.since || getFirstDayOfMonth();
     const until = req.query.until || getTodayDate();
 
-    const url = `https://graph.facebook.com/v18.0/act_${client.adAccountId}/insights?fields=impressions,reach,spend,clicks,ctr,cpc&time_range={"since":"${since}","until":"${until}"}&access_token=${client.metaToken}`;
+    const url = `https://graph.facebook.com/v18.0/act_${adAccountId}/insights?fields=impressions,reach,spend,clicks,ctr,cpc&time_range={"since":"${since}","until":"${until}"}&access_token=${token}`;
     const response = await fetch(url);
     const data = await response.json();
 
     if (data.error) {
-      return res.json(getDemoAdsData());
+      return res.json({ source: 'none', connected: false });
     }
 
-    res.json({ source: 'live', ...data });
+    res.json({ source: 'live', connected: true, ...data });
 
   } catch (error) {
     console.error('Error Ads:', error);
-    res.json(getDemoAdsData());
+    res.json({ source: 'none', connected: false });
   }
 });
 
@@ -83,85 +134,67 @@ router.get('/ads', requireAuth, async (req, res) => {
 router.get('/insights', requireAuth, async (req, res) => {
   try {
     const clientId = getClientId(req);
-    const client = getClientConfig(clientId);
+    const client   = getClientConfig(clientId);
+    const token    = getMetaToken(req, client);
+    const igId     = getInstagramId(req, client);
 
-    if (!client.metaToken || client.metaToken === 'AQUI_VA_EL_TOKEN') {
-      return res.json(getDemoInsightsData());
+    if (!token || !igId) {
+      return res.json({ source: 'none', connected: false });
     }
 
-    const url = `https://graph.facebook.com/v18.0/${client.instagramId}/insights?metric=impressions,reach,follower_count,profile_views&period=day&access_token=${client.metaToken}`;
+    const url = `https://graph.facebook.com/v18.0/${igId}/insights?metric=impressions,reach,follower_count,profile_views&period=day&access_token=${token}`;
     const response = await fetch(url);
     const data = await response.json();
 
     if (data.error) {
-      return res.json(getDemoInsightsData());
+      return res.json({ source: 'none', connected: false });
     }
 
-    res.json({ source: 'live', ...data });
+    res.json({ source: 'live', connected: true, ...data });
 
   } catch (error) {
     console.error('Error Insights:', error);
-    res.json(getDemoInsightsData());
+    res.json({ source: 'none', connected: false });
   }
 });
 
 // ─── INFO DEL CLIENTE ─────────────────────────────────
 router.get('/client-info', requireAuth, (req, res) => {
   const clientId = getClientId(req);
-  const client = getClientConfig(clientId);
-  if (!client) return res.status(404).json({ error: 'Cliente no encontrado' });
+  const client   = getClientConfig(clientId);
+  const token    = getMetaToken(req, client);
+  const hasLive  = !!token;
+
   res.json({
-    id: client.id,
-    name: client.name,
-    plan: client.plan,
-    startDate: client.startDate,
-    hasLiveData: !!(client.metaToken && client.metaToken !== 'AQUI_VA_EL_TOKEN')
+    id:          client ? client.id   : null,
+    name:        client ? client.name : (req.session.user.name || 'Usuario'),
+    plan:        client ? client.plan : 'Activo',
+    startDate:   client ? client.startDate : null,
+    connected:   !!req.session.user.socialConnected,
+    hasLiveData: hasLive,
+    platform:    req.session.user.connectedPlatform || null
   });
 });
 
-// ─── DATOS DEMO (cuando no hay API real) ─────────────
-function getDemoInstagramData(clientName) {
-  return {
-    source: 'demo',
-    clientName,
-    username: 'tucuenta',
-    followers_count: 12840,
-    media_count: 284,
-    reach: 142600,
-    impressions: 198400,
-    engagement_rate: 5.9,
-    new_followers: 1048,
-    profile_views: 3240
-  };
-}
+// ─── DATOS DEMO — ELIMINADOS ──────────────────────────
+// (Ya no se devuelven datos demo; el dashboard muestra estados vacíos)
+// Las siguientes funciones son solo para referencia interna del servidor
 
 function getDemoAdsData() {
   return {
-    source: 'demo',
-    impressions: 48200,
-    reach: 32100,
-    spend: 4500,
+    source: 'none',
+    impressions: 0,
+    reach: 0,
+    spend: 0,
     clicks: 1840,
-    ctr: 3.82,
-    cpc: 2.45,
-    campaigns: [
-      { name: 'Campaña Awareness Feb', spend: 1800, reach: 14200, clicks: 620 },
-      { name: 'Campaña Conversión Feb', spend: 2700, reach: 17900, clicks: 1220 }
-    ]
+    ctr: 0,
+    cpc: 0,
+    campaigns: []
   };
 }
 
 function getDemoInsightsData() {
-  const days = [];
-  for (let i = 1; i <= 28; i++) {
-    days.push({
-      day: i,
-      reach: Math.floor(3000 + Math.random() * 8000),
-      impressions: Math.floor(4000 + Math.random() * 10000),
-      followers: Math.floor(30 + Math.random() * 60)
-    });
-  }
-  return { source: 'demo', data: days };
+  return { source: 'none', data: [] };
 }
 
 function getFirstDayOfMonth() {
